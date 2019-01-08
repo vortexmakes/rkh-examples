@@ -1,3 +1,4 @@
 [submodule "rkh"]
 	path = rkh
 	url = https://github.com/vortexmakes/RKH.git
+    tag = v3.1.1
