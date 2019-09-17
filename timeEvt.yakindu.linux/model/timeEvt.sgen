@@ -1,9 +1,9 @@
 GeneratorModel for yakindu::c::rkh {
 
-	statechart blinky {
+	statechart timeEvt {
 
 		feature Outlet {
-			targetProject = "org.yakindu.sct.examples.rkh.blinky"
+			targetProject = "timeEvt.yakindu.linux"
 			targetFolder = "src-gen"
 			libraryTargetFolder = "src"
 		}
