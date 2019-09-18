@@ -1,3 +1,3 @@
-[submodule "timeEvt.yakindu.linux/rkh"]
-	path = timeEvt.yakindu.linux/rkh
+[submodule "timeEvt.yakindu.linux/RKH"]
+	path = timeEvt.yakindu.linux/RKH
 	url = https://github.com/vortexmakes/RKH.git
