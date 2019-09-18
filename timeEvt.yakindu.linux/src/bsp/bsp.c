@@ -73,10 +73,10 @@
 /* ---------------------------- Local data types --------------------------- */
 /* ---------------------------- Global variables --------------------------- */
 /* ---------------------------- Local variables ---------------------------- */
-static RKH_ROM_STATIC_EVENT(evStart, start);
-static RKH_ROM_STATIC_EVENT(evStop, stop);
-static RKH_ROM_STATIC_EVENT(evResume, resume);
-static RKH_ROM_STATIC_EVENT(evReset, reset);
+static RKH_ROM_STATIC_EVENT(evStartObj, evStart);
+static RKH_ROM_STATIC_EVENT(evPauseObj, evPause);
+static RKH_ROM_STATIC_EVENT(evResumeObj, evResume);
+static RKH_ROM_STATIC_EVENT(evResetObj, evReset);
 
 /* ----------------------- Local function prototypes ----------------------- */
 /* ---------------------------- Local functions ---------------------------- */
@@ -95,9 +95,9 @@ printBanner(void)
            "\"Representing a State Machine\". \n\n\n");
 
     printf("1.- Press s to start. \n");
-    printf("2.- Press p to stop. \n");
-    printf("3.- Press r to resume. \n");
-    printf("4.- Press x to reset. \n");
+    printf("2.- Press p to pause. \n");
+    printf("3.- Press c to resume. \n");
+    printf("4.- Press r to reset. \n");
     printf("5.- Press ESC to quit \n\n\n");
 
 }
@@ -124,19 +124,19 @@ bsp_keyParser(int c)
             break;
 
         case 's':
-            RKH_SMA_POST_FIFO(timeEvt, &evStart, 0);
+            RKH_SMA_POST_FIFO(timeEvt, &evStartObj, 0);
             break;
 
         case 'p':
-            RKH_SMA_POST_FIFO(timeEvt, &evStop, 0);
+            RKH_SMA_POST_FIFO(timeEvt, &evPauseObj, 0);
+            break;
+
+        case 'c':
+            RKH_SMA_POST_FIFO(timeEvt, &evResumeObj, 0);
             break;
 
         case 'r':
-            RKH_SMA_POST_FIFO(timeEvt, &evResume, 0);
-            break;
-
-        case 'x':
-            RKH_SMA_POST_FIFO(timeEvt, &evReset, 0);
+            RKH_SMA_POST_FIFO(timeEvt, &evResetObj, 0);
             break;
     }
 }

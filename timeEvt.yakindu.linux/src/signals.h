@@ -33,10 +33,10 @@ typedef enum Signals
     evTout1,
     evTout2,
     evTout3,
-    start,
-    stop,
-    resume,
-    reset,
+    evStart,
+    evPause,
+    evResume,
+    evReset,
     TERMINATE
 } Signals;
 

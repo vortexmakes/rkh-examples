@@ -34,10 +34,10 @@ init(void)
     RKH_TR_FWK_SIG(evTout1);
     RKH_TR_FWK_SIG(evTout2);
     RKH_TR_FWK_SIG(evTout3);
-    RKH_TR_FWK_SIG(start);
-    RKH_TR_FWK_SIG(stop);
-    RKH_TR_FWK_SIG(resume);
-    RKH_TR_FWK_SIG(reset);
+    RKH_TR_FWK_SIG(evStart);
+    RKH_TR_FWK_SIG(evPause);
+    RKH_TR_FWK_SIG(evResume);
+    RKH_TR_FWK_SIG(evReset);
 }
 
 void 
