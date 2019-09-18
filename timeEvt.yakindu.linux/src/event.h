@@ -5,12 +5,12 @@
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2019.21.01  LeFr  v1.0.00  Initial version
+ *  2019.9.17  DaBa  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
 /*
- *  LeFr  Leandro Francucci  francuccilea@gmail.com
+ *  DaBa  Darío Baliña  db@vortexmakes.com
  */
 
 /* --------------------------------- Notes --------------------------------- */

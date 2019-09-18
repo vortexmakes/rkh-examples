@@ -16,7 +16,7 @@
 /* ----------------------------- Include files ----------------------------- */
 #include "rkhtrc_record.h"
 #include "signals.h"
-#include "Blinky.h"
+#include "TimeEvt.h"
 #include "bsp.h"
 
 /* ----------------------------- Local macros ------------------------------ */
@@ -32,18 +32,30 @@ init(void)
 {
     RKH_TR_FWK_SIG(evTout0);
     RKH_TR_FWK_SIG(evTout1);
+    RKH_TR_FWK_SIG(evTout2);
+    RKH_TR_FWK_SIG(evTout3);
+    RKH_TR_FWK_SIG(start);
+    RKH_TR_FWK_SIG(stop);
+    RKH_TR_FWK_SIG(resume);
+    RKH_TR_FWK_SIG(reset);
 }
 
 void 
-redOn(void)
+ledOn(void)
 {
     bsp_ledOn();
 }
 
 void 
-redOff(void)
+ledOff(void)
 {
     bsp_ledOff();
+}
+
+void
+ledToggle(void)
+{
+    bsp_ledToggle();
 }
 
 /* ------------------------------ End of file ------------------------------ */

@@ -32,21 +32,20 @@
  */
 
 /**
- *  \file       bsp_ahsm.c
- *  \brief      BSP for 80x86 OS Linux
+ *  \file       bsp.c
+ *  \brief      BSP for TimeEvt example on Linux
  *
  *  \ingroup    bsp
  */
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2017.04.14  LeFr  v2.4.05  Initial version
+ *  2019.09.17  DaBa  v1.0.0  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
 /*
- *  LeFr  Leandro Francucci  lf@vortexmakes.com
- *  DaBa  Dario Bali�a       dariosb@gmail.com
+ *  DaBa  Darío Baliña       db@vortexmakes.com
  */
 
 /* --------------------------------- Notes --------------------------------- */
@@ -54,12 +53,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "my.h"
+#include "TimeEvt.h"
+#include "signals.h"
+#include "event.h"
 #include "bsp.h"
 #include "rkh.h"
 #include "trace_io_cfg.h"
-
-RKH_THIS_MODULE
 
 /* ----------------------------- Local macros ------------------------------ */
 /* ------------------------------- Constants ------------------------------- */
@@ -74,17 +73,17 @@ RKH_THIS_MODULE
 /* ---------------------------- Local data types --------------------------- */
 /* ---------------------------- Global variables --------------------------- */
 /* ---------------------------- Local variables ---------------------------- */
-static RKH_ROM_STATIC_EVENT(evTerm, TERM);
-
-static rui8_t ep0sto[SIZEOF_EP0STO],
-              ep1sto[SIZEOF_EP1STO];
+static RKH_ROM_STATIC_EVENT(evStart, start);
+static RKH_ROM_STATIC_EVENT(evStop, stop);
+static RKH_ROM_STATIC_EVENT(evResume, resume);
+static RKH_ROM_STATIC_EVENT(evReset, reset);
 
 /* ----------------------- Local function prototypes ----------------------- */
 /* ---------------------------- Local functions ---------------------------- */
 static void
 printBanner(void)
 {
-    printf("Abstract Hierarchical State Machine (AHSM) example\n\n");
+    printf("Time Event example\n\n");
     printf("RKH version      = %s\n", RKH_RELEASE);
     printf("Port version     = %s\n", rkhport_get_version());
     printf("Port description = %s\n\n", rkhport_get_desc());
@@ -95,8 +94,11 @@ printBanner(void)
            "shown in the documentation file Figure 1 section \n"
            "\"Representing a State Machine\". \n\n\n");
 
-    printf("1.- Press <numbers> to send events to state machine. \n");
-    printf("2.- Press ESC to quit \n\n\n");
+    printf("1.- Press s to start. \n");
+    printf("2.- Press p to stop. \n");
+    printf("3.- Press r to resume. \n");
+    printf("4.- Press x to reset. \n");
+    printf("5.- Press ESC to quit \n\n\n");
 
 }
 
@@ -110,40 +112,56 @@ bsp_init(int argc, char *argv[])
     printBanner();
 
     trace_io_setConfig(argc, argv);
-
-    rkh_fwk_init();
-
-    RKH_FILTER_ON_GROUP(RKH_TRC_ALL_GROUPS);
-    RKH_FILTER_ON_EVENT(RKH_TRC_ALL_EVENTS);
-    RKH_FILTER_OFF_GROUP_ALL_EVENTS(RKH_TG_SM);
-    RKH_FILTER_OFF_SMA(my);
-
-    RKH_TRC_OPEN();
-
-    rkh_fwk_registerEvtPool( ep0sto, SIZEOF_EP0STO, SIZEOF_EP0_BLOCK  );
-	rkh_fwk_registerEvtPool( ep1sto, SIZEOF_EP1STO, SIZEOF_EP1_BLOCK  );
 }
 
 void
 bsp_keyParser(int c)
 {
-    MyEvt *mye;
+    switch(c)
+    {
+        case ESC:
+            rkhport_fwk_stop();
+            break;
 
-    if (c == ESC)
-    {
-        RKH_SMA_POST_FIFO(my, &evTerm, 0);
-    }
-    else
-    {
-        mye = RKH_ALLOC_EVT(MyEvt, kbmap(c), 0);
-        mye->ts = (rui16_t)rand();
-        RKH_SMA_POST_FIFO(my, RKH_EVT_CAST(mye), 0);
+        case 's':
+            RKH_SMA_POST_FIFO(timeEvt, &evStart, 0);
+            break;
+
+        case 'p':
+            RKH_SMA_POST_FIFO(timeEvt, &evStop, 0);
+            break;
+
+        case 'r':
+            RKH_SMA_POST_FIFO(timeEvt, &evResume, 0);
+            break;
+
+        case 'x':
+            RKH_SMA_POST_FIFO(timeEvt, &evReset, 0);
+            break;
     }
 }
 
 void
 bsp_timeTick(void)
 {
+}
+
+void
+bsp_ledOn(void)
+{
+    printf("LED ON\n");
+}
+
+void
+bsp_ledOff(void)
+{
+    printf("LED OFF\n");
+}
+
+void
+bsp_ledToggle(void)
+{
+    printf("LED TOGGLE\n");
 }
 
 /* ------------------------------ File footer ------------------------------ */

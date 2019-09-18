@@ -28,7 +28,7 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/org.yakindu.sct.builder.SCTBuilder.launch</value>
+					<value>&lt;project&gt;/.externalToolBuilders/New_Builder.launch</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>

@@ -5,12 +5,12 @@
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2019.21.01  LeFr  v1.0.00  Initial version
+ *  2019.9.17  DaBa  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
 /*
- *  LeFr  Leandro Francucci  francuccilea@gmail.com
+ *  DaBa  Darío Baliña  db@vortexmakes.com
  */
 
 /* --------------------------------- Notes --------------------------------- */
@@ -31,6 +31,12 @@ typedef enum Signals
 {
     evTout0,
     evTout1,
+    evTout2,
+    evTout3,
+    start,
+    stop,
+    resume,
+    reset,
     TERMINATE
 } Signals;
 

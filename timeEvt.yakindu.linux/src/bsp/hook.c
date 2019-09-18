@@ -46,7 +46,7 @@
 /* -------------------------------- Authors -------------------------------- */
 /*
  *  LeFr  Leandro Francucci  lf@vortexmakes.com
- *  DaBa  Dario Baliña       dariosb@gmail.com
+ *  DaBa  Dario Baliï¿½a       dariosb@gmail.com
  */
 /* --------------------------------- Notes --------------------------------- */
 /* ----------------------------- Include files ----------------------------- */
@@ -60,7 +60,7 @@
 #include <unistd.h>
 
 #include "rkh.h"
-#include "bsp_common.h"
+#include "bsp.h"
 
 RKH_THIS_MODULE
 
@@ -99,7 +99,7 @@ isr_tmrThread(void *d)
     while (rkhport_fwk_is_running())
     {
         RKH_TIM_TICK(0);
-        usleep(tick_msec);
+        usleep(tick_msec * 1000);
     }
     pthread_exit(NULL);
     return NULL;    

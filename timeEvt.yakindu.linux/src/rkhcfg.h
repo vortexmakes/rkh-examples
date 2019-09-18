@@ -76,6 +76,28 @@
 #define RKH_CFG_FWK_ASSERT_EN           RKH_ENABLED
 
 /**
+ *  \brief
+ *  If the #RKH_CFG_FWK_PUBSUB_EN is set to 1 then RKH will include the native
+ *  publish-subscriber module.
+ *
+ *  \type       Boolean
+ *  \range      
+ *  \default    RKH_ENABLED
+ */
+#define RKH_CFG_FWK_PUBSUB_EN           RKH_ENABLED
+
+/**
+ *  \brief
+ *  Specify the maximum number of channels (topics) to which an active 
+ *  object wants to subscribe (can be a number in the range [1..128]).
+ *
+ *  \type       Integer
+ *  \range      [1..128]
+ *  \default    16
+ */
+#define RKH_CFG_FWK_MAX_SUBS_CHANNELS   16
+
+/**
  *	If the #RKH_CFG_HOOK_DISPATCH_EN is set to 1, RKH will invoke the
  *	dispatch hook function rkh_hook_dispatch() when dispatching an event to
  *	a SMA. When this is set the application must provide the hook function.
@@ -174,7 +196,7 @@
  *	not included: state nesting, composite state, history (shallow and deep)
  *	pseudostate, entry action, and exit action.
  */
-#define RKH_CFG_SMA_HCAL_EN             RKH_DISABLED
+#define RKH_CFG_SMA_HCAL_EN             RKH_ENABLED
 
 /**
  *  Specify the maximum number of hierarchical levels. The smaller this
@@ -243,13 +265,6 @@
 #define RKH_CFG_SMA_INIT_EVT_EN         RKH_DISABLED
 
 /* --- Configuration options related to SMA action featues ---------------- */
-
-/**
- *	If the #RKH_CFG_SMA_INIT_ARG_SMA_EN is set to 1 then the initial action
- *	prototype will add as argument a pointer to state machine structure
- *	#RKH_SMA_T. See #RKH_INIT_ACT_T definition.
- */
-#define RKH_CFG_SMA_INIT_ARG_SMA_EN     RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_SMA_ENT_ARG_SMA_EN is set to 1 then the entry action
@@ -355,6 +370,20 @@
  */
 #define RKH_CFG_SMA_VFUNCT_EN           RKH_DISABLED
 
+/**
+ *  \brief
+ *  If RKH_CFG_SMA_ORTHREG_EN is set to RKH_ENABLED, the state machine 
+ *  functions are reentrant, therefore it could be used as workaround to 
+ *  easily emulates a state machine or composite state with orthogonal 
+ *  regions, for example, dispatching the same event to multiple state 
+ *  machines (regions) at the same time.
+ *
+ *  \type       Boolean
+ *  \range
+ *  \default    RKH_DISABLED
+ */
+#define RKH_CFG_SMA_ORTHREG_EN          RKH_DISABLED
+
 /* --- Configuration options related to trace facility -------------------- */
 
 /**
@@ -447,13 +476,13 @@
  *	If the #RKH_CFG_TRC_SM_INIT_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
  *	RKH will include the "init state machine" trace record.
  */
-#define RKH_CFG_TRC_SM_INIT_EN          RKH_DISABLED
+#define RKH_CFG_TRC_SM_INIT_EN          RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_TRC_SM_DCH_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
  *	RKH will include the "start a state machine" trace record.
  */
-#define RKH_CFG_TRC_SM_DCH_EN          RKH_DISABLED
+#define RKH_CFG_TRC_SM_DCH_EN          RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_TRC_SM_CLRH_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
@@ -465,7 +494,7 @@
  *	If the #RKH_CFG_TRC_SM_CLRH_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
  *	RKH will include the "clear the history pseudostate" trace record.
  */
-#define RKH_CFG_TRC_SM_TRN_EN           RKH_DISABLED
+#define RKH_CFG_TRC_SM_TRN_EN           RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_TRC_SM_STATE_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
@@ -477,13 +506,13 @@
  *	If the #RKH_CFG_TRC_SM_CLRH_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
  *	RKH will include the "entry state" trace record.
  */
-#define RKH_CFG_TRC_SM_ENSTATE_EN       RKH_DISABLED
+#define RKH_CFG_TRC_SM_ENSTATE_EN       RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_TRC_SM_CLRH_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
  *	RKH will include the "exit state" trace record.
  */
-#define RKH_CFG_TRC_SM_EXSTATE_EN       RKH_DISABLED
+#define RKH_CFG_TRC_SM_EXSTATE_EN       RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_TRC_SM_CLRH_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
@@ -504,7 +533,7 @@
  *	RKH will include the "state or pseudostate in a compound transition"
  *	trace record.
  */
-#define RKH_CFG_TRC_SM_TS_STATE_EN      RKH_DISABLED
+#define RKH_CFG_TRC_SM_TS_STATE_EN      RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_TRC_SM_CLRH_EN and #RKH_CFG_TRC_SM_EN are set to 1 then
@@ -543,7 +572,7 @@
  *	Specify the maximum number of trace events in the stream. The smaller
  *	this number, the lower the RAM consumption.
  */
-#define RKH_CFG_TRC_SIZEOF_STREAM       128u
+#define RKH_CFG_TRC_SIZEOF_STREAM       512u
 
 /* --- Configuration options related to queue (by reference) facility ----- */
 

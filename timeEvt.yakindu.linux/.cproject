@@ -14,7 +14,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.788292937" name="Debug" optionalBuildProperties="" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
+				<configuration artifactExtension="exe" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.788292937" name="Debug" optionalBuildProperties="" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.788292937." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1936035422" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.1831631497" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
@@ -63,7 +63,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src/bsp/bsp_ahsm.c|src/build/linux/bsp_ahsm.c|RKH/source/tmr/test|RKH/third-party/unitrazer|src/arch|RKH/source/trc/test|RKH/source/sma/test|RKH/source/sm/test|RKH/source/fwk/test|RKH/source/portable/ucos|RKH/source/portable/test|RKH/source/portable/s08|RKH/source/portable/cfv1|RKH/source/portable/arm-cortex|RKH/source/portable/80x86/win32_st|RKH/source/portable/80x86/win32_mt|RKH/third-party/utrazer|RKH/demo|RKH/template|RKH/tools|RKH/doc|RKH/demo/libbsp/platform/80x86/win|RKH/demo/libbsp/platform/cfv1|RKH/demo/libbsp/platform/s08|RKH/demo/libbsp/platform/arm-cortex|RKH/third-party/utrazer/test_runners|RKH/third-party/utrazer/*.*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
+						<entry excluding="rkh/doc|rkh/source/sm/test|rkh/source/trc/test|rkh/source/tmr/test|rkh/source/sma/test|rkh/source/portable/80x86/win32_st|rkh/source/portable/80x86/win32_mt|rkh/source/portable/s08|rkh/source/portable/ucos|rkh/source/portable/test|rkh/source/portable/cfv1|rkh/source/portable/arm-cortex|rkh/source/fwk/test|rkh/tools|rkh/third-party|rkh/template|rkh/demo|src/bsp/bsp_ahsm.c|src/build/linux/bsp_ahsm.c|RKH/source/tmr/test|RKH/third-party/unitrazer|src/arch|RKH/source/trc/test|RKH/source/sma/test|RKH/source/sm/test|RKH/source/fwk/test|RKH/source/portable/ucos|RKH/source/portable/test|RKH/source/portable/s08|RKH/source/portable/cfv1|RKH/source/portable/arm-cortex|RKH/source/portable/80x86/win32_st|RKH/source/portable/80x86/win32_mt|RKH/third-party/utrazer|RKH/demo|RKH/template|RKH/tools|RKH/doc|RKH/demo/libbsp/platform/80x86/win|RKH/demo/libbsp/platform/cfv1|RKH/demo/libbsp/platform/s08|RKH/demo/libbsp/platform/arm-cortex|RKH/third-party/utrazer/test_runners|RKH/third-party/utrazer/*.*" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -76,7 +76,9 @@
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/blinky"/>
+			<resource resourceType="FOLDER" workspacePath="/timeEvt.yakindu.linux/rkh"/>
+			<resource resourceType="FOLDER" workspacePath="/timeEvt.yakindu.linux/src"/>
+			<resource resourceType="FOLDER" workspacePath="/timeEvt.yakindu.linux/src-gen"/>
 		</configuration>
 		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/blinky"/>

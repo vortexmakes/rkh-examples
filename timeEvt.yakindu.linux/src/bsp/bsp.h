@@ -31,20 +31,19 @@
 
 /**
  *  \file       bsp.h
- *  \brief      BSP for 80x86 OS win32 Blinky Demo
+ *  \brief      BSP for TimeEvt example on Linux
  *
  *  \ingroup    bsp
  */
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2017.04.14  LeFr  v2.4.05  Initial version
+ *  2019.09.17  DaBa  v1.0.0  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
 /*
- *  LeFr  Leandro Francucci  francuccilea@gmail.com
- *  DaBa  Dario Baliña       dariosb@gmail.com
+ *  DaBa  Darío Baliña       db@vortexmakes.com
  */
 
 /* --------------------------------- Module -------------------------------- */
@@ -68,6 +67,7 @@ void bsp_timeTick(void);
 
 void bsp_ledOn(void);
 void bsp_ledOff(void);
+void bsp_ledToggle(void);
 
 /* -------------------- External C language linkage end -------------------- */
 #ifdef __cplusplus
