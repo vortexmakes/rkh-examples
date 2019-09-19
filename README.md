@@ -3,13 +3,6 @@ Collection of open source examples based on RKH framwework for embedded systems 
 
 Platform | Toolchain | Example 
 -- | -- | --
-<img src="timeEvt.yakindu.linux/images/yakindu-rkh.png" width="150"> | <img src="timeEvt.yakindu.linux/images/yakindu-rkh.png" width="150"> | [timeEvent.Yakindu.Linux](timeEvt.yakindu.linux)
-
-
-[timeEvent.Yakindu.Linux](timeEvt.yakindu.linux): How to use the RKH framework together with Yakindu Statechart Tool for using Time Event´s in statecharts models.
-
-# RKH + Yakindu on embbeded platforms
-
-[timeEvent.Yakindu.STM32](timeEvt.yakindu.stm32): How to use the RKH framework together with Yakindu Statechart Code Generator Plugin on AC6-System Workbench.
-[timeEvent.Yakindu.FRDM-K64F](timeEvt.yakindu.frdm-k64): How to use the RKH framework together with Yakindu Statechart Code Generator Plugin on MCU-Expresso Ide
-
+<img src="images/tux.png" width="100"> | <img src="images/Yakindu-SCT.png" width="150"> | [timeEvent.Yakindu.Linux](timeEvt.yakindu.linux)
+<img src="images/frdm-k64f.png" width="100"> | <img src="images/Yakindu-SCT.png" width="150"> | [timeEvent.Yakindu.FRDM-K64F](timeEvt.yakindu.frdm-k64f)
+<img src="images/stm32-disc1.png" width="100"> | <img src="images/Yakindu-SCT.png" width="150"> | [timeEvent.Yakindu.STM32-disc1](timeEvt.yakindu.stm32-disc1)
