@@ -7,21 +7,21 @@ This is a simple example of how to use the RKH framework together with Yakindu S
     
 ## This tutorial contains:
 
-[1\. TimeEvt Statechart Model](#1)
+[1\. TimeEvt Statechart Model](#1\ .)
 
-[2\. What RKH is?](#2)
+[2\. What RKH is?](#2\. )
 
-[3\. Toolchain installation](#3)
+[3\. Toolchain installation](#3\. )
 
-[4\. Yakindu project](#4)
+[4\. Yakindu project](#4\. )
 
-## 1\. TimeEvt Statechart Model <a name=#1></a>
+## 1\. TimeEvt Statechart Model
 
 The behavior of timeEvt is defined by a simple statechart that looks as follows.
 
 ![state-machine](images/state-machine.png)
 
-## 2\. What RKH is? <a name=#2></a>
+## 2\. What RKH is?
 
 RKH is a flexible, efficient, highly portable, and freely available open-source state machine framework providing the infrastructure for quickly and safely developing reactive applications for real-time embedded systems.
 
@@ -35,7 +35,7 @@ RKH is open source and licensed under the GNU v3.0\. You can find the [source co
 
 If you want to learn more about the benefits of this flexible, efficient and highly portable state machine framework read on [here](https://blogs.itemis.com/en/rkh-state-machine-framework-for-reactive-and-real-time-embedded-systems).
 
-## 3\. Toolchain installation <a name=#3></a>
+## 3\. Toolchain installation
 
 ### 3.1 Install YAKINDU Statechart Tool
 
@@ -81,7 +81,7 @@ RKH allows developers to verify and validate a reactive application’s behaviou
 3.  Change the directory to previous folder
 4.  Check it is alright by executing ./trazer
 
-## 4\. Yakindu project <a name=#4></a>
+## 4\. Yakindu project
 
 ### 4.1 Project structure
 
