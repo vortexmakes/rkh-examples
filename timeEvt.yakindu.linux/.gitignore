@@ -2,6 +2,7 @@
 !.cproject
 !.project
 !.git*
+.settings
 
 # Prerequisites
 *.d
