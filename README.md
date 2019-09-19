@@ -1,4 +1,6 @@
-# rkh-examples
+
+# RKH EXAMPLES  <img style="float: left;" src="images/rkh.png" width="200">
+
 Collection of open source examples based on RKH framwework for embedded systems development on Windows, Linux and other platforms
 
 Platform | Toolchain | Example 
