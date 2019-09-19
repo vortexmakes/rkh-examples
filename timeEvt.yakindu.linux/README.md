@@ -7,13 +7,13 @@ This is a simple example of how to use the RKH framework together with Yakindu S
     
 ## This tutorial contains:
 
-[1\. TimeEvt Statechart Model](#timeEvt-statechart-model)
+[1\. TimeEvt Statechart Model](#1-timeEvt-statechart-model)
 
-[2\. What RKH is?](#what-rKH-is?)
+[2\. What RKH is?](#2-what-rKH-is?)
 
-[3\. Toolchain installation](#toolchain-installation)
+[3\. Toolchain installation](#3-toolchain-installation)
 
-[4\. Yakindu project](#yakindu-project)
+[4\. Yakindu project](#4-yakindu-project)
 
 ## 1\. TimeEvt Statechart Model
 
