@@ -1,7 +1,6 @@
 # Eclipse project
 !.cproject
 !.project
-!.settings
 !.git*
 
 # Prerequisites
