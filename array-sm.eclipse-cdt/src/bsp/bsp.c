@@ -33,7 +33,7 @@
 
 /**
  *  \file       bsp.c
- *  \brief      BSP for TimeEvt example on Linux
+ *  \brief      BSP for PulseCounterMgr example on Linux
  *
  *  \ingroup    bsp
  */
@@ -52,13 +52,13 @@
 /* ----------------------------- Include files ----------------------------- */
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "TimeEvt.h"
+#include "PulseCounterMgr.h"
 #include "signals.h"
-#include "event.h"
+#include "events.h"
 #include "bsp.h"
 #include "rkh.h"
 #include "trace_io_cfg.h"
+#include "rkhfwk_dynevt.h"
 
 /* ----------------------------- Local macros ------------------------------ */
 /* ------------------------------- Constants ------------------------------- */
@@ -73,10 +73,8 @@
 /* ---------------------------- Local data types --------------------------- */
 /* ---------------------------- Global variables --------------------------- */
 /* ---------------------------- Local variables ---------------------------- */
-static RKH_ROM_STATIC_EVENT(evStartObj, evStart);
-static RKH_ROM_STATIC_EVENT(evPauseObj, evPause);
-static RKH_ROM_STATIC_EVENT(evResumeObj, evResume);
-static RKH_ROM_STATIC_EVENT(evResetObj, evReset);
+static RKH_ROM_STATIC_EVENT(evActiveObj, evActive);
+static RKH_ROM_STATIC_EVENT(evInactiveObj, evInactive);
 
 /* ----------------------- Local function prototypes ----------------------- */
 /* ---------------------------- Local functions ---------------------------- */
@@ -117,26 +115,22 @@ bsp_init(int argc, char *argv[])
 void
 bsp_keyParser(int c)
 {
+    StatusEvt *statusEvt;
+
     switch(c)
     {
         case ESC:
             rkhport_fwk_stop();
             break;
-
-        case 's':
-            RKH_SMA_POST_FIFO(timeEvt, &evStartObj, 0);
+        case 'a':
+            /*statusEvt = RKH_ALLOC_EVT(StatusEvt, evActive, pulseCounterMgr);
+            statusEvt->index = 0;
+            RKH_SMA_POST_FIFO(pulseCounterMgr, &evActiveObj, NULL);*/
             break;
-
-        case 'p':
-            RKH_SMA_POST_FIFO(timeEvt, &evPauseObj, 0);
+        case 'i':
+            RKH_SMA_POST_FIFO(pulseCounterMgr, &evInactiveObj, NULL);
             break;
-
-        case 'c':
-            RKH_SMA_POST_FIFO(timeEvt, &evResumeObj, 0);
-            break;
-
-        case 'r':
-            RKH_SMA_POST_FIFO(timeEvt, &evResetObj, 0);
+        default:
             break;
     }
 }

@@ -1,24 +1,27 @@
 /**
- *  \file       event.h
+ *  \file       events.h
  *  \brief      Event specification.
  */
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2019.9.17  DaBa  v1.0.00  Initial version
+ *  2020.06.06  LeFr  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
 /*
- *  DaBa  Darío Baliña  db@vortexmakes.com
+ *  LeFr  Leandro Francucci  lf@vortexmakes.com
  */
 
 /* --------------------------------- Notes --------------------------------- */
 /* --------------------------------- Module -------------------------------- */
-#ifndef __EVENT_H__
-#define __EVENT_H__
+#ifndef __EVENTS_H__
+#define __EVENTS_H__
 
 /* ----------------------------- Include files ----------------------------- */
+#include "rkhevt.h"
+#include "rkhtmr.h"
+
 /* ---------------------- External C language linkage ---------------------- */
 #ifdef __cplusplus
 extern "C" {
@@ -26,6 +29,21 @@ extern "C" {
 
 /* --------------------------------- Macros -------------------------------- */
 /* -------------------------------- Constants ------------------------------ */
+/* ................................ Events ................................ */
+typedef struct StatusEvt StatusEvt;
+struct StatusEvt
+{
+    RKH_EVT_T evt;
+    int index;
+};
+
+typedef struct TimeEvt TimeEvt;
+struct TimeEvt
+{
+    RKHTmEvt evt;
+    int index;
+};
+
 /* ------------------------------- Data types ------------------------------ */
 /* -------------------------- External variables --------------------------- */
 /* -------------------------- Function prototypes -------------------------- */

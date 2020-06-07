@@ -5,18 +5,18 @@
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2019.09.17  DaBa  v1.0.00  Initial version
+ *  2020.06.06  LeFr  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
 /*
- *  DaBa  Darío Baliña  db@vortexmakes.com
+ *  LeFr  Leandro Francucci lf@vortexmakes.com
  */
 
 /* --------------------------------- Notes --------------------------------- */
 /* ----------------------------- Include files ----------------------------- */
 #include "rkh.h"
-#include "TimeEvt.h"
+#include "PulseCounterMgr.h"
 #include "bsp.h"
 
 
@@ -42,8 +42,8 @@ setupTraceFilters(void)
     /* RKH_FILTER_OFF_EVENT(RKH_TE_SMA_FIFO); */
     /* RKH_FILTER_OFF_EVENT(RKH_TE_SMA_LIFO); */
     /* RKH_FILTER_OFF_EVENT(RKH_TE_SM_TS_STATE); */
-    //RKH_FILTER_OFF_EVENT(RKH_TE_SM_DCH);
-    RKH_FILTER_OFF_SMA(timeEvt);
+    /* RKH_FILTER_OFF_EVENT(RKH_TE_SM_DCH); */
+    RKH_FILTER_OFF_SMA(pulseCounterMgr);
     RKH_FILTER_OFF_ALL_SIGNALS();
 }
 
@@ -52,17 +52,12 @@ int
 main(int argc, char *argv[])
 {
     bsp_init(argc, argv);
-
     rkh_fwk_init();
-
     setupTraceFilters();
 
     RKH_TRC_OPEN();
-
-    RKH_SMA_ACTIVATE(timeEvt, qsto, QSTO_SIZE, 0, 0);
-
+    RKH_SMA_ACTIVATE(pulseCounterMgr, qsto, QSTO_SIZE, 0, 0);
     rkh_fwk_enter();
-
     RKH_TRC_CLOSE();
 
     return 0;

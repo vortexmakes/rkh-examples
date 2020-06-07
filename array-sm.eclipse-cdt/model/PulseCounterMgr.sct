@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
+  <sgraph:Statechart xmi:id="_pDbOUKjfEeqpyISzCuM8TA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event evInactive&#xA;in event evActive&#xA;in event evTactMinTout&#xA;in event evTactMaxTout&#xA;in event evTinactMaxTout &#xA;operation dispatch()&#xA;operation init()" name="PulseCounterMgr">
+    <regions xmi:id="_pDb1aKjfEeqpyISzCuM8TA" name="main region">
+      <vertices xsi:type="sgraph:Entry" xmi:id="_pDdqkajfEeqpyISzCuM8TA">
+        <outgoingTransitions xmi:id="_pDffxajfEeqpyISzCuM8TA" specification="/ init()" target="_pDeRpKjfEeqpyISzCuM8TA"/>
+      </vertices>
+      <vertices xsi:type="sgraph:State" xmi:id="_pDeRpKjfEeqpyISzCuM8TA" specification="evInactive / dispatch()&#xA;evActive / dispatch()&#xA;evTactMinTout / dispatch()&#xA;evTactMaxTout / dispatch()&#xA;evTinactMaxTout / dispatch()" name="Processing" incomingTransitions="_pDffxajfEeqpyISzCuM8TA"/>
+    </regions>
+  </sgraph:Statechart>
+  <notation:Diagram xmi:id="_pDb1ZajfEeqpyISzCuM8TA" type="org.yakindu.sct.ui.editor.editor.StatechartDiagramEditor" element="_pDbOUKjfEeqpyISzCuM8TA" measurementUnit="Pixel">
+    <children xmi:id="_pDcccKjfEeqpyISzCuM8TA" type="Region" element="_pDb1aKjfEeqpyISzCuM8TA">
+      <children xsi:type="notation:DecorationNode" xmi:id="_pDdDgKjfEeqpyISzCuM8TA" type="RegionName">
+        <styles xsi:type="notation:ShapeStyle" xmi:id="_pDdDgajfEeqpyISzCuM8TA"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_pDdDgqjfEeqpyISzCuM8TA"/>
+      </children>
+      <children xsi:type="notation:Shape" xmi:id="_pDdDg6jfEeqpyISzCuM8TA" type="RegionCompartment" fontName="Verdana" lineColor="4210752">
+        <children xmi:id="_pDdqkqjfEeqpyISzCuM8TA" type="Entry" element="_pDdqkajfEeqpyISzCuM8TA">
+          <children xmi:id="_pDdqlqjfEeqpyISzCuM8TA" type="BorderItemLabelContainer">
+            <children xsi:type="notation:DecorationNode" xmi:id="_pDeRoKjfEeqpyISzCuM8TA" type="BorderItemLabel">
+              <styles xsi:type="notation:ShapeStyle" xmi:id="_pDeRoajfEeqpyISzCuM8TA"/>
+              <layoutConstraint xsi:type="notation:Location" xmi:id="_pDeRoqjfEeqpyISzCuM8TA"/>
+            </children>
+            <styles xsi:type="notation:ShapeStyle" xmi:id="_pDdql6jfEeqpyISzCuM8TA" fontName="Verdana" lineColor="4210752"/>
+            <layoutConstraint xsi:type="notation:Bounds" xmi:id="_pDdqmKjfEeqpyISzCuM8TA"/>
+          </children>
+          <styles xsi:type="notation:ShapeStyle" xmi:id="_pDdqk6jfEeqpyISzCuM8TA" fontName="Verdana" fillColor="0" lineColor="16777215"/>
+          <styles xsi:type="notation:NamedStyle" xmi:id="_pDdqlKjfEeqpyISzCuM8TA" name="allowColors"/>
+          <layoutConstraint xsi:type="notation:Bounds" xmi:id="_pDeRo6jfEeqpyISzCuM8TA" x="70" y="20"/>
+        </children>
+        <children xmi:id="_pDe4sKjfEeqpyISzCuM8TA" type="State" element="_pDeRpKjfEeqpyISzCuM8TA">
+          <children xsi:type="notation:DecorationNode" xmi:id="_pDe4tKjfEeqpyISzCuM8TA" type="StateName">
+            <styles xsi:type="notation:ShapeStyle" xmi:id="_pDe4tajfEeqpyISzCuM8TA"/>
+            <layoutConstraint xsi:type="notation:Location" xmi:id="_pDe4tqjfEeqpyISzCuM8TA"/>
+          </children>
+          <children xsi:type="notation:Compartment" xmi:id="_pDe4t6jfEeqpyISzCuM8TA" type="StateTextCompartment">
+            <children xsi:type="notation:Shape" xmi:id="_pDffwKjfEeqpyISzCuM8TA" type="StateTextCompartmentExpression" fontName="Verdana" lineColor="4210752">
+              <layoutConstraint xsi:type="notation:Bounds" xmi:id="_pDffwajfEeqpyISzCuM8TA"/>
+            </children>
+          </children>
+          <children xsi:type="notation:Compartment" xmi:id="_pDffwqjfEeqpyISzCuM8TA" type="StateFigureCompartment"/>
+          <styles xsi:type="notation:ShapeStyle" xmi:id="_pDe4sajfEeqpyISzCuM8TA" fontName="Verdana" fillColor="15981773" lineColor="12632256"/>
+          <styles xsi:type="notation:FontStyle" xmi:id="_pDe4sqjfEeqpyISzCuM8TA"/>
+          <styles xsi:type="notation:BooleanValueStyle" xmi:id="_pDffw6jfEeqpyISzCuM8TA" name="isHorizontal" booleanValue="true"/>
+          <layoutConstraint xsi:type="notation:Bounds" xmi:id="_pDffxKjfEeqpyISzCuM8TA" x="33" y="58"/>
+        </children>
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_pDdDhKjfEeqpyISzCuM8TA"/>
+      </children>
+      <styles xsi:type="notation:ShapeStyle" xmi:id="_pDcccajfEeqpyISzCuM8TA" fontName="Verdana" fillColor="15790320" lineColor="12632256"/>
+      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_pDdqkKjfEeqpyISzCuM8TA" x="220" y="10" width="400" height="400"/>
+    </children>
+    <children xsi:type="notation:Shape" xmi:id="_pDgt46jfEeqpyISzCuM8TA" type="StatechartText" fontName="Verdana" lineColor="4210752">
+      <children xsi:type="notation:DecorationNode" xmi:id="_pDgt5ajfEeqpyISzCuM8TA" type="StatechartName">
+        <styles xsi:type="notation:ShapeStyle" xmi:id="_pDhU8KjfEeqpyISzCuM8TA"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_pDhU8ajfEeqpyISzCuM8TA"/>
+      </children>
+      <children xsi:type="notation:Shape" xmi:id="_pDhU8qjfEeqpyISzCuM8TA" type="StatechartTextExpression" fontName="Verdana" lineColor="4210752">
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_pDhU86jfEeqpyISzCuM8TA"/>
+      </children>
+      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_pDhU9KjfEeqpyISzCuM8TA" x="10" y="10" width="200" height="400"/>
+    </children>
+    <styles xsi:type="notation:BooleanValueStyle" xmi:id="_pDb1ZqjfEeqpyISzCuM8TA" name="inlineDefinitionSection"/>
+    <styles xsi:type="notation:DiagramStyle" xmi:id="_pDb1Z6jfEeqpyISzCuM8TA"/>
+    <edges xmi:id="_pDgG0KjfEeqpyISzCuM8TA" type="Transition" element="_pDffxajfEeqpyISzCuM8TA" source="_pDdqkqjfEeqpyISzCuM8TA" target="_pDe4sKjfEeqpyISzCuM8TA">
+      <children xsi:type="notation:DecorationNode" xmi:id="_pDgt4KjfEeqpyISzCuM8TA" type="TransitionExpression">
+        <styles xsi:type="notation:ShapeStyle" xmi:id="_pDgt4ajfEeqpyISzCuM8TA"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_pDgt4qjfEeqpyISzCuM8TA" x="35" y="15"/>
+      </children>
+      <styles xsi:type="notation:ConnectorStyle" xmi:id="_pDgG0ajfEeqpyISzCuM8TA" routing="Rectilinear" lineColor="4210752"/>
+      <styles xsi:type="notation:FontStyle" xmi:id="_pDgG06jfEeqpyISzCuM8TA" fontName="Verdana"/>
+      <bendpoints xsi:type="notation:RelativeBendpoints" xmi:id="_pDgG0qjfEeqpyISzCuM8TA" points="[7, 0, -19, -40]$[58, 0, 32, -40]$[58, 31, 32, -9]"/>
+      <targetAnchor xsi:type="notation:IdentityAnchor" xmi:id="_BPJygKjgEeqpyISzCuM8TA" id="(0.35467980295566504,0.09523809523809523)"/>
+    </edges>
+  </notation:Diagram>
+</xmi:XMI>

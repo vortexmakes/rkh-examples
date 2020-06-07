@@ -1,24 +1,12 @@
-/**
- *  \file       signals.h
- *  \brief      Signal specification.
- */
-
-/* -------------------------- Development history -------------------------- */
-/*
- *  2020.06.06  LeFr  v1.0.00  Initial version
- */
-
-/* -------------------------------- Authors -------------------------------- */
-/*
- *  LeFr  Leandro Francucci  lf@vortexmakes.com
- */
-
 /* --------------------------------- Notes --------------------------------- */
 /* --------------------------------- Module -------------------------------- */
-#ifndef __SIGNALS_H__
-#define __SIGNALS_H__
+#ifndef __PULSECOUNTERMGR_H__
+#define __PULSECOUNTERMGR_H__
 
 /* ----------------------------- Include files ----------------------------- */
+#include "rkhsma.h"
+#include "rkhtmr.h"
+
 /* ---------------------- External C language linkage ---------------------- */
 #ifdef __cplusplus
 extern "C" {
@@ -26,20 +14,17 @@ extern "C" {
 
 /* --------------------------------- Macros -------------------------------- */
 /* -------------------------------- Constants ------------------------------ */
-/* ................................ Signals ................................ */
-typedef enum Signals Signals;
-enum Signals
-{
-    evActive,
-    evInactive,
-    evTactMinTout,
-    evTactMaxTout,
-    evTinactMaxTout
-};
+#define NUM_PULSE_COUNTERS      4
+
+/* ........................ Declares active object ......................... */
+RKH_SMA_DCLR(pulseCounterMgr);
 
 /* ------------------------------- Data types ------------------------------ */
+/* ............................. Active object ............................. */
 /* -------------------------- External variables --------------------------- */
 /* -------------------------- Function prototypes -------------------------- */
+void PulseCounterMgr_ctor(void);
+
 /* -------------------- External C language linkage end -------------------- */
 #ifdef __cplusplus
 }
