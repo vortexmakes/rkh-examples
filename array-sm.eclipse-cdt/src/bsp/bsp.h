@@ -64,10 +64,7 @@ extern "C" {
 void bsp_init(int argc, char *argv[]);
 void bsp_keyParser(int c);
 void bsp_timeTick(void);
-
-void bsp_ledOn(void);
-void bsp_ledOff(void);
-void bsp_ledToggle(void);
+void bsp_register(int pulseCounterId, int nPulses);
 
 /* -------------------- External C language linkage end -------------------- */
 #ifdef __cplusplus

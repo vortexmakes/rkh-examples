@@ -140,22 +140,11 @@ bsp_timeTick(void)
 {
 }
 
-void
-bsp_ledOn(void)
+void 
+bsp_register(int pulseCounterId, int nPulses)
 {
-    printf("LED ON\n");
-}
-
-void
-bsp_ledOff(void)
-{
-    printf("LED OFF\n");
-}
-
-void
-bsp_ledToggle(void)
-{
-    printf("LED TOGGLE\n");
+    printf("PulseCounter %d - %d detected pulses\n", pulseCounterId,
+                                                     nPulses);
 }
 
 /* ------------------------------ File footer ------------------------------ */

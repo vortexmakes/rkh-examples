@@ -6,11 +6,11 @@
         <outgoingTransitions xmi:id="_mmpE8L9SEem7Dd0wTGCnPg" specification="/ init()" target="_miSLMP_3Eeafl6WsllPgUg"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_miSLMP_3Eeafl6WsllPgUg" specification="" name="Idle" incomingTransitions="_mmpE8L9SEem7Dd0wTGCnPg _ZmTN8KerEeqDLrUxJY9ibg _d7jW8KerEeqDLrUxJY9ibg _gAOkcKerEeqDLrUxJY9ibg">
-        <outgoingTransitions xmi:id="_aYb1gKerEeqDLrUxJY9ibg" specification="evInactive" target="_E4dF4KerEeqDLrUxJY9ibg"/>
+        <outgoingTransitions xmi:id="_aYb1gKerEeqDLrUxJY9ibg" specification="evActive / reset()" target="_E4dF4KerEeqDLrUxJY9ibg"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_E4dF4KerEeqDLrUxJY9ibg" specification="" name="Setup" incomingTransitions="_aYb1gKerEeqDLrUxJY9ibg _cwqRIKerEeqDLrUxJY9ibg">
         <outgoingTransitions xmi:id="_W5iswKerEeqDLrUxJY9ibg" specification="after TactMin ms" target="_KJp5zKerEeqDLrUxJY9ibg"/>
-        <outgoingTransitions xmi:id="_ZmTN8KerEeqDLrUxJY9ibg" specification="evActive / reset()" target="_miSLMP_3Eeafl6WsllPgUg"/>
+        <outgoingTransitions xmi:id="_ZmTN8KerEeqDLrUxJY9ibg" specification="evInactive" target="_miSLMP_3Eeafl6WsllPgUg"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_KJp5zKerEeqDLrUxJY9ibg" specification="" name="Active" incomingTransitions="_W5iswKerEeqDLrUxJY9ibg">
         <outgoingTransitions xmi:id="_Um-NMKerEeqDLrUxJY9ibg" specification="evInactive / &#xA;pulse()" target="_NLEcUKerEeqDLrUxJY9ibg"/>
@@ -188,7 +188,7 @@
     <edges xmi:id="_ZmVqMKerEeqDLrUxJY9ibg" type="Transition" element="_ZmTN8KerEeqDLrUxJY9ibg" source="_E4bQsKerEeqDLrUxJY9ibg" target="_miXqwP_3Eeafl6WsllPgUg">
       <children xsi:type="notation:DecorationNode" xmi:id="_ZmXfYKerEeqDLrUxJY9ibg" type="TransitionExpression">
         <styles xsi:type="notation:ShapeStyle" xmi:id="_ZmXfYaerEeqDLrUxJY9ibg"/>
-        <layoutConstraint xsi:type="notation:Location" xmi:id="_ZmXfYqerEeqDLrUxJY9ibg" x="-3" y="-61"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_ZmXfYqerEeqDLrUxJY9ibg" x="-3" y="-31"/>
       </children>
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_ZmVqMaerEeqDLrUxJY9ibg" routing="Rectilinear" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_ZmWRQKerEeqDLrUxJY9ibg" fontName="Verdana"/>
@@ -199,7 +199,7 @@
     <edges xmi:id="_aYeRwKerEeqDLrUxJY9ibg" type="Transition" element="_aYb1gKerEeqDLrUxJY9ibg" source="_miXqwP_3Eeafl6WsllPgUg" target="_E4bQsKerEeqDLrUxJY9ibg">
       <children xsi:type="notation:DecorationNode" xmi:id="_aYff4KerEeqDLrUxJY9ibg" type="TransitionExpression">
         <styles xsi:type="notation:ShapeStyle" xmi:id="_aYff4aerEeqDLrUxJY9ibg"/>
-        <layoutConstraint xsi:type="notation:Location" xmi:id="_aYff4qerEeqDLrUxJY9ibg" x="4" y="-34"/>
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_aYff4qerEeqDLrUxJY9ibg" x="4" y="-56"/>
       </children>
       <styles xsi:type="notation:ConnectorStyle" xmi:id="_aYeRwaerEeqDLrUxJY9ibg" routing="Rectilinear" lineColor="4210752"/>
       <styles xsi:type="notation:FontStyle" xmi:id="_aYe40KerEeqDLrUxJY9ibg" fontName="Verdana"/>
