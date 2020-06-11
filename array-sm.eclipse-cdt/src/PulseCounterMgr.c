@@ -14,6 +14,7 @@
 
 /* --------------------------------- Notes --------------------------------- */
 /* ----------------------------- Include files ----------------------------- */
+#include <stdio.h>
 #include "rkhfwk_cast.h"
 #include "rkhfwk_dynevt.h"
 #include "rkhtrc_record.h"
@@ -25,12 +26,13 @@
 #include "events.h"
 #include "priorities.h"
 #include "PulseCounterMgr.h"
+#include "bsp.h"
 
 /* ----------------------------- Local macros ------------------------------ */
 RKH_MODULE_NAME(PulseCounterMgr)
-#define ACT_MIN_TIME    RKH_TIME_MS(50)
-#define ACT_MAX_TIME    RKH_TIME_MS(1000)
-#define INACT_MAX_TIME  RKH_TIME_MS(500)
+#define ACT_MIN_TIME    RKH_TIME_SEC(3)
+#define ACT_MAX_TIME    RKH_TIME_SEC(5)
+#define INACT_MAX_TIME  RKH_TIME_SEC(5)
 
 /* ......................... Declares active object ........................ */
 typedef struct PulseCounter PulseCounter;
@@ -116,6 +118,7 @@ struct PulseCounter
     TimeEvt tmEvtObj2;
     uint32_t nPulses;
     int id;
+    PulseCounterMgr *thePulseCounterMgr;
 };
 
 struct PulseCounterMgr
@@ -141,6 +144,9 @@ RKH_SM_CONST_CREATE(pulseCounter, 1, HCAL, &PulseCounter_Idle,
 void 
 PulseCounterMgr_init(PulseCounterMgr *const me, RKH_EVT_T *pe)
 {
+    int i;
+    PulseCounter *pulseCtr;
+
 	RKH_TR_FWK_AO(me);
 	RKH_TR_FWK_QUEUE(&RKH_UPCAST(RKH_SMA_T, me)->equeue);
 	RKH_TR_FWK_STATE(me, &Processing);
@@ -149,6 +155,21 @@ PulseCounterMgr_init(PulseCounterMgr *const me, RKH_EVT_T *pe)
 	RKH_TR_FWK_SIG(evTactMinTout);
 	RKH_TR_FWK_SIG(evTactMaxTout);
 	RKH_TR_FWK_SIG(evTinactMaxTout);
+
+	RKH_TR_FWK_STATE(me, &PulseCounter_Idle);
+	RKH_TR_FWK_STATE(me, &PulseCounter_Setup);
+	RKH_TR_FWK_STATE(me, &PulseCounter_Active);
+	RKH_TR_FWK_STATE(me, &PulseCounter_Inactive);
+	RKH_TR_FWK_STATE(me, &PulseCounter_WaitInactive);
+	RKH_TR_FWK_SIG(evInactive);
+	RKH_TR_FWK_SIG(evActive);
+
+    for (pulseCtr = &me->pulseCounters[0], i = 0; 
+         i < NUM_PULSE_COUNTERS; 
+         ++i, ++pulseCtr)
+    {
+        rkh_sm_init(RKH_UPCAST(RKH_SM_T, pulseCtr));
+    }
 }
 
 void 
@@ -176,17 +197,16 @@ PulseCounterMgr_dispatchTout(PulseCounterMgr *const me, RKH_EVT_T *pe)
 void 
 PulseCounter_init(PulseCounter *const me, RKH_EVT_T *pe)
 {
-	RKH_TR_FWK_AO(me);
-	RKH_TR_FWK_STATE(me, &PulseCounter_Idle);
-	RKH_TR_FWK_STATE(me, &PulseCounter_Setup);
-	RKH_TR_FWK_STATE(me, &PulseCounter_Active);
-	RKH_TR_FWK_STATE(me, &PulseCounter_Inactive);
-	RKH_TR_FWK_STATE(me, &PulseCounter_WaitInactive);
-	RKH_TR_FWK_SIG(evInactive);
-	RKH_TR_FWK_SIG(evActive);
-	RKH_TR_FWK_TIMER(&me->tmEvtObj0.evt.tmr);
-	RKH_TR_FWK_TIMER(&me->tmEvtObj1.evt.tmr);
-	RKH_TR_FWK_TIMER(&me->tmEvtObj2.evt.tmr);
+    char name[16];
+
+    sprintf(name, "pc%d", me->id);
+	RKH_TR_FWK_ACTOR(me, name);
+    sprintf(name, "tactMin%d", me->id);
+	RKH_TR_FWK_OBJ_NAME(&me->tmEvtObj0.evt.tmr, name);
+    sprintf(name, "tactMax%d", me->id);
+	RKH_TR_FWK_OBJ_NAME(&me->tmEvtObj1.evt.tmr, name);
+    sprintf(name, "tinactMax%d", me->id);
+	RKH_TR_FWK_OBJ_NAME(&me->tmEvtObj2.evt.tmr, name);
 }
 
 void 
@@ -215,7 +235,8 @@ PulseCounter_enSetup(PulseCounter *const me)
 	RKH_TMR_INIT(&me->tmEvtObj0.evt.tmr, 
                  RKH_UPCAST(RKH_EVT_T, &me->tmEvtObj0), NULL);
 	RKH_TMR_ONESHOT(&me->tmEvtObj0.evt.tmr, 
-                    RKH_UPCAST(RKH_SMA_T, me), ACT_MIN_TIME);
+                    RKH_UPCAST(RKH_SMA_T, me->thePulseCounterMgr), 
+                    ACT_MIN_TIME);
 }
 
 void 
@@ -225,7 +246,8 @@ PulseCounter_enActive(PulseCounter *const me)
 	RKH_TMR_INIT(&me->tmEvtObj1.evt.tmr, 
                  RKH_UPCAST(RKH_EVT_T, &me->tmEvtObj1), NULL);
 	RKH_TMR_ONESHOT(&me->tmEvtObj1.evt.tmr, 
-                    RKH_UPCAST(RKH_SMA_T, me), ACT_MAX_TIME);
+                    RKH_UPCAST(RKH_SMA_T, me->thePulseCounterMgr), 
+                    ACT_MAX_TIME);
 }
 
 void 
@@ -235,7 +257,8 @@ PulseCounter_enInactive(PulseCounter *const me)
 	RKH_TMR_INIT(&me->tmEvtObj2.evt.tmr, 
                  RKH_UPCAST(RKH_EVT_T, &me->tmEvtObj2), NULL);
 	RKH_TMR_ONESHOT(&me->tmEvtObj2.evt.tmr, 
-                    RKH_UPCAST(RKH_SMA_T, me), INACT_MAX_TIME);
+                    RKH_UPCAST(RKH_SMA_T, me->thePulseCounterMgr), 
+                    INACT_MAX_TIME);
 }
 
 /* ............................. Exit actions .............................. */
@@ -271,6 +294,10 @@ PulseCounterMgr_ctor(void)
         pulseCtr = &me->pulseCounters[i];
         pulseCtr->id = i;
         pulseCtr->nPulses = 0;
+        pulseCtr->tmEvtObj0.index = i;
+        pulseCtr->tmEvtObj1.index = i;
+        pulseCtr->tmEvtObj2.index = i;
+        pulseCtr->thePulseCounterMgr = me;
         RKH_SM_INIT(pulseCtr, pulseCounter, 1, HCAL, 
                     &PulseCounter_Idle, PulseCounter_init, NULL);
     }

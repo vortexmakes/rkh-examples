@@ -24,7 +24,7 @@
  *	1, RKH allows to use event with parameters, defer/recall, allocating
  *	and recycling dynamic events, among other features.
  */
-#define RKH_CFG_FWK_DYN_EVT_EN          RKH_DISABLED
+#define RKH_CFG_FWK_DYN_EVT_EN          RKH_ENABLED
 
 /**
  *	If the dynamic event support is enabled (see #RKH_CFG_FWK_DYN_EVT_EN)
@@ -33,7 +33,7 @@
  *	(can be a number in the range [0..256]).
  *	Note that a value of 0 will completely suppress the memory pool services.
  */
-#define RKH_CFG_FWK_MAX_EVT_POOL        0u
+#define RKH_CFG_FWK_MAX_EVT_POOL        3u
 
 /**
  *  Specify the size of the event signal. The valid values [in bits] are
@@ -648,7 +648,7 @@
  *	If the #RKH_CFG_MP_EN is set to 1 then RKH will include the native
  *	fixed-size memory block management.
  */
-#define RKH_CFG_MP_EN                   RKH_DISABLED
+#define RKH_CFG_MP_EN                   RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_MP_EN is set to 1 then RKH will include the native
@@ -690,7 +690,7 @@
  *	data for proper sizing of the memory pool.
  *	See rkh_mp_get_low_wmark() function.
  */
-#define RKH_CFG_MP_GET_LWM_EN           RKH_DISABLED
+#define RKH_CFG_MP_GET_LWM_EN           RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_MP_GET_INFO_EN is set to 1 then RKH will include the
