@@ -113,25 +113,29 @@ RKH_END_TRANS_TABLE
 struct PulseCounter
 {
     RKH_SM_T sm;        /* base class */
-    TimeEvt tactMin;
-    TimeEvt tactMax;
-    TimeEvt tinactMax;
-    uint32_t nPulses;
-    int id;
-    PulseCounterMgr *thePulseCounterMgr;
+    TimeEvt tactMin;    /* timer tactMin */
+    TimeEvt tactMax;    /* timer tactMax */
+    TimeEvt tinactMax;  /* timer tinactMax */
+    uint32_t nPulses;   /* amount of detected pulses */
+    int id;             /* identification */
+    PulseCounterMgr *thePulseCounterMgr; /* reference to its own container */
 };
 
 struct PulseCounterMgr
 {
     RKH_SMA_T sma;      /* base class  */
-    PulseCounter pulseCounters[NUM_PULSE_COUNTERS];
+    PulseCounter pulseCounters[NUM_PULSE_COUNTERS]; /* SM components */ 
 };
 
 RKH_SMA_CREATE(PulseCounterMgr, pulseCounterMgr, PulseCounterMgrPrio, HCAL, 
                &Processing, PulseCounterMgr_init, NULL);
 RKH_SMA_DEF_PTR(pulseCounterMgr);
-RKH_SM_CONST_CREATE(pulseCounter, 1, HCAL, &PulseCounter_Idle, 
-                    PulseCounter_init, NULL);
+RKH_SM_CONST_CREATE(pulseCounter,       /* name of parameterized SM */
+                    1,
+                    HCAL,               /* it is a hierarchical SM */
+                    &PulseCounter_Idle, /* default state */
+                    PulseCounter_init,  /* topmost initial action */
+                    NULL);
 
 /* ------------------------------- Constants ------------------------------- */
 /* ---------------------------- Local data types --------------------------- */
@@ -230,10 +234,11 @@ PulseCounter_register(PulseCounter *const me, RKH_EVT_T *pe)
 void 
 PulseCounter_enSetup(PulseCounter *const me)
 {
+    RKH_TMR_T *tmr = &me->tactMin.evt.tmr;
+
 	RKH_SET_STATIC_EVENT(&me->tactMin, evTactMinTout);
-	RKH_TMR_INIT(&me->tactMin.evt.tmr, 
-                 RKH_UPCAST(RKH_EVT_T, &me->tactMin), NULL);
-	RKH_TMR_ONESHOT(&me->tactMin.evt.tmr, 
+	RKH_TMR_INIT(tmr, RKH_UPCAST(RKH_EVT_T, &me->tactMin), NULL);
+	RKH_TMR_ONESHOT(tmr, 
                     RKH_UPCAST(RKH_SMA_T, me->thePulseCounterMgr), 
                     ACT_MIN_TIME);
 }
@@ -241,10 +246,11 @@ PulseCounter_enSetup(PulseCounter *const me)
 void 
 PulseCounter_enActive(PulseCounter *const me)
 {
+    RKH_TMR_T *tmr = &me->tactMax.evt.tmr;
+
 	RKH_SET_STATIC_EVENT(&me->tactMax, evTactMaxTout);
-	RKH_TMR_INIT(&me->tactMax.evt.tmr, 
-                 RKH_UPCAST(RKH_EVT_T, &me->tactMax), NULL);
-	RKH_TMR_ONESHOT(&me->tactMax.evt.tmr, 
+	RKH_TMR_INIT(tmr, RKH_UPCAST(RKH_EVT_T, &me->tactMax), NULL);
+	RKH_TMR_ONESHOT(tmr, 
                     RKH_UPCAST(RKH_SMA_T, me->thePulseCounterMgr), 
                     ACT_MAX_TIME);
 }
@@ -252,10 +258,11 @@ PulseCounter_enActive(PulseCounter *const me)
 void 
 PulseCounter_enInactive(PulseCounter *const me)
 {
+    RKH_TMR_T *tmr = &me->tinactMax.evt.tmr;
+
 	RKH_SET_STATIC_EVENT(&me->tinactMax, evTinactMaxTout);
-	RKH_TMR_INIT(&me->tinactMax.evt.tmr, 
-                 RKH_UPCAST(RKH_EVT_T, &me->tinactMax), NULL);
-	RKH_TMR_ONESHOT(&me->tinactMax.evt.tmr, 
+	RKH_TMR_INIT(tmr, RKH_UPCAST(RKH_EVT_T, &me->tinactMax), NULL);
+	RKH_TMR_ONESHOT(tmr, 
                     RKH_UPCAST(RKH_SMA_T, me->thePulseCounterMgr), 
                     INACT_MAX_TIME);
 }
@@ -297,8 +304,13 @@ PulseCounterMgr_ctor(void)
         pulseCtr->tactMax.index = i;
         pulseCtr->tinactMax.index = i;
         pulseCtr->thePulseCounterMgr = me;
-        RKH_SM_INIT(pulseCtr, pulseCounter, 1, HCAL, 
-                    &PulseCounter_Idle, PulseCounter_init, NULL);
+        RKH_SM_INIT(pulseCtr,     /* Instance of SM component */
+                    pulseCounter, /* Complete next parameters with the */
+                    1,            /* same values used in the macro */
+                    HCAL,         /* RKH_SM_CONST_CREATE() */
+                    &PulseCounter_Idle,
+                    PulseCounter_init,
+                    NULL);
     }
 }
 

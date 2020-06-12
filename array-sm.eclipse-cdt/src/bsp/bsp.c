@@ -117,13 +117,13 @@ bsp_keyParser(int c)
             break;
         case 'a':
             statusEvt = RKH_ALLOC_EVT(StatusEvt, evActive, pulseCounterMgr);
-            statusEvt->index = 0;
+            statusEvt->index = 0; /* to SM component 0 */
             RKH_SMA_POST_FIFO(pulseCounterMgr, 
                               RKH_UPCAST(RKH_EVT_T, statusEvt), NULL);
             break;
         case 'b':
             statusEvt = RKH_ALLOC_EVT(StatusEvt, evInactive, pulseCounterMgr);
-            statusEvt->index = 0;
+            statusEvt->index = 0; /* to SM component 0 */
             RKH_SMA_POST_FIFO(pulseCounterMgr, 
                               RKH_UPCAST(RKH_EVT_T, statusEvt), NULL);
             break;

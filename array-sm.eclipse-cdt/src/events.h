@@ -33,15 +33,15 @@ extern "C" {
 typedef struct StatusEvt StatusEvt;
 struct StatusEvt
 {
-    RKH_EVT_T evt;
-    int index;
+    RKH_EVT_T evt;  /* signal event */
+    int index;      /* SM component identifier */
 };
 
 typedef struct TimeEvt TimeEvt;
 struct TimeEvt
 {
-    RKHTmEvt evt;
-    int index;
+    RKHTmEvt evt;   /* time event */
+    int index;      /* SM component identifier */
 };
 
 /* ------------------------------- Data types ------------------------------ */
