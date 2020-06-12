@@ -5,7 +5,6 @@
 
 /* ----------------------------- Include files ----------------------------- */
 #include "rkhsma.h"
-#include "rkhtmr.h"
 
 /* ---------------------- External C language linkage ---------------------- */
 #ifdef __cplusplus
@@ -20,7 +19,6 @@ extern "C" {
 RKH_SMA_DCLR(pulseCounterMgr);
 
 /* ------------------------------- Data types ------------------------------ */
-/* ............................. Active object ............................. */
 /* -------------------------- External variables --------------------------- */
 /* -------------------------- Function prototypes -------------------------- */
 void PulseCounterMgr_ctor(void);
