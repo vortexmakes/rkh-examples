@@ -34,14 +34,14 @@ typedef struct StatusEvt StatusEvt;
 struct StatusEvt
 {
     RKH_EVT_T evt;  /* signal event */
-    int index;      /* SM component identifier */
+    int id;         /* SM component identifier */
 };
 
 typedef struct TimeEvt TimeEvt;
 struct TimeEvt
 {
     RKHTmEvt evt;   /* time event */
-    int index;      /* SM component identifier */
+    int id;         /* SM component identifier */
 };
 
 /* ------------------------------- Data types ------------------------------ */

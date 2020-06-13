@@ -180,7 +180,7 @@ PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
 {
     int ix;
 
-    ix = RKH_DOWNCAST(StatusEvt, pe)->index;
+    ix = RKH_DOWNCAST(StatusEvt, pe)->id;
     RKH_REQUIRE(ix <= NUM_PULSE_COUNTERS);
 
     rkh_sm_dispatch(RKH_DOWNCAST(RKH_SM_T, &me->pulseCounters[ix]), pe);
@@ -191,7 +191,7 @@ PulseCounterMgr_dispatchTout(PulseCounterMgr *const me, RKH_EVT_T *pe)
 {
     int ix;
 
-    ix = RKH_DOWNCAST(TimeEvt, pe)->index;
+    ix = RKH_DOWNCAST(TimeEvt, pe)->id;
     RKH_REQUIRE(ix <= NUM_PULSE_COUNTERS);
 
     rkh_sm_dispatch(RKH_DOWNCAST(RKH_SM_T, &me->pulseCounters[ix]), pe);
@@ -300,9 +300,9 @@ PulseCounterMgr_ctor(void)
         pulseCtr = &me->pulseCounters[i];
         pulseCtr->id = i;
         pulseCtr->nPulses = 0;
-        pulseCtr->tactMin.index = i;
-        pulseCtr->tactMax.index = i;
-        pulseCtr->tinactMax.index = i;
+        pulseCtr->tactMin.id = i;
+        pulseCtr->tactMax.id = i;
+        pulseCtr->tinactMax.id = i;
         pulseCtr->thePulseCounterMgr = me;
         RKH_SM_INIT(pulseCtr,     /* Instance of SM component */
                     pulseCounter, /* Complete next parameters with the */
