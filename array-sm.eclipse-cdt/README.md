@@ -217,42 +217,15 @@ If you want to learn more about the benefits of this flexible, efficient and hig
 
 ## 3\. Toolchain installation
 
-### 3.1 Install YAKINDU Statechart Tool
-
-YAKINDU Statechart Tools features an intuitive combination of graphical and textual notation for modelling state diagrams. While states, transitions and state hierarchies are graphical elements, all declarations and actions are specified using a textual notation. The usability of the statechart editor is simply fascinating. Form more information please visit:
-
-[Yakindu SCT site](https://www.itemis.com/en/yakindu/state-machine/)
-
-![Yakindu](images/Yakindu.png)
-
-Download Linux installer from here: [Yakinud Download Site](https://info.itemis.com/state-machine/download-yakindu-statechart-tools)
-
-### 3.2 Install RKH code generator
-
-Open Yakindu SCT and goes to:
-
-1.  Help > Install New Software ... from the menu.
-2.  Select the Yakindu Labs entry from the Work with: pull down list. If there is no such entry then
-
-1.  Choose Add
-2.  Enter `http://updates.yakindu.com/statecharts/labs` in the Location field and optionally choose a name
-3.  Press OK
-
-4.  Unfold the top level node and check the RKH generator feature.
-5.  Finish the installation wizard by choosing Next > until finished.
-6.  Restart.
-
-![RKH-generator](images/RKH-generator.png)
-
-### 3.3 Get RKH framework
+### 3.1 Get RKH framework
 
 In order to build this example you have to download the RKH framework and install the Trazer tool. RKH can be obtained from its official repository by using the following Git commands:
 
 1.  `cd path/to/rkh-examples/`
-2.  `git submodule init timeEvt.yakindu.linux/RKH`
+2.  `git submodule init parameterized-sm.eclipse-cdt/RKH`
 3.  `git submodule update`
 
-### 3.4 Install Trazer tool
+### 3.2 Install Trazer tool
 
 RKH allows developers to verify and validate a reactive application’s behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events’ output in a legible manner. It can be downloaded and installed as follows.
 
@@ -261,7 +234,7 @@ RKH allows developers to verify and validate a reactive application’s behaviou
 3.  Change the directory to previous folder
 4.  Check it is alright by executing ./trazer
 
-## 4\. Yakindu project
+## 4\. Eclipse project
 
 ### 4.1 Project structure
 
