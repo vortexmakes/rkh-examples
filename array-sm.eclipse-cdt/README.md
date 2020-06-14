@@ -238,44 +238,30 @@ RKH allows developers to verify and validate a reactive application’s behaviou
 
 ### 4.1 Project structure
 
-<dl>
+#### _model_
+Contains PulseCounter and PulseCounterMgr state machines
 
-<dt>model</dt>
-
-<dd>contains TimeEvt state machine (timeEvt.sct) and generator model (timeEvt.sgen)</dd>
-
-<dt>src</dt>
-
-<dd>Includes both application code and BSP (Board Support Package) code. The most important files and directories are listed below:</dd>
+#### src
+Includes both application code and BSP (Board Support Package) code. The most important files and directories are listed below:
 
 *   _signals.h_: defines signals as enumerated constants, which are used as state machine triggers.
-*   _main.c_: contains the main() function, which initializes both BSP and Blinky active object, then executes the RKH framework in order to orchestrates this reactive application.
+*   _events.h_: defines events types, which are derived from RKH framework types.
+*   _priorities.h_: defines active object priorities as enumerated constants.
+*   _PulseCounterMgr.h/.c_: specifies and implements the PulseCounterMgr active object and its paramterized state machine (PulseCounter). Please correlate this implementation with the state diagrams shown above.
+*   _main.c_: contains the main() function, which initializes both BSP and PulseCounterMgr active object, then executes the RKH framework in order to orchestrates this reactive application.
 *   _rkhcfg.h_: adapts and configures RKH in compile time.
 *   _bsp_: this folder contains the source code of BSP for Linux platform. It emulates interrupts, implements the communication with Trazer tool and a simple event-loop, which is a non-preemptive cooperative scheduler. In the Yakindu’s Standard Edition you cannot include header files, but it is possible to create operations, in which the platform specific C code can be called. Within these operations we can call the specific code to interact with the platform, which is located in this folder.
 
-<dt>src-gen</dt>
-
-<dd>Includes the generated C code compatible with RKH framework, which will be automatically be updated when you edit and save the statechart.</dd>
-
-*   _TimeEvt.h/.c_: specifies and implements the state machine of TimeEvt active object. Please correlate this implementation (TimeEvt.c) with the state diagram shown above.
-*   _TimeEvt.h/.c_: specifies and implements the state machine actions (entries, exits, effects and guards).
-*   _TimeEvtActRequired.h_: in the Yakindu’s Standard Edition you cannot include header files, but it is possible to create operations, in which the Blinky specific c code can be called. Within these operations we can call the specific C code to interact with the platform.
-
-<dt>rkh</dt>
-
-<dd>Here is located the RKH framework’s source code.</dd>
-
-</dl>
+#### _RKH_
+Here is located the RKH framework's source code.
 
 ### 4.2 Build
-
-*   Right-click on project 'timeEvt.yakindu.linux' in the 'Project Explorer'
+*   Right-click on project 'paramtertized' in the 'Project Explorer'
 *   Choose 'Build Project'
 
 ### 4.3 Run and debug
-
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-*   Right-click on project 'blinky' in the Eclipse 'Project Explorer'
+*   Right-click on project 'parameterized' in the Eclipse 'Project Explorer'
 *   Choose 'Run As > Local C/C++ Application'
 
 The embedded Eclipse console shows up and the application starts
@@ -285,7 +271,7 @@ The embedded Eclipse console shows up and the application starts
 In order to debug the example
 
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-*   Right-click on project 'blinky' in the Eclipse 'Project Explorer'
+*   Right-click on project 'parameterized' in the Eclipse 'Project Explorer'
 *   Choose 'Debug As > Local C/C++ Application'
 
 You will now see the debug perspective with the blinky application window open. The C/C++ editor repositions in the perspective.
@@ -293,7 +279,11 @@ You will now see the debug perspective with the blinky application window open. 
 ![debug-snapshot](images/debug-snapshot.png)
 
 ### 4.4 Verify and validate
-
-While the application is running, you can validate and verify its behaviour through the trace events showed on the Trazer output. Each trace event includes a time stamp and additional information associated with it. A capture of Trazer output is shown below. It shows the trace records when the state machine processes a `evStart` trigger and get into the `Waiting` state. `After 5 secs` goes to `DoneWaiting` state and stay there until `After 10 secs` trigger is preocessed returning to `Off` state. Since RKH can generate more than 100 different trace events during its execution, its trace module allow you to filter one or more of them in runtime, so you can choose the traces that you need.
+While the application is running, you can validate and verify its behaviour through the trace events showed on the Trazer output.
+Each trace event includes a time stamp and additional information associated with it. A capture of Trazer output is shown below. 
 
 ![trazer-output](images/trazer-output.png)
+
+It shows the trace records when the state machine processes a `evStart` trigger and get into the `Waiting` state. `After 5 secs` goes to `DoneWaiting` state and stay there until `After 10 secs` trigger is preocessed returning to `Off` state. Since RKH can generate more than 100 different trace events during its execution, its trace module allow you to filter one or more of them in runtime, so you can choose the traces that you need.
+
+
