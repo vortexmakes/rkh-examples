@@ -11,11 +11,8 @@ of the same type, whose waveforms and its parameters are shown below.
 ## This tutorial contains:
 
 [1\. Description](#1-description)
-
 [2\. What RKH is?](#2-what-rKH-is)
-
 [3\. Toolchain installation](#3-toolchain-installation)
-
 [4\. Yakindu project](#4-yakindu-project)
 
 ## 1\. Description
@@ -26,8 +23,8 @@ state machine, so it could be drawn such as that of figure below.
 
 ![pulse-counter-state-machine](images/pulsecounter.png)
 
-Instead, pulse counters called PulseCounters are components of a container 
-active object called PulseCounterMgr. The container is entirely responsible 
+Instead, pulse counters called `PulseCounters` are components of a container 
+active object called `PulseCounterMgr`. The container is entirely responsible 
 for its components. In particular, it must explicitly trigger initial 
 transitions in all components as well as explicitly dispatch events to its 
 components. They share both event queue and priority level of its container. 
@@ -36,28 +33,29 @@ components and their attributes as well.
 
 ![structure](images/structure.png)
 
-PulseCounterMgr communicates with PulseCounters synchronously by directly 
-dispatching events to them, i.e. a PulseCounter processes events in the 
-execution context of its container. On the other hand, PulseCounters 
+`PulseCounterMgr` communicates with `PulseCounters` synchronously by directly 
+dispatching events to them, i.e. a `PulseCounter` processes events in the 
+execution context of its container. On the other hand, `PulseCounters` 
 communicates with its own active object and all other ones asynchronously by 
 posting events to their event queues. It is important to mention that a state 
 machine component can not directly receive any event from an entity such as 
 ISR, active object or system task different from its own container. 
 
-The PulseCounterMgr behavior is modeled as statechart and it looks like the 
-diagram below. The PulseCounterMgr is able to forward events to the 
-corresponding PulseCounter, since these events carry a parameter called id 
-that allows PulseCounterMgr to identify the component target. The type of id 
+The `PulseCounterMgr` behavior is modeled as statechart and it looks like the 
+diagram below. The `PulseCounterMgr` is able to forward events to the 
+corresponding `PulseCounter`, since these events carry a parameter called id 
+that allows `PulseCounterMgr` to identify the component target. The type of id 
 parameter depends on the active object implementation, for example it might be 
 an integer or a reference to a component instance.
 
 ![pulse-counter-mgr](images/pulsecountermgr.png)
 
-The following code fragment shows the PulseCounter and PulseCounterMgr types 
-represented by means of C structures. Both types are derived from framework 
-ones. PulseCounter derives from RKH_SM_T and PulseCounterMgr derives from 
-RKH_SMA_T.
+The following code fragment shows the `PulseCounter` and `PulseCounterMgr` 
+types represented by means of C structures. Both types are derived from 
+framework ones. `PulseCounter` derives from `RKH_SM_T` and `PulseCounterMgr` 
+derives from `RKH_SMA_T`.
 
+```c
 struct PulseCounter
 {
     RKH_SM_T sm;        /* base class */
@@ -74,10 +72,12 @@ struct PulseCounterMgr
     RKH_SMA_T sma;      /* base class  */
     PulseCounter pulseCounters[NUM_PULSE_COUNTERS]; /* SM components */
 };
+```
 
-Code fragment below shows how the PulseCounterMgr constructor initializes the 
-components’ attributes.
+Code fragment below shows how the `PulseCounterMgr` constructor initializes the 
+components' attributes.
 
+```c
 /* ---------------------------- Global functions --------------------------- */
 void
 PulseCounterMgr_ctor(void)
@@ -104,12 +104,14 @@ PulseCounterMgr_ctor(void)
                     NULL);
     }
 }
+```
 
-PulseCounterMgr initializes every state machine component by calling the 
-framework function rkh_sm_init(). It effectively triggers the topmost initial 
+`PulseCounterMgr` initializes every state machine component by calling the 
+framework function `rkh_sm_init()`. It effectively triggers the topmost initial 
 transition of a state machine and then the effect action of the state 
-machine’s initial pseudostate is executed.
+machine's initial pseudostate is executed.
 
+```c
 /* ............................ Effect actions ............................. */
 void
 PulseCounterMgr_init(PulseCounterMgr *const me, RKH_EVT_T *pe)
@@ -124,19 +126,21 @@ PulseCounterMgr_init(PulseCounterMgr *const me, RKH_EVT_T *pe)
         rkh_sm_init(RKH_UPCAST(RKH_SM_T, pulseCtr));
     }
 }
+```
 
-PulseCounterMgr and its components handle two types of events, StatusEvt and 
-TimeEvt. StatusEvt carries the status of digital signals (Active and Inactive),
-whereas TimeEvt corresponds to time events, so the ‘after’ triggers are 
-triggered by the expiration of the PulseCounter time events like tactMin, 
-tactMax and tinactMax. For example, ‘after TactMin’ corresponds to tactMin 
-time event.
+`PulseCounterMgr` and its components handle two types of events, `StatusEvt`
+and `TimeEvt`. `StatusEvt` carries the status of digital signals (Active and 
+Inactive), whereas `TimeEvt` corresponds to time events, so the `after` triggers 
+are triggered by the expiration of the `PulseCounter` time events like 
+`tactMin`, `tactMax` and `tinactMax`. For example, `after TactMin` corresponds 
+to `tactMin` time event.
 As shown in the following code fragment, both kinds of events are derived from 
-framework event types, RKH_EVT_T and TimeEvt respectively and both have an id 
-parameter to identify the PulseCounter target. See bsp_keyParser() function in 
-the bsp/bsp.c file to figure out how to generate and post events to a specific 
-PulseCounter.
+framework event types, `RKH_EVT_T` and `TimeEvt` respectively and both have an 
+`id` parameter to identify the `PulseCounter` target. See `bsp_keyParser()` 
+function in the `bsp/bsp.c` file to figure out how to generate and post events 
+to a specific `PulseCounter.
 
+```c
 /* ................................ Events ................................ */
 typedef struct StatusEvt StatusEvt;
 struct StatusEvt
@@ -151,11 +155,14 @@ struct TimeEvt
     RKHTmEvt evt;  /* time event */
     int id;        /* SM component identifier */
 };
+```
 
-The following code fragment demonstrates how to use the id parameter of 
-received events to dispatch them to PulseCounters. This example defines id 
-parameter as integer, so it becomes the index into the pulseCounters[] array.
+The following code fragment demonstrates how to use the `id` parameter of 
+received events to dispatch them to `PulseCounters`. This example defines 
+`id` parameter as `integer`, so it becomes the index into the `pulseCounters[]` 
+array.
 
+```c
 void
 PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
 {
@@ -166,11 +173,13 @@ PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
 
     rkh_sm_dispatch(RKH_DOWNCAST(RKH_SM_T, &me->pulseCounters[ix]), pe);
 }
+```
 
-If id parameter would have been a pointer to PointerCounter instance, 
-PulseCounterMgr actions like PulseCounterMgr_dispatchStatus() would look as 
-follows:
+If `id` parameter would have been a pointer to `PointerCounter` instance, 
+`PulseCounterMgr` actions like `PulseCounterMgr_dispatchStatus()` would look 
+as follows:
 
+```c
 void
 PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
 {
@@ -181,6 +190,7 @@ PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
 
     rkh_sm_dispatch(RKH_DOWNCAST(RKH_SM_T, component), pe);
 }
+```
 
 ## 2\. What RKH is?
 
