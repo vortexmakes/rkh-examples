@@ -239,10 +239,10 @@ RKH allows developers to verify and validate a reactive application’s behaviou
 ### 4.1 Project structure
 
 #### _model_
-Contains PulseCounter and PulseCounterMgr state machines
+It contains PulseCounter and PulseCounterMgr state machines
 
-#### src
-Includes both application code and BSP (Board Support Package) code. The most important files and directories are listed below:
+#### _src_
+It includes both application code and BSP (Board Support Package) code. The most important files and directories are listed below:
 
 *   _signals.h_: defines signals as enumerated constants, which are used as state machine triggers.
 *   _events.h_: defines events types, which are derived from RKH framework types.
@@ -250,7 +250,9 @@ Includes both application code and BSP (Board Support Package) code. The most im
 *   _PulseCounterMgr.h/.c_: specifies and implements the PulseCounterMgr active object and its paramterized state machine (PulseCounter). Please correlate this implementation with the state diagrams shown above.
 *   _main.c_: contains the main() function, which initializes both BSP and PulseCounterMgr active object, then executes the RKH framework in order to orchestrates this reactive application.
 *   _rkhcfg.h_: adapts and configures RKH in compile time.
-*   _bsp_: this folder contains the source code of BSP for Linux platform. It emulates interrupts, implements the communication with Trazer tool and a simple event-loop, which is a non-preemptive cooperative scheduler. In the Yakindu’s Standard Edition you cannot include header files, but it is possible to create operations, in which the platform specific C code can be called. Within these operations we can call the specific code to interact with the platform, which is located in this folder.
+
+#### _bsp_
+It contains the source code of BSP for Linux platform. It emulates interrupts, implements the communication with Trazer tool and a simple event-loop, which is a non-preemptive cooperative scheduler. In the Yakindu’s Standard Edition you cannot include header files, but it is possible to create operations, in which the platform specific C code can be called. Within these operations we can call the specific code to interact with the platform, which is located in this folder.
 
 #### _RKH_
 Here is located the RKH framework's source code.
