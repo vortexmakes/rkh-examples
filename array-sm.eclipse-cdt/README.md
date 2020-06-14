@@ -19,7 +19,7 @@ of the same type, whose waveforms and its parameters are shown below.
 [4\. Yakindu project](#4-yakindu-project)
 
 ## 1\. Description
-
+### 1.1 Behavior and structure models
 The behavior of the pulse counters are modeled as statecharts, but they are 
 not active objects. There is no UML notation to represent a parameterized 
 state machine, so it could be drawn such as that of figure below.
@@ -53,6 +53,7 @@ an integer or a reference to a component instance.
 
 ![pulse-counter-mgr](images/pulsecountermgr.png)
 
+### 1.2 PulseCounterMgr and PulseCounter types
 The following code fragment shows the `PulseCounter` and `PulseCounterMgr` 
 types represented by means of C structures. Both types are derived from 
 framework ones. `PulseCounter` derives from `RKH_SM_T` and `PulseCounterMgr` 
@@ -76,7 +77,7 @@ struct PulseCounterMgr
     PulseCounter pulseCounters[NUM_PULSE_COUNTERS]; /* SM components */
 };
 ```
-
+### 1.3 Initializing PulseCounter instances
 Code fragment below shows how the `PulseCounterMgr` constructor initializes the 
 components' attributes.
 
@@ -109,6 +110,7 @@ PulseCounterMgr_ctor(void)
 }
 ```
 
+### 1.4 Initializing PulseCounter state machines
 `PulseCounterMgr` initializes every state machine component by calling the 
 framework function `rkh_sm_init()`. It effectively triggers the topmost initial 
 transition of a state machine and then the effect action of the state 
@@ -131,6 +133,7 @@ PulseCounterMgr_init(PulseCounterMgr *const me, RKH_EVT_T *pe)
 }
 ```
 
+### 1.5 Events
 `PulseCounterMgr` and its components handle two types of events, `StatusEvt`
 and `TimeEvt`. `StatusEvt` carries the status of digital signals (Active and 
 Inactive), whereas `TimeEvt` corresponds to time events, so the `after` triggers 
@@ -160,6 +163,7 @@ struct TimeEvt
 };
 ```
 
+### 1.6 Dispatching events to PulseCounters
 The following code fragment demonstrates how to use the `id` parameter of 
 received events to dispatch them to `PulseCounters`. This example defines 
 `id` parameter as `integer`, so it becomes the index into the `pulseCounters[]` 
