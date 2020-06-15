@@ -16,7 +16,7 @@ of the same type, whose waveforms and its parameters are shown below.
 
 [3\. Toolchain installation](#3-toolchain-installation)
 
-[4\. Yakindu project](#4-yakindu-project)
+[4\. Eclipse CDT project](#4-eclipse-cdt-project)
 
 ## 1\. Description
 ### 1.1 Behavior and structure models
@@ -200,7 +200,6 @@ PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
 ```
 
 ## 2\. What RKH is?
-
 RKH is a flexible, efficient, highly portable, and freely available 
 open-source state machine framework providing the infrastructure for quickly 
 and safely developing reactive applications for real-time embedded systems.
@@ -216,13 +215,11 @@ RKH is open source and licensed under the GNU v3.0\. You can find the [source co
 If you want to learn more about the benefits of this flexible, efficient and highly portable state machine framework read on [here](https://blogs.itemis.com/en/rkh-state-machine-framework-for-reactive-and-real-time-embedded-systems).
 
 ## 3\. Toolchain installation
-
 ### 3.1 Eclipse C/C++ (CDT)
 The C/C++ Development Toolkit ([CDT](https://help.eclipse.org/2020-03/index.jsp?topic=%2Forg.eclipse.cdt.doc.user%2Fconcepts%2Fcdt_c_projects.htm)) is a collection of Eclipse-based features that provides the capability to develop projects that use C and/or C++ as a programming language.
 The CDT can either be installed as part of the Eclipse C/C++ IDE packaged zip file or installed into an existing Eclipse using the "Install New Software..." dialog. Follow [this](https://www.eclipse.org/cdt/downloads.php) instructions to do that.
 
 ### 3.2 Get RKH framework
-
 In order to build this example you have to download the RKH framework and install the Trazer tool. RKH can be obtained from its official repository by using the following Git commands:
 
 1.  `cd path/to/rkh-examples/`
@@ -230,7 +227,6 @@ In order to build this example you have to download the RKH framework and instal
 3.  `git submodule update`
 
 ### 3.3 Install Trazer tool
-
 RKH allows developers to verify and validate a reactive application’s behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events’ output in a legible manner. It can be downloaded and installed as follows.
 
 1.  Download Trazer for Linux 64-bits from its [official repository](https://github.com/vortexmakes/Trazer/releases/download/3.2/RC_trazer_3_2_lnx64b.tar.gz)
@@ -238,10 +234,14 @@ RKH allows developers to verify and validate a reactive application’s behaviou
 3.  Change the directory to previous folder
 4.  Check it is alright by executing ./trazer
 
-## 4\. Eclipse project
+## 4\. Eclipse CDT project
+### 4.1 Import project
+1. Select 'File > Import...' to bring up the Import wizard. 
+2. Choose 'Existing Project into Workspace' and click the 'Next' button.
+3. Select the 'parameterized-sm.eclipse-cdt' project directory.
+4. Click the 'Finish' button to import the selected project into the workspace. 
 
-### 4.1 Project structure
-
+### 4.2 Project structure
 #### _model_
 It contains PulseCounter and PulseCounterMgr state machines
 
@@ -261,11 +261,11 @@ It contains the source code of BSP for Linux platform. It emulates interrupts, i
 #### _RKH_
 Here is located the RKH framework's source code.
 
-### 4.2 Build
+### 4.3 Build
 *   Right-click on project 'parameterized' in the 'Project Explorer'
 *   Choose 'Build Project'
 
-### 4.3 Run and debug
+### 4.4 Run and debug
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 *   Right-click on project 'parameterized' in the Eclipse 'Project Explorer'
 *   Choose 'Run As > Local C/C++ Application'
@@ -285,7 +285,7 @@ the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)
 
-### 4.4 Verify and validate
+### 4.5 Verify and validate
 While the application is running, you can validate and verify its behaviour through the trace events showed on the Trazer output.
 Each trace event includes a time stamp and additional information associated with it. A capture of Trazer output is shown below. 
 
