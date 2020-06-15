@@ -12,7 +12,7 @@ of the same type, whose waveforms and its parameters are shown below.
 
 [1\. Description](#1-description)
 
-[2\. What RKH is?](#2-what-rKH-is)
+[2\. What RKH is?](#2-what-rkh-is)
 
 [3\. Toolchain installation](#3-toolchain-installation)
 
@@ -45,13 +45,15 @@ machine component cannot directly receive any event from an entity such as
 ISR, active object or system task different from its own container. 
 
 The `PulseCounterMgr` behavior is modeled as statechart and it looks like the 
-diagram below. The `PulseCounterMgr` is able to forward events to the 
+diagram below. 
+
+![pulse-counter-mgr](images/pulsecountermgr.png)
+
+The `PulseCounterMgr` is able to forward events to the 
 corresponding `PulseCounter`, since these events carry a parameter called id 
 that allows `PulseCounterMgr` to identify the component target. The type of id 
 parameter depends on the active object implementation, for example, it might be 
 an integer or a reference to a component instance.
-
-![pulse-counter-mgr](images/pulsecountermgr.png)
 
 ### 1.2 PulseCounterMgr and PulseCounter types
 The following code fragment shows the `PulseCounter` and `PulseCounterMgr` 
