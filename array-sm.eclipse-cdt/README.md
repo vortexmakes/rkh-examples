@@ -217,7 +217,11 @@ If you want to learn more about the benefits of this flexible, efficient and hig
 
 ## 3\. Toolchain installation
 
-### 3.1 Get RKH framework
+### 3.1 Eclipse C/C++ (CDT)
+The C/C++ Development Toolkit ([CDT](https://help.eclipse.org/2020-03/index.jsp?topic=%2Forg.eclipse.cdt.doc.user%2Fconcepts%2Fcdt_c_projects.htm)) is a collection of Eclipse-based features that provides the capability to develop projects that use C and/or C++ as a programming language.
+The CDT can either be installed as part of the Eclipse C/C++ IDE packaged zip file or installed into an existing Eclipse using the "Install New Software..." dialog. Follow [this](https://www.eclipse.org/cdt/downloads.php) instructions to do that.
+
+### 3.2 Get RKH framework
 
 In order to build this example you have to download the RKH framework and install the Trazer tool. RKH can be obtained from its official repository by using the following Git commands:
 
@@ -225,7 +229,7 @@ In order to build this example you have to download the RKH framework and instal
 2.  `git submodule init parameterized-sm.eclipse-cdt/RKH`
 3.  `git submodule update`
 
-### 3.2 Install Trazer tool
+### 3.3 Install Trazer tool
 
 RKH allows developers to verify and validate a reactive application’s behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events’ output in a legible manner. It can be downloaded and installed as follows.
 
@@ -252,13 +256,13 @@ It includes both application code and BSP (Board Support Package) code. The most
 *   _rkhcfg.h_: adapts and configures RKH in compile time.
 
 #### _bsp_
-It contains the source code of BSP for Linux platform. It emulates interrupts, implements the communication with Trazer tool and a simple event-loop, which is a non-preemptive cooperative scheduler. In the Yakindu’s Standard Edition you cannot include header files, but it is possible to create operations, in which the platform specific C code can be called. Within these operations we can call the specific code to interact with the platform, which is located in this folder.
+It contains the source code of BSP for Linux platform. It emulates interrupts, implements the communication with Trazer tool and a simple event-loop, which is a non-preemptive cooperative scheduler.
 
 #### _RKH_
 Here is located the RKH framework's source code.
 
 ### 4.2 Build
-*   Right-click on project 'paramtertized' in the 'Project Explorer'
+*   Right-click on project 'parameterized' in the 'Project Explorer'
 *   Choose 'Build Project'
 
 ### 4.3 Run and debug
@@ -276,7 +280,8 @@ In order to debug the example
 *   Right-click on project 'parameterized' in the Eclipse 'Project Explorer'
 *   Choose 'Debug As > Local C/C++ Application'
 
-You will now see the debug perspective with the blinky application window open. The C/C++ editor repositions in the perspective.
+You will now see the debug perspective with the parameterized application window open. The C/C++ editor repositions in 
+the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)
 
@@ -287,5 +292,3 @@ Each trace event includes a time stamp and additional information associated wit
 ![trazer-output](images/trazer-output.png)
 
 It shows the trace records when the state machine processes a `evStart` trigger and get into the `Waiting` state. `After 5 secs` goes to `DoneWaiting` state and stay there until `After 10 secs` trigger is preocessed returning to `Off` state. Since RKH can generate more than 100 different trace events during its execution, its trace module allow you to filter one or more of them in runtime, so you can choose the traces that you need.
-
-
