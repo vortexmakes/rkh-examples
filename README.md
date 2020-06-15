@@ -1,4 +1,6 @@
-<img style="float: middle;" src="images/rkh.png" width="400">
+<p align="center">
+    <img style="float: middle;" src="images/rkh.png" width="400">
+</p>
 
 # Examples  
 Collection of open source examples based on RKH framwework for embedded systems development on Linux, Windows, and other embedded platforms.
