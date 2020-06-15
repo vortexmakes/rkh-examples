@@ -227,7 +227,7 @@ In order to build this example you have to download the RKH framework and instal
 3.  `git submodule update`
 
 ### 3.3 Install Trazer tool
-RKH allows developers to verify and validate a reactive application’s behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events’ output in a legible manner. It can be downloaded and installed as follows.
+RKH allows developers to verify and validate a reactive application's behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events' output in a legible manner. It can be downloaded and installed as follows.
 
 1.  Download Trazer for Linux 64-bits from its [official repository](https://github.com/vortexmakes/Trazer/releases/download/3.2/RC_trazer_3_2_lnx64b.tar.gz)
 2.  Copy downloaded file to a folder and extract it
@@ -262,12 +262,12 @@ It contains the source code of BSP for Linux platform. It emulates interrupts, i
 Here is located the RKH framework's source code.
 
 ### 4.3 Build
-*   Right-click on project 'parameterized' in the 'Project Explorer'
+*   Right-click on project 'Parameterized' in the 'Project Explorer'
 *   Choose 'Build Project'
 
 ### 4.4 Run and debug
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-*   Right-click on project 'parameterized' in the Eclipse 'Project Explorer'
+*   Right-click on project 'Parameterized' in the Eclipse 'Project Explorer'
 *   Choose 'Run As > Local C/C++ Application'
 
 The embedded Eclipse console shows up and the application starts
@@ -277,10 +277,10 @@ The embedded Eclipse console shows up and the application starts
 In order to debug the example
 
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-*   Right-click on project 'parameterized' in the Eclipse 'Project Explorer'
+*   Right-click on project 'Parameterized' in the Eclipse 'Project Explorer'
 *   Choose 'Debug As > Local C/C++ Application'
 
-You will now see the debug perspective with the parameterized application window open. The C/C++ editor repositions in 
+You will now see the debug perspective with the Parameterized application window open. The C/C++ editor repositions in 
 the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)
@@ -291,4 +291,6 @@ Each trace event includes a time stamp and additional information associated wit
 
 ![trazer-output](images/trazer-output.png)
 
-It shows the trace records when the state machine processes a `evStart` trigger and get into the `Waiting` state. `After 5 secs` goes to `DoneWaiting` state and stay there until `After 10 secs` trigger is preocessed returning to `Off` state. Since RKH can generate more than 100 different trace events during its execution, its trace module allow you to filter one or more of them in runtime, so you can choose the traces that you need.
+It shows the trace records when the PulseCounterMgr dispatches a `evActive` trigger to a PulseCounter component, and then it get into the `Setup` state. After `ACT_MIN_TIME` seconds it goes to `Active` state and stay there until it receives `evInactive` trigger, causing it goes to `Inactive` state. Finally, after `INACT_MAX_TIME` seconds it returns `ACT_MIN_TIME` state. 
+
+Since RKH can generate more than 100 different trace events during its execution, its trace module allow you to filter one or more of them in runtime, so you can choose the traces that you need.
