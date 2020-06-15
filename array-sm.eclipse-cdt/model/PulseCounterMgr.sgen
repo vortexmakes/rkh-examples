@@ -3,7 +3,7 @@ GeneratorModel for yakindu::c::rkh {
 	statechart PulseCounterMgr {
 
 		feature Outlet {
-			targetProject = "array-sm.eclipse-cdt"
+			targetProject = "Parameterized"
 			targetFolder = "src-gen"
 			libraryTargetFolder = "src"
 		}
