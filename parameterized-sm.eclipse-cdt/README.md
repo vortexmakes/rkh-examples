@@ -39,16 +39,16 @@ components and their attributes as well.
 `PulseCounterMgr` communicates with `PulseCounters` synchronously by directly 
 dispatching events to them, i.e. a `PulseCounter` processes events in the 
 execution context of its container. On the other hand, `PulseCounters` 
-communicates with its own active object and all other ones asynchronously by 
+communicates with its own active object and with the rest asynchronously by 
 posting events to their event queues. It is important to mention that a state 
-machine component can not directly receive any event from an entity such as 
+machine component cannot directly receive any event from an entity such as 
 ISR, active object or system task different from its own container. 
 
 The `PulseCounterMgr` behavior is modeled as statechart and it looks like the 
 diagram below. The `PulseCounterMgr` is able to forward events to the 
 corresponding `PulseCounter`, since these events carry a parameter called id 
 that allows `PulseCounterMgr` to identify the component target. The type of id 
-parameter depends on the active object implementation, for example it might be 
+parameter depends on the active object implementation, for example, it might be 
 an integer or a reference to a component instance.
 
 ![pulse-counter-mgr](images/pulsecountermgr.png)
@@ -140,7 +140,7 @@ Inactive), whereas `TimeEvt` corresponds to time events, so the `after` triggers
 are triggered by the expiration of the `PulseCounter` time events like 
 `tactMin`, `tactMax` and `tinactMax`. For example, `after TactMin` corresponds 
 to `tactMin` time event.
-As shown in the following code fragment, both kinds of events are derived from 
+As shown in the following code fragment, both kinds of events derive from 
 framework event types, `RKH_EVT_T` and `TimeEvt` respectively and both have an 
 `id` parameter to identify the `PulseCounter` target. See `bsp_keyParser()` 
 function in the `bsp/bsp.c` file to figure out how to generate and post events 
@@ -182,7 +182,7 @@ PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
 }
 ```
 
-If `id` parameter would have been a pointer to `PointerCounter` instance, 
+If `id` parameter were a pointer to `PointerCounter` instance, 
 `PulseCounterMgr` actions like `PulseCounterMgr_dispatchStatus()` would look 
 as follows:
 
