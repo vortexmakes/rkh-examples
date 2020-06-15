@@ -26,7 +26,7 @@ state machine, so it could be drawn such as that of figure below.
 
 ![pulse-counter-state-machine](images/pulsecounter.png)
 
-Instead, pulse counters called `PulseCounters` are components of a container 
+Instead, pulse counters called `PulseCounter` are components of a container 
 active object called `PulseCounterMgr`. The container is entirely responsible 
 for its components. In particular, it must explicitly trigger initial 
 transitions in all components as well as explicitly dispatch events to its 
