@@ -184,7 +184,7 @@ PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
 }
 ```
 
-If `id` parameter were a pointer to `PointerCounter` instance, 
+If `id` parameter were a pointer to `PulseCounter` instance, 
 `PulseCounterMgr` actions like `PulseCounterMgr_dispatchStatus()` would look 
 as follows:
 
