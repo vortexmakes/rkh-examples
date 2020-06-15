@@ -1,6 +1,6 @@
 [submodule "timeEvt.yakindu.linux/RKH"]
 	path = timeEvt.yakindu.linux/RKH
 	url = https://github.com/vortexmakes/RKH.git
-[submodule "array-sm.eclipse-cdt/RKH"]
-	path = array-sm.eclipse-cdt/RKH
+[submodule "parameterized-sm.eclipse-cdt/RKH"]
+	path = parameterized-sm.eclipse-cdt/RKH
 	url = https://github.com/vortexmakes/RKH.git
