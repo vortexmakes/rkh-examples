@@ -1,8 +1,8 @@
 # Using parameterized state machines with RKH framework on Eclipse
 
 ## Overview
-In order to demonstrate how to handle a parameterized state machine from an 
-active object by using the framework RKH, a digital pulse counter will be used 
+This example shows how to handle a parameterized state machine from an 
+active object by using the RKH framework, a digital pulse counter will be used 
 as an example. It validates and counts digital pulses from N digital signals 
 of the same type, whose waveforms and its parameters are shown below.
 
