@@ -2,14 +2,12 @@
 
 ## Overview
 This is a simple example of how to use the RKH framework together with Yakindu Statechart Tool for using Time Event´s in statecharts models.
-
-![yakindu-rkh](images/yakindu-rkh.png)
-    
+  
 ## This tutorial contains:
 
-[1\. TimeEvt Statechart Model](#1-timeEvt-statechart-model)
+[1\. TimeEvt Statechart Model](#1-timeevt-statechart-model)
 
-[2\. What RKH is?](#2-what-rKH-is)
+[2\. What RKH is?](#2-what-rkh-is)
 
 [3\. Toolchain installation](#3-toolchain-installation)
 
@@ -22,7 +20,6 @@ The behavior of timeEvt is defined by a simple statechart that looks as follows.
 ![state-machine](images/state-machine.png)
 
 ## 2\. What RKH is?
-
 RKH is a flexible, efficient, highly portable, and freely available open-source state machine framework providing the infrastructure for quickly and safely developing reactive applications for real-time embedded systems.
 
 ![rkh-features](images/rkh-features.png)
@@ -36,9 +33,7 @@ RKH is open source and licensed under the GNU v3.0\. You can find the [source co
 If you want to learn more about the benefits of this flexible, efficient and highly portable state machine framework read on [here](https://blogs.itemis.com/en/rkh-state-machine-framework-for-reactive-and-real-time-embedded-systems).
 
 ## 3\. Toolchain installation
-
 ### 3.1 Install YAKINDU Statechart Tool
-
 YAKINDU Statechart Tools features an intuitive combination of graphical and textual notation for modelling state diagrams. While states, transitions and state hierarchies are graphical elements, all declarations and actions are specified using a textual notation. The usability of the statechart editor is simply fascinating. Form more information please visit:
 
 [Yakindu SCT site](https://www.itemis.com/en/yakindu/state-machine/)
@@ -48,7 +43,6 @@ YAKINDU Statechart Tools features an intuitive combination of graphical and text
 Download Linux installer from here: [Yakinud Download Site](https://info.itemis.com/state-machine/download-yakindu-statechart-tools)
 
 ### 3.2 Install RKH code generator
-
 Open Yakindu SCT and goes to:
 
 1.  Help > Install New Software ... from the menu.
@@ -65,7 +59,6 @@ Open Yakindu SCT and goes to:
 ![RKH-generator](images/RKH-generator.png)
 
 ### 3.3 Get RKH framework
-
 In order to build this example you have to download the RKH framework and install the Trazer tool. RKH can be obtained from its official repository by using the following Git commands:
 
 1.  `cd path/to/rkh-examples/`
@@ -73,7 +66,6 @@ In order to build this example you have to download the RKH framework and instal
 3.  `git submodule update`
 
 ### 3.4 Install Trazer tool
-
 RKH allows developers to verify and validate a reactive application’s behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events’ output in a legible manner. It can be downloaded and installed as follows.
 
 1.  Download Trazer for Linux 64-bits from its [official repository](https://github.com/vortexmakes/Trazer/releases/download/3.2/RC_trazer_3_2_lnx64b.tar.gz)
@@ -82,9 +74,7 @@ RKH allows developers to verify and validate a reactive application’s behaviou
 4.  Check it is alright by executing ./trazer
 
 ## 4\. Yakindu project
-
 ### 4.1 Project structure
-
 <dl>
 
 <dt>model</dt>
@@ -115,12 +105,10 @@ RKH allows developers to verify and validate a reactive application’s behaviou
 </dl>
 
 ### 4.2 Build
-
 *   Right-click on project 'timeEvt.yakindu.linux' in the 'Project Explorer'
 *   Choose 'Build Project'
 
 ### 4.3 Run and debug
-
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 *   Right-click on project 'blinky' in the Eclipse 'Project Explorer'
 *   Choose 'Run As > Local C/C++ Application'
@@ -140,7 +128,6 @@ You will now see the debug perspective with the blinky application window open. 
 ![debug-snapshot](images/debug-snapshot.png)
 
 ### 4.4 Verify and validate
-
 While the application is running, you can validate and verify its behaviour through the trace events showed on the Trazer output. Each trace event includes a time stamp and additional information associated with it. A capture of Trazer output is shown below. It shows the trace records when the state machine processes a `evStart` trigger and get into the `Waiting` state. `After 5 secs` goes to `DoneWaiting` state and stay there until `After 10 secs` trigger is preocessed returning to `Off` state. Since RKH can generate more than 100 different trace events during its execution, its trace module allow you to filter one or more of them in runtime, so you can choose the traces that you need.
 
 ![trazer-output](images/trazer-output.png)
