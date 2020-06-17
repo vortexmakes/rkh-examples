@@ -4,3 +4,6 @@
 [submodule "parameterized-sm.eclipse-cdt/RKH"]
 	path = parameterized-sm.eclipse-cdt/RKH
 	url = https://github.com/vortexmakes/RKH.git
+[submodule "orthogonal.eclipse-cdt/RKH"]
+	path = orthogonal.eclipse-cdt/RKH
+	url = https://github.com/vortexmakes/RKH.git
