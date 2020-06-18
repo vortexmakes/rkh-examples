@@ -5,7 +5,7 @@
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2020.06.06  LeFr  v1.0.00  Initial version
+ *  2020.17.06  LeFr  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
@@ -30,11 +30,8 @@ extern "C" {
 typedef enum Signals Signals;
 enum Signals
 {
-    evActive,
-    evInactive,
-    evTactMinTout,
-    evTactMaxTout,
-    evTinactMaxTout
+    evSelect,
+    evSwitch
 };
 
 /* ------------------------------- Data types ------------------------------ */

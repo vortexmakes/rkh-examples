@@ -4,7 +4,7 @@
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2020.06.06  LeFr  v1.0.00  Initial version
+ *  2020.17.06  LeFr  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
@@ -123,8 +123,9 @@ struct PulseCounter
 
 struct LightMgr
 {
-    RKH_SMA_T sma;      /* base class  */
-    PulseCounter pulseCounters[NUM_PULSE_COUNTERS]; /* SM components */ 
+    RKH_SMA_T sma;  /* base class  */
+    OnOff onOff;    /* orthogonal region */ 
+    Mode mode;      /* orthogonal region */ 
 };
 
 RKH_SMA_CREATE(LightMgr, pulseCounterMgr, LightMgrPrio, HCAL, 

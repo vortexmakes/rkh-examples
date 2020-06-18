@@ -5,7 +5,7 @@
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2020.06.06  LeFr  v1.0.00  Initial version
+ *  2020.17.06  LeFr  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
@@ -20,7 +20,6 @@
 
 /* ----------------------------- Include files ----------------------------- */
 #include "rkhevt.h"
-#include "rkhtmr.h"
 
 /* ---------------------- External C language linkage ---------------------- */
 #ifdef __cplusplus
@@ -30,18 +29,12 @@ extern "C" {
 /* --------------------------------- Macros -------------------------------- */
 /* -------------------------------- Constants ------------------------------ */
 /* ................................ Events ................................ */
-typedef struct StatusEvt StatusEvt;
-struct StatusEvt
+typedef struct ModeEvt ModeEvt;
+struct ModeEvt
 {
-    RKH_EVT_T evt;  /* signal event */
-    int id;         /* SM component identifier */
-};
-
-typedef struct TimeEvt TimeEvt;
-struct TimeEvt
-{
-    RKHTmEvt evt;   /* time event */
-    int id;         /* SM component identifier */
+    RKH_EVT_T evt;      /* signal event */
+    uint16_t onTime;    /* On time */
+    uint16_t offTime;   /* Off time */
 };
 
 /* ------------------------------- Data types ------------------------------ */
