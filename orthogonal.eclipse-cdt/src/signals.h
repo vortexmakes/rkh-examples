@@ -30,7 +30,7 @@ extern "C" {
 typedef enum Signals Signals;
 enum Signals
 {
-    evSelect,
+    evStart,
     evSwitch
 };
 

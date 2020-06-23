@@ -1,6 +1,6 @@
 GeneratorModel for yakindu::c::rkh {
 
-	statechart LightMgr {
+	statechart Rate {
 
 		feature Outlet {
 			targetProject = "Orthogonal"

@@ -5,7 +5,7 @@
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2020.06.06  LeFr  v1.0.00  Initial version
+ *  2020.17.06  LeFr  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
@@ -15,9 +15,9 @@
 
 /* --------------------------------- Notes --------------------------------- */
 /* ----------------------------- Include files ----------------------------- */
-#include <LightMgr.h>
 #include "rkh.h"
 #include "bsp.h"
+#include "LightMgr.h"
 
 /* ----------------------------- Local macros ------------------------------ */
 #define QSTO_SIZE           4
@@ -42,7 +42,6 @@ setupTraceFilters(void)
     /*RKH_FILTER_OFF_EVENT(RKH_TE_SMA_LIFO);*/
     /*RKH_FILTER_OFF_EVENT(RKH_TE_SM_TS_STATE);*/
     RKH_FILTER_OFF_EVENT(RKH_TE_SM_DCH);
-    /*RKH_FILTER_OFF_SMA(pulseCounterMgr);*/
     RKH_FILTER_OFF_ALL_SMA();
     RKH_FILTER_OFF_ALL_SIGNALS();
 }
@@ -57,7 +56,7 @@ main(int argc, char *argv[])
 
     RKH_TRC_OPEN();
     LightMgr_ctor();
-    RKH_SMA_ACTIVATE(pulseCounterMgr, qsto, QSTO_SIZE, 0, 0);
+    RKH_SMA_ACTIVATE(lightMgr, qsto, QSTO_SIZE, 0, 0);
     rkh_fwk_enter();
     RKH_TRC_CLOSE();
 
