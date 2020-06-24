@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_NebzkLM4EeqMn8ofXkE-PA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event evSwitch&#xA;operation startCycle()" name="Mode">
+  <sgraph:Statechart xmi:id="_NebzkLM4EeqMn8ofXkE-PA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event evMode&#xA;operation startCycle()" name="Mode">
     <regions xmi:id="_NedBs7M4EeqMn8ofXkE-PA" name="Mode">
       <vertices xsi:type="sgraph:Entry" xmi:id="_NeeP0bM4EeqMn8ofXkE-PA">
         <outgoingTransitions xmi:id="_NegFA7M4EeqMn8ofXkE-PA" target="_Nee267M4EeqMn8ofXkE-PA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_Nee267M4EeqMn8ofXkE-PA" specification="entry / startCycle()" name="OneCycle" incomingTransitions="_NegFA7M4EeqMn8ofXkE-PA _bPxcgLM4EeqMn8ofXkE-PA">
-        <outgoingTransitions xmi:id="_ahPikLM4EeqMn8ofXkE-PA" specification="evSwitch" target="_Xzm3oLM4EeqMn8ofXkE-PA"/>
+        <outgoingTransitions xmi:id="_ahPikLM4EeqMn8ofXkE-PA" specification="evMode" target="_Xzm3oLM4EeqMn8ofXkE-PA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_Xzm3oLM4EeqMn8ofXkE-PA" specification="" name="Cycled" incomingTransitions="_ahPikLM4EeqMn8ofXkE-PA">
-        <outgoingTransitions xmi:id="_bPxcgLM4EeqMn8ofXkE-PA" specification="evSwitch" target="_Nee267M4EeqMn8ofXkE-PA"/>
+        <outgoingTransitions xmi:id="_bPxcgLM4EeqMn8ofXkE-PA" specification="evMode" target="_Nee267M4EeqMn8ofXkE-PA"/>
       </vertices>
     </regions>
   </sgraph:Statechart>

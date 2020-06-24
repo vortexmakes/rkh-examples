@@ -57,42 +57,37 @@
 #include "events.h"
 #include "bsp.h"
 #include "rkh.h"
-#include "trace_io_cfg.h"
 #include "rkhfwk_dynevt.h"
-#include "rkhfwk_evtpool.h"
+#include "trace_io_cfg.h"
 
 /* ----------------------------- Local macros ------------------------------ */
 /* ------------------------------- Constants ------------------------------- */
 #define ESC                         0x1B
 #define kbmap(c)                    ((c) - '0')
-#define SIZEOF_EP0STO               64
-#define SIZEOF_EP0_BLOCK            sizeof(StatusEvt)
+static RKH_ROM_STATIC_EVENT(evStartObj, evStart);
+static RKH_ROM_STATIC_EVENT(evModeObj, evMode);
+static RKH_ROM_STATIC_EVENT(evRateObj, evRate);
 
 /* ---------------------------- Local data types --------------------------- */
 /* ---------------------------- Global variables --------------------------- */
 /* ---------------------------- Local variables ---------------------------- */
-static uint8_t ep0sto[SIZEOF_EP0STO];
-
 /* ----------------------- Local function prototypes ----------------------- */
 /* ---------------------------- Local functions ---------------------------- */
 static void
 printBanner(void)
 {
-    printf("Parameterized state machines\n\n");
+    printf("State machine with orthogonal regions\n\n");
     printf("RKH version      = %s\n", RKH_RELEASE);
     printf("Port version     = %s\n", rkhport_get_version());
     printf("Port description = %s\n\n", rkhport_get_desc());
     printf("Description: \n\n"
            "The goal of this demo application is to show how to \n"
-           "represent a parameterized state machine using the RKH framework.\n"
-           "This kind of state machine could be thought as an array of \n"
-           "state machines.\n\n");
-    printf("1.- Press 'a' to active pulse counter 0\n");
-    printf("2.- Press 'b' to inactive pulse counter 0\n");
-    printf("3.- Press 'c' to active pulse counter 3\n");
-    printf("4.- Press 'd' to inactive pulse counter 3\n");
-    printf("5.- Press ESC to quit\n\n");
-
+           "represent a state machine with multiple orthogonal regions \n"
+           "using the RKH framework.\n");
+    printf("1.- Press 'a' to change light sequence mode\n");
+    printf("2.- Press 'b' to change rate of switch on and off the light\n");
+    printf("3.- Press 'c' to start a cycle in OneCycle mode\n");
+    printf("4.- Press ESC to quit\n\n");
 }
 
 /* ---------------------------- Global functions --------------------------- */
@@ -101,43 +96,24 @@ bsp_init(int argc, char *argv[])
 {
     printBanner();
     trace_io_setConfig(argc, argv);
-    rkh_dynEvt_init();
-    rkh_fwk_registerEvtPool(ep0sto, SIZEOF_EP0STO, SIZEOF_EP0_BLOCK);
 }
 
 void
 bsp_keyParser(int c)
 {
-    StatusEvt *statusEvt;
-
-    switch(c)
+    switch (c)
     {
         case ESC:
             rkhport_fwk_stop();
             break;
         case 'a':
-            statusEvt = RKH_ALLOC_EVT(StatusEvt, evActive, pulseCounterMgr);
-            statusEvt->id = 0; /* to SM component 0 */
-            RKH_SMA_POST_FIFO(pulseCounterMgr, 
-                              RKH_UPCAST(RKH_EVT_T, statusEvt), NULL);
+            RKH_SMA_POST_FIFO(lightMgr, &evModeObj, NULL);
             break;
         case 'b':
-            statusEvt = RKH_ALLOC_EVT(StatusEvt, evInactive, pulseCounterMgr);
-            statusEvt->id = 0; /* to SM component 0 */
-            RKH_SMA_POST_FIFO(pulseCounterMgr, 
-                              RKH_UPCAST(RKH_EVT_T, statusEvt), NULL);
+            RKH_SMA_POST_FIFO(lightMgr, &evRateObj, NULL);
             break;
         case 'c':
-            statusEvt = RKH_ALLOC_EVT(StatusEvt, evActive, pulseCounterMgr);
-            statusEvt->id = NUM_PULSE_COUNTERS - 1;
-            RKH_SMA_POST_FIFO(pulseCounterMgr, 
-                              RKH_UPCAST(RKH_EVT_T, statusEvt), NULL);
-            break;
-        case 'd':
-            statusEvt = RKH_ALLOC_EVT(StatusEvt, evInactive, pulseCounterMgr);
-            statusEvt->id = NUM_PULSE_COUNTERS - 1;
-            RKH_SMA_POST_FIFO(pulseCounterMgr, 
-                              RKH_UPCAST(RKH_EVT_T, statusEvt), NULL);
+            RKH_SMA_POST_FIFO(lightMgr, &evStartObj, NULL);
             break;
         default:
             break;
@@ -147,13 +123,6 @@ bsp_keyParser(int c)
 void
 bsp_timeTick(void)
 {
-}
-
-void 
-bsp_register(int pulseCounterId, uint32_t nPulses)
-{
-    printf("PulseCounter %d detected %d pulses\n", pulseCounterId,
-                                                   nPulses);
 }
 
 /* ------------------------------ File footer ------------------------------ */

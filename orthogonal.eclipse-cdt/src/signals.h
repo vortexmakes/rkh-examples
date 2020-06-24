@@ -31,7 +31,11 @@ typedef enum Signals Signals;
 enum Signals
 {
     evStart,
-    evSwitch
+    evMode,
+    evRate,
+    evTout0,
+    evTout1,
+    evTout2
 };
 
 /* ------------------------------- Data types ------------------------------ */

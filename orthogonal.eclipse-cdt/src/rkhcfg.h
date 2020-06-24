@@ -218,7 +218,7 @@
  *	If the #RKH_CFG_SMA_PSEUDOSTATE_EN is set to 1, the RKH allows
  *	pseudostates usage.
  */
-#define RKH_CFG_SMA_PSEUDOSTATE_EN      RKH_DISABLED
+#define RKH_CFG_SMA_PSEUDOSTATE_EN      RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_SMA_DEEP_HIST_EN and #RKH_CFG_SMA_PSEUDOSTATE_EN are
@@ -236,7 +236,7 @@
  *	If the #RKH_CFG_SMA_CHOICE_EN and #RKH_CFG_SMA_PSEUDOSTATE_EN are set to
  *	1, the RKH allows choice pseudostate usage.
  */
-#define RKH_CFG_SMA_CHOICE_EN           RKH_DISABLED
+#define RKH_CFG_SMA_CHOICE_EN           RKH_ENABLED
 
 /**
  *	If the #RKH_CFG_SMA_CONDITIONAL_EN and #RKH_CFG_SMA_PSEUDOSTATE_EN are
@@ -368,7 +368,7 @@
  *  \range
  *  \default    RKH_DISABLED
  */
-#define RKH_CFG_SMA_VFUNCT_EN           RKH_DISABLED
+#define RKH_CFG_SMA_VFUNCT_EN           RKH_ENABLED
 
 /**
  *  \brief
@@ -640,7 +640,7 @@
  *	manner.
  *	See rkh_rq_put_lifo() function.
  */
-#define RKH_CFG_QUE_PUT_LIFO_EN          RKH_DISABLED
+#define RKH_CFG_QUE_PUT_LIFO_EN          RKH_ENABLED
 
 /* --- Configuration options related to fixed-sized memory block facility - */
 

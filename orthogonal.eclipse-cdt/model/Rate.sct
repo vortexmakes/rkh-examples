@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_THva4LM3EeqMn8ofXkE-PA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event evSwitch" name="Rate">
+  <sgraph:Statechart xmi:id="_THva4LM3EeqMn8ofXkE-PA" specification="@EventDriven&#xA;// Use the event driven execution model.&#xA;// Runs a run-to-completion step&#xA;// each time an event is raised.&#xA;// Switch to cycle based behavior&#xA;// by specifying '@CycleBased(200)'&#xA;// instead.&#xA;&#xA;@ChildFirstExecution&#xA;// In composite states, execute&#xA;// child states first.&#xA;// @ParentFirstExecution does the opposite.&#xA;&#xA;interface:&#xA;in event evRate" name="Rate">
     <regions xmi:id="_THx3ILM3EeqMn8ofXkE-PA" name="Rate">
       <vertices xsi:type="sgraph:Entry" xmi:id="_TH2vobM3EeqMn8ofXkE-PA">
         <outgoingTransitions xmi:id="_TH6aALM3EeqMn8ofXkE-PA" target="_TH39xLM3EeqMn8ofXkE-PA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_TH39xLM3EeqMn8ofXkE-PA" name="Steady" incomingTransitions="_TH6aALM3EeqMn8ofXkE-PA _CeTG8LM4EeqMn8ofXkE-PA">
-        <outgoingTransitions xmi:id="_0P-nELM3EeqMn8ofXkE-PA" specification="evSwitch" target="_c4gKULM3EeqMn8ofXkE-PA"/>
+        <outgoingTransitions xmi:id="_0P-nELM3EeqMn8ofXkE-PA" specification="evRate" target="_c4gKULM3EeqMn8ofXkE-PA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_c4gKULM3EeqMn8ofXkE-PA" name="FlashSlowly" incomingTransitions="_0P-nELM3EeqMn8ofXkE-PA">
-        <outgoingTransitions xmi:id="_3svB0LM3EeqMn8ofXkE-PA" specification="evSwitch" target="_gxWrMLM3EeqMn8ofXkE-PA"/>
+        <outgoingTransitions xmi:id="_3svB0LM3EeqMn8ofXkE-PA" specification="evRate" target="_gxWrMLM3EeqMn8ofXkE-PA"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_gxWrMLM3EeqMn8ofXkE-PA" name="FlashQuickly" incomingTransitions="_3svB0LM3EeqMn8ofXkE-PA">
-        <outgoingTransitions xmi:id="_CeTG8LM4EeqMn8ofXkE-PA" specification="evSwitch" target="_TH39xLM3EeqMn8ofXkE-PA"/>
+        <outgoingTransitions xmi:id="_CeTG8LM4EeqMn8ofXkE-PA" specification="evRate" target="_TH39xLM3EeqMn8ofXkE-PA"/>
       </vertices>
     </regions>
   </sgraph:Statechart>

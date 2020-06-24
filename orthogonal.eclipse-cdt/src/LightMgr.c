@@ -28,8 +28,6 @@
 #include "priorities.h"
 #include "bsp.h"
 #include "LightMgr.h"
-#include "Mode.h"
-#include "Rate.h"
 
 /* ----------------------------- Local macros ------------------------------ */
 RKH_MODULE_NAME(LightMgr)
@@ -51,6 +49,8 @@ RKH_DCLR_BASIC_STATE Rate_Steady, Rate_FlashSlowly, Rate_FlashQuickly;
 
 /* ........................ Declares effect actions ........................ */
 static void LightMgr_init(LightMgr *const me, RKH_EVT_T *pe);
+static void Mode_init(Mode *const me, RKH_EVT_T *pe);
+static void Rate_init(Rate *const me, RKH_EVT_T *pe);
 
 /* ......................... Declares entry actions ........................ */
 static void LightMgr_enRed(LightMgr *const me);
@@ -83,6 +83,11 @@ RKH_CREATE_TRANS_TABLE(LightMgr_Green)
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(LightMgr_WaitToStart, NULL, NULL, RKH_ROOT, NULL);
+RKH_CREATE_TRANS_TABLE(LightMgr_WaitToStart)
+	RKH_TRREG(evStart, NULL, NULL, &LightMgr_Red),
+RKH_END_TRANS_TABLE
+
+RKH_CREATE_CHOICE_STATE(LightMgr_C0);
 RKH_CREATE_BRANCH_TABLE(LightMgr_C0)
 	RKH_BRANCH(LightMgr_isInOneCycle, NULL, &LightMgr_Red),
 	RKH_BRANCH(ELSE, NULL, &LightMgr_WaitToStart),
@@ -90,27 +95,27 @@ RKH_END_BRANCH_TABLE
 
 RKH_CREATE_BASIC_STATE(Mode_OneCycle, Mode_enOneCycle, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(Mode_OneCycle)
-	RKH_TRREG(evSwitch, NULL, NULL, &Mode_Cycled),
+	RKH_TRREG(evMode, NULL, NULL, &Mode_Cycled),
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(Mode_Cycled, NULL, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(Mode_Cycled)
-	RKH_TRREG(evSwitch, NULL, NULL, &Mode_OneCycle),
+	RKH_TRREG(evMode, NULL, NULL, &Mode_OneCycle),
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(Rate_Steady, NULL, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(Rate_Steady)
-	RKH_TRREG(evSwitch, NULL, NULL, &Rate_FlashSlowly),
+	RKH_TRREG(evRate, NULL, NULL, &Rate_FlashSlowly),
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(Rate_FlashSlowly, NULL, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(Rate_FlashSlowly)
-	RKH_TRREG(evSwitch, NULL, NULL, &Rate_FlashQuickly),
+	RKH_TRREG(evRate, NULL, NULL, &Rate_FlashQuickly),
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(Rate_FlashQuickly, NULL, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(Rate_FlashQuickly)
-	RKH_TRREG(evSwitch, NULL, NULL, &Rate_Steady),
+	RKH_TRREG(evRate, NULL, NULL, &Rate_Steady),
 RKH_END_TRANS_TABLE
 
 /* ............................. Active object ............................. */
@@ -126,12 +131,13 @@ struct Rate
 
 struct LightMgr
 {
-    RKH_SMA_T sma;  /* base class  */
+    RKH_SMA_T sma;      /* base class  */
+    RKHSmaVtbl vtbl;    /* virtual table */
     RKHTmEvt tmEvtObj0;
     RKHTmEvt tmEvtObj1;
     RKHTmEvt tmEvtObj2;
-    Mode mode;      /* orthogonal region */ 
-    Rate rate;      /* orthogonal region */ 
+    Mode mode;          /* orthogonal region */ 
+    Rate rate;          /* orthogonal region */ 
 };
 
 RKH_SMA_CREATE(LightMgr, 
@@ -162,6 +168,17 @@ RKH_SM_CONST_CREATE(mode,           /* name of parameterized SM */
 /* ---------------------------- Local variables ---------------------------- */
 /* ----------------------- Local function prototypes ----------------------- */
 /* ---------------------------- Local functions ---------------------------- */
+static void
+dispatch(RKH_SMA_T *me, void *arg)
+{
+    LightMgr *realMe;
+
+    realMe = RKH_DOWNCAST(LightMgr, me);
+    rkh_sm_dispatch(RKH_UPCAST(RKH_SM_T, realMe), (RKH_EVT_T *)arg);
+    rkh_sm_dispatch(RKH_UPCAST(RKH_SM_T, &realMe->mode), (RKH_EVT_T *)arg);
+    rkh_sm_dispatch(RKH_UPCAST(RKH_SM_T, &realMe->rate), (RKH_EVT_T *)arg);
+}
+
 /* ............................ Effect actions ............................. */
 static void 
 LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
@@ -178,10 +195,19 @@ LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 	RKH_TR_FWK_TIMER(&me->tmEvtObj1.tmr);
 	RKH_TR_FWK_TIMER(&me->tmEvtObj2.tmr);
 
-    rkh_sm_init(RKH_UPCAST(RKH_SM_T, me->mode));
-    rkh_sm_init(RKH_UPCAST(RKH_SM_T, me->rate));
+    rkh_sm_init(RKH_UPCAST(RKH_SM_T, &me->mode));
+    rkh_sm_init(RKH_UPCAST(RKH_SM_T, &me->rate));
 }
 
+static void 
+Mode_init(Mode *const me, RKH_EVT_T *pe)
+{
+}
+
+static void 
+Rate_init(Rate *const me, RKH_EVT_T *pe)
+{
+}
 
 /* ............................. Entry actions ............................. */
 static void 
@@ -246,8 +272,8 @@ LightMgr_exGreen(LightMgr *const me)
 static rbool_t 
 LightMgr_isInOneCycle(LightMgr *const me, RKH_EVT_T *pe)
 {
-    /*isInOneCycle*/
-	return ((isInOneCycle() == false)) ? true : false;
+    /*isInOneCycle()*/
+	return ((RKH_UPCAST(RKH_SM_T, me)->state == false)) ? true : false;
 }
 
 /* ---------------------------- Global functions --------------------------- */
@@ -256,17 +282,19 @@ LightMgr_ctor(void)
 {
     LightMgr *me = RKH_DOWNCAST(LightMgr, lightMgr);
 
-    RKH_SM_INIT(me->rate,   /* Instance of SM component */
-                rate,       /* Complete next parameters with the */
-                1,          /* same values used in the macro */
-                HCAL,       /* RKH_SM_CONST_CREATE() */
+    me->vtbl = rkhSmaVtbl;      /* Initialize AO's virtual table and */
+    me->vtbl.task = dispatch;   /* override its dispatch operation */
+    RKH_SM_INIT(&me->rate,      /* Instance of SM component */
+                rate,           /* Complete next parameters with the */
+                1,              /* same values used in the macro */
+                HCAL,           /* RKH_SM_CONST_CREATE() */
                 &Rate_Steady,
                 Rate_init,
                 NULL);
-    RKH_SM_INIT(me->mode,   /* Instance of SM component */
-                mode,       /* Complete next parameters with the */
-                2,          /* same values used in the macro */
-                HCAL,       /* RKH_SM_CONST_CREATE() */
+    RKH_SM_INIT(&me->mode,      /* Instance of SM component */
+                mode,           /* Complete next parameters with the */
+                2,              /* same values used in the macro */
+                HCAL,           /* RKH_SM_CONST_CREATE() */
                 &Mode_OneCycle,
                 Mode_init,
                 NULL);
