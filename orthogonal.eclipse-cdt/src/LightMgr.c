@@ -207,6 +207,7 @@ LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 static void 
 Mode_init(Mode *const me, RKH_EVT_T *pe)
 {
+    RKH_TR_FWK_OBJ_NAME(me, "Mode");
 	RKH_TR_FWK_STATE(me, &Mode_OneCycle);
 	RKH_TR_FWK_STATE(me, &Mode_Cycled);
 	RKH_TR_FWK_SIG(evMode);
@@ -215,6 +216,7 @@ Mode_init(Mode *const me, RKH_EVT_T *pe)
 static void 
 Rate_init(Rate *const me, RKH_EVT_T *pe)
 {
+    RKH_TR_FWK_OBJ_NAME(me, "Rate");
 	RKH_TR_FWK_STATE(me, &Rate_Steady);
 	RKH_TR_FWK_STATE(me, &Rate_FlashSlowly);
 	RKH_TR_FWK_STATE(me, &Rate_FlashQuickly);
