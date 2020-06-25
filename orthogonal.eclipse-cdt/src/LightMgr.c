@@ -56,7 +56,7 @@ static void Rate_init(Rate *const me, RKH_EVT_T *pe);
 static void LightMgr_enRed(LightMgr *const me);
 static void LightMgr_enYelow(LightMgr *const me);
 static void LightMgr_enGreen(LightMgr *const me);
-static void Mode_enOneCycle(Mode *const me);
+static void Mode_enCycle(Mode *const me);
 
 /* ......................... Declares exit actions ......................... */
 static void LightMgr_exRed(LightMgr *const me);
@@ -93,12 +93,12 @@ RKH_CREATE_BRANCH_TABLE(LightMgr_C0)
 	RKH_BRANCH(ELSE, NULL, &LightMgr_WaitToStart),
 RKH_END_BRANCH_TABLE
 
-RKH_CREATE_BASIC_STATE(Mode_OneCycle, Mode_enOneCycle, NULL, RKH_ROOT, NULL);
+RKH_CREATE_BASIC_STATE(Mode_OneCycle, NULL, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(Mode_OneCycle)
 	RKH_TRREG(evMode, NULL, NULL, &Mode_Cycled),
 RKH_END_TRANS_TABLE
 
-RKH_CREATE_BASIC_STATE(Mode_Cycled, NULL, NULL, RKH_ROOT, NULL);
+RKH_CREATE_BASIC_STATE(Mode_Cycled, Mode_enCycle, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(Mode_Cycled)
 	RKH_TRREG(evMode, NULL, NULL, &Mode_OneCycle),
 RKH_END_TRANS_TABLE
@@ -163,6 +163,8 @@ RKH_SM_CONST_CREATE(mode,           /* name of parameterized SM */
                     NULL);
 
 /* ------------------------------- Constants ------------------------------- */
+static RKH_ROM_STATIC_EVENT(evStartObj, evStart);
+
 /* ---------------------------- Local data types --------------------------- */
 /* ---------------------------- Global variables --------------------------- */
 /* ---------------------------- Local variables ---------------------------- */
@@ -191,6 +193,9 @@ LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 	RKH_TR_FWK_STATE(me, &LightMgr_Green);
 	RKH_TR_FWK_STATE(me, &LightMgr_WaitToStart);
 	RKH_TR_FWK_SIG(evStart);
+	RKH_TR_FWK_SIG(evTout0);
+	RKH_TR_FWK_SIG(evTout1);
+	RKH_TR_FWK_SIG(evTout2);
 	RKH_TR_FWK_TIMER(&me->tmEvtObj0.tmr);
 	RKH_TR_FWK_TIMER(&me->tmEvtObj1.tmr);
 	RKH_TR_FWK_TIMER(&me->tmEvtObj2.tmr);
@@ -202,11 +207,18 @@ LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 static void 
 Mode_init(Mode *const me, RKH_EVT_T *pe)
 {
+	RKH_TR_FWK_STATE(me, &Mode_OneCycle);
+	RKH_TR_FWK_STATE(me, &Mode_Cycled);
+	RKH_TR_FWK_SIG(evMode);
 }
 
 static void 
 Rate_init(Rate *const me, RKH_EVT_T *pe)
 {
+	RKH_TR_FWK_STATE(me, &Rate_Steady);
+	RKH_TR_FWK_STATE(me, &Rate_FlashSlowly);
+	RKH_TR_FWK_STATE(me, &Rate_FlashQuickly);
+	RKH_TR_FWK_SIG(evRate);
 }
 
 /* ............................. Entry actions ............................. */
@@ -219,6 +231,7 @@ LightMgr_enRed(LightMgr *const me)
                  &me->tmEvtObj0), 
                  NULL);
 	RKH_TMR_ONESHOT(&me->tmEvtObj0.tmr, RKH_UPCAST(RKH_SMA_T, me), WaitTime0);
+    bsp_turnOnRedLight();
 }
 
 static void 
@@ -230,6 +243,7 @@ LightMgr_enYelow(LightMgr *const me)
                  &me->tmEvtObj1), 
                  NULL);
 	RKH_TMR_ONESHOT(&me->tmEvtObj1.tmr, RKH_UPCAST(RKH_SMA_T, me), WaitTime1);
+    bsp_turnOnYellowLight();
 }
 
 static void 
@@ -241,12 +255,14 @@ LightMgr_enGreen(LightMgr *const me)
                  &me->tmEvtObj2), 
                  NULL);
 	RKH_TMR_ONESHOT(&me->tmEvtObj2.tmr, RKH_UPCAST(RKH_SMA_T, me), WaitTime2);
+    bsp_turnOnGreenLight();
 }
 
 void 
-Mode_enOneCycle(Mode *const me)
+Mode_enCycle(Mode *const me)
 {
 	/*startCycle();*/
+    RKH_SMA_POST_LIFO(lightMgr, &evStartObj, NULL);
 }
 
 /* ............................. Exit actions .............................. */
@@ -273,7 +289,8 @@ static rbool_t
 LightMgr_isInOneCycle(LightMgr *const me, RKH_EVT_T *pe)
 {
     /*isInOneCycle()*/
-	return ((RKH_UPCAST(RKH_SM_T, me)->state == false)) ? true : false;
+	return (RKH_UPCAST(RKH_SM_T, &me->mode)->state == &Mode_OneCycle) ? 
+            false : true;
 }
 
 /* ---------------------------- Global functions --------------------------- */
@@ -284,6 +301,7 @@ LightMgr_ctor(void)
 
     me->vtbl = rkhSmaVtbl;      /* Initialize AO's virtual table and */
     me->vtbl.task = dispatch;   /* override its dispatch operation */
+    rkh_sma_ctor(RKH_UPCAST(RKH_SMA_T, me), &me->vtbl);
     RKH_SM_INIT(&me->rate,      /* Instance of SM component */
                 rate,           /* Complete next parameters with the */
                 1,              /* same values used in the macro */

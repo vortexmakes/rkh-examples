@@ -125,4 +125,22 @@ bsp_timeTick(void)
 {
 }
 
+void
+bsp_turnOnRedLight(void)
+{
+    printf("Set red light\n");
+}
+
+void 
+bsp_turnOnYellowLight(void)
+{
+    printf("Set yellow light\n");
+}
+
+void 
+bsp_turnOnGreenLight(void)
+{
+    printf("Set green light\n");
+}
+
 /* ------------------------------ File footer ------------------------------ */
