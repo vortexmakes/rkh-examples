@@ -1,4 +1,4 @@
-# Using state machines with orthogonal regions with RKH framework on Eclipse
+# Using state machines with orthogonal regions by using RKH framework on Eclipse
 
 ## Overview
 This example shows how to handle a state machine with multiple orthogonal 
@@ -9,6 +9,7 @@ state or a state machine.
 It contains states and transitions. The semantics of orthogonal regions is 
 that they are 'logically concurrent' or independent. This means that in some 
 sense they execute simultaneously. 
+
 In this context, it means that the semantics of the system are not dependent 
 upon which region processes the event first. It also implies that when regions 
 are active, each active region must receive, in some sense, its own copy of 
@@ -28,8 +29,12 @@ as appropriate.
 ## 1\. Description
 ### 1.1 Behavior and structure models
 The behavior of Orthogonal example is defined by a statechart that looks as 
-follows. The diagram below consists of three regions Light, Mode and Rate. 
-These are independent aspects; Light (Red, Yellow, Green, and WaitStart), 
+follows. 
+
+![orthogonal-state-machine](images/orthogonal.png)
+
+The diagram below consists of three regions Light, Mode and Rate, which are 
+independent aspects of the system; Light (Red, Yellow, Green, and WaitStart), 
 Mode (OneCycle, and Cycled) and Rate (Steady, FlashSlowly, and FlashQuickly).
 
 Note that the isInOneCycle() guard causes Light to depend somewhat on Mode, 
@@ -39,8 +44,6 @@ On the other hand, there is another kind of dependency between Light and Mode.
 When Cycled state is entered a evStart event is sent to itself, so it will be 
 received by all regions. This pattern is useful to propagated events between 
 regions.
-
-![orthogonal-state-machine](images/orthogonal.png)
 
 ### 1.2 PulseCounterMgr and PulseCounter types
 The following code fragment shows the `PulseCounter` and `PulseCounterMgr` 
