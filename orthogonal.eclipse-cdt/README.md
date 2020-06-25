@@ -1,13 +1,20 @@
-# Using parameterized state machines with RKH framework on Eclipse
+# Using state machines with orthogonal regions with RKH framework on Eclipse
 
 ## Overview
-This example shows how to handle a parameterized state machine from an 
-active object by using the RKH framework, a digital pulse counter will be used 
-as an example. It validates and counts digital pulses from N digital signals 
-of the same type, whose waveforms and its parameters are shown below.
+This example shows how to handle a state machine with multiple orthogonal 
+regions from an active object by using the RKH framework.
 
-![pulse-counter-waveform](images/waveform.png)
-    
+A region as known as AND-state is an orthogonal part of either a composite 
+state or a state machine. 
+It contains states and transitions. The semantics of orthogonal regions is 
+that they are 'logically concurrent' or independent. This means that in some 
+sense they execute simultaneously. 
+In this context, it means that the semantics of the system are not dependent 
+upon which region processes the event first. It also implies that when regions 
+are active, each active region must receive, in some sense, its own copy of 
+the event sent to the state machine, and is free to act on it or discard it 
+as appropriate.
+
 ## This tutorial contains:
 
 [1\. Description](#1-description)
@@ -20,40 +27,20 @@ of the same type, whose waveforms and its parameters are shown below.
 
 ## 1\. Description
 ### 1.1 Behavior and structure models
-The behavior of the pulse counters are modeled as statecharts, but they are 
-not active objects. There is no UML notation to represent a parameterized 
-state machine, so it could be drawn such as that of figure below.
+The behavior of Orthogonal example is defined by a statechart that looks as 
+follows. The diagram below consists of three regions Light, Mode and Rate. 
+These are independent aspects; Light (Red, Yellow, Green, and WaitStart), 
+Mode (OneCycle, and Cycled) and Rate (Steady, FlashSlowly, and FlashQuickly).
 
-![pulse-counter-state-machine](images/pulsecounter.png)
+Note that the isInOneCycle() guard causes Light to depend somewhat on Mode, 
+and indeed to know something about the inner states of Mode.
 
-Instead, pulse counters called `PulseCounter` are components of a container 
-active object called `PulseCounterMgr`. The container is entirely responsible 
-for its components. In particular, it must explicitly trigger initial 
-transitions in all components as well as explicitly dispatch events to its 
-components. They share both event queue and priority level of its container. 
-The following diagram shows the relation between the container and its 
-components and their attributes as well. 
+On the other hand, there is another kind of dependency between Light and Mode.
+When Cycled state is entered a evStart event is sent to itself, so it will be 
+received by all regions. This pattern is useful to propagated events between 
+regions.
 
-![structure](images/structure.png)
-
-`PulseCounterMgr` communicates with `PulseCounters` synchronously by directly 
-dispatching events to them, i.e. a `PulseCounter` processes events in the 
-execution context of its container. On the other hand, `PulseCounters` 
-communicates with its own active object and with the rest asynchronously by 
-posting events to their event queues. It is important to mention that a state 
-machine component cannot directly receive any event from an entity such as 
-ISR, active object or system task different from its own container. 
-
-The `PulseCounterMgr` behavior is modeled as statechart and it looks like the 
-diagram below. 
-
-![pulse-counter-mgr](images/pulsecountermgr.png)
-
-The `PulseCounterMgr` is able to forward events to the 
-corresponding `PulseCounter`, since these events carry a parameter called id 
-that allows `PulseCounterMgr` to identify the component target. The type of id 
-parameter depends on the active object implementation, for example, it might be 
-an integer or a reference to a component instance.
+![orthogonal-state-machine](images/orthogonal.png)
 
 ### 1.2 PulseCounterMgr and PulseCounter types
 The following code fragment shows the `PulseCounter` and `PulseCounterMgr` 
