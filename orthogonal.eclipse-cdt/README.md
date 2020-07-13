@@ -41,16 +41,15 @@ follows.
 ![orthogonal-state-machine](images/orthogonal.png)
 
 The diagram below consists of three regions Light, Mode and Rate, which are 
-independent aspects of a system; Light (Red, Yellow, Green, and WaitStart), 
-Mode (OneCycle, and Cycled) and Rate (Steady, FlashSlowly, and FlashQuickly).
+independent aspects of a system; Light has Red, Yellow, Green, and WaitStart 
+states, Mode has OneCycle, and Cycled states, and Rate contains Steady, 
+FlashSlowly, and FlashQuickly states.
 
 Note that isInOneCycle() guard causes Light to depend somewhat on Mode, 
-and indeed to know something about the inner states of Mode.
-
-On the other hand, there is another kind of dependency between Light and Mode.
-When Cycled state is entered an evStart event is sent to itself, so it will be 
-received by all regions. This pattern is useful to propagate events between 
-regions.
+and indeed to know something about the inner states of Mode. There is another 
+kind of dependency between Light and Mode. When Cycled state is entered an 
+evStart event is sent to itself, so it will be received by all regions. This 
+mechanism is useful to propagate events between regions.
 
 ### 1.2 PulseCounterMgr and PulseCounter types
 The following code fragment shows the `PulseCounter` and `PulseCounterMgr` 
