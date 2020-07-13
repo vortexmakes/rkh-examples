@@ -2,19 +2,26 @@
 
 ## Overview
 This example shows how to handle a state machine with multiple orthogonal 
-regions from an active object by using the RKH framework.
+regions from an active object by using the RKH framework. The following 
+diagram shows a state machine with orthogonal regions.
+
+![state-machine-with-orthogonal-regions](images/sm-orthogonal.png)
 
 A region as known as AND-state is an orthogonal part of either a composite 
-state or a state machine. 
-It contains states and transitions. The semantics of orthogonal regions is 
-that they are 'logically concurrent' or independent. This means that in some 
-sense they execute simultaneously. 
+state or a state machine. It contains vertexes (states and pseudostates) 
+and transitions. The semantics of orthogonal regions is that they are 
+*logically concurrent*. This means that in some sense they execute 
+simultaneously. It implies that when regions are active, each active 
+region must receive, in some sense, its own copy of the event sent to the 
+state machine, and is free to act on it or discard it as appropriate.
 
-In this context, it means that the semantics of the system are not dependent 
-upon which region processes the event first. It also implies that when regions 
-are active, each active region must receive, in some sense, its own copy of 
-the event sent to the state machine, and is free to act on it or discard it 
-as appropriate.
+Even though orthogonal regions are useful for specifying logical 
+independence and concurrency in state machines, they are relatively 
+complex to implement and they consume extra CPU cycles to achieve the 
+logical concunrrency.
+
+See [Design Patterns for Embedded Systems in C](https://www.elsevier.com/books/design-patterns-for-embedded-systems-in-c/douglass/978-1-85617-707-8) 
+by Bruce Douglass for more information about orthogonal regions.
 
 ## This tutorial contains:
 
@@ -34,15 +41,15 @@ follows.
 ![orthogonal-state-machine](images/orthogonal.png)
 
 The diagram below consists of three regions Light, Mode and Rate, which are 
-independent aspects of the system; Light (Red, Yellow, Green, and WaitStart), 
+independent aspects of a system; Light (Red, Yellow, Green, and WaitStart), 
 Mode (OneCycle, and Cycled) and Rate (Steady, FlashSlowly, and FlashQuickly).
 
-Note that the isInOneCycle() guard causes Light to depend somewhat on Mode, 
+Note that isInOneCycle() guard causes Light to depend somewhat on Mode, 
 and indeed to know something about the inner states of Mode.
 
 On the other hand, there is another kind of dependency between Light and Mode.
-When Cycled state is entered a evStart event is sent to itself, so it will be 
-received by all regions. This pattern is useful to propagated events between 
+When Cycled state is entered an evStart event is sent to itself, so it will be 
+received by all regions. This pattern is useful to propagate events between 
 regions.
 
 ### 1.2 PulseCounterMgr and PulseCounter types
