@@ -51,8 +51,42 @@ kind of dependency between Light and Mode. When Cycled state is entered an
 evStart event is sent to itself, so it will be received by all regions. This 
 mechanism is useful to propagate events between regions.
 
-### 1.2 PulseCounterMgr and PulseCounter types
-The following code fragment shows the `PulseCounter` and `PulseCounterMgr` 
+Since RKH framework does not implicitely support orthogonal regions, a 
+workaround is performed to implement the state diagram shown above.
+
+En RKH las SM son ejecutadas por entidades llamadas objetos activos, donde cada 
+uno de estos posee una SM asociada. En otras palabras, el comportamiento 
+de un objecto activo está representado por la SM que tiene asociada.
+El objecto activo recibe eventos por medio de una cola de eventos y los despacha 
+de a uno por vez a su SM, es decir, una SM procesa eventos en contexto 
+del objecto activo que la contiene. 
+
+La SM mostrada arriba posee más de una región ortogonal, lo cual no es 
+soportado implicitamente por RKH, por lo tanto se realizará un workaround.
+Este básicamente consiste en representar cada una de las regiones con una SM 
+independiente, las cuales se ejecutan en contexto de un único objeto activo.
+
+Para que un objeto activo pueda despachar eventos a más de una SM, se utiliza 
+el concepto de contenedor y componentes, donde el contenedor es el objeto activo,
+cuyo comportamiento se define por una de las regiones, mientras que sus 
+componentes tienen por comportamiento las restantes regiones. Cada componente 
+representa una única región. 
+De esta manera, el contenedor despacha eventos a su propia SM y a cada una de 
+las SM de sus componentes.
+
+In other words, the container is entirely responsible for its components. In 
+particular, it must explicitly trigger initial transitions in its components 
+as well as explicitly dispatch events to them. These components share both 
+event queue and priority level of its container. The following diagram shows 
+the relationship between the container and its components. 
+
+![structure](images/structure.png)
+
+En el ejemplo en cuestión arbitrariamente la SM del contenedor representa la 
+región Light y sus componentes las regiones Mode y Rate.
+
+### 1.2 LightMgr type
+The following code fragment shows the `LightMgr` and `PulseCounterMgr` 
 types represented by means of C structures. Both types are derived from 
 framework ones. `PulseCounter` derives from `RKH_SM_T` and `PulseCounterMgr` 
 derives from `RKH_SMA_T`.

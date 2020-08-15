@@ -32,7 +32,7 @@ for its components. In particular, it must explicitly trigger initial
 transitions in all components as well as explicitly dispatch events to its 
 components. They share both event queue and priority level of its container. 
 The following diagram shows the relation between the container and its 
-components and their attributes as well. 
+components and attributes. 
 
 ![structure](images/structure.png)
 
