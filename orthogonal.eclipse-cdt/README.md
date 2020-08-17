@@ -35,7 +35,7 @@ by Bruce Douglass for more information about orthogonal regions.
 
 ## 1\. Description
 ### 1.1 Behavior and structure models
-The behavior of Orthogonal example is defined by a statechart that looks as 
+The behavior of this example is defined by a statechart that looks as 
 follows. 
 
 ![orthogonal-state-machine](images/orthogonal.png)
@@ -77,19 +77,19 @@ las SM de sus componentes.
 In other words, the container is entirely responsible for its components. In 
 particular, it must explicitly trigger initial transitions in its components 
 as well as explicitly dispatch events to them. These components share both 
-event queue and priority level of its container. The following diagram shows 
-the relationship between the container and its components. 
+event queue and priority level of its container, and they are executed in its 
+context. 
+In this example the container is called LightMgr and its components are Mode 
+and Rate. The following diagram shows their relationships. 
 
 ![structure](images/structure.png)
 
-En el ejemplo en cuestión arbitrariamente la SM del contenedor representa la 
-región Light y sus componentes las regiones Mode y Rate.
-
 ### 1.2 LightMgr type
-The following code fragment shows the `LightMgr` and `PulseCounterMgr` 
-types represented by means of C structures. Both types are derived from 
-framework ones. `PulseCounter` derives from `RKH_SM_T` and `PulseCounterMgr` 
-derives from `RKH_SMA_T`.
+The following code fragment shows the `LightMgr`, `Mode` and  `Rate` types 
+represented by means of C structures. These types are derived from framework 
+ones. `Mode` and `Rate` derive from `RKH_SM_T` and `LightMgr` derives from 
+`RKH_SMA_T`. The type `RKH_SM_T` represents state machines whereas `RKH_SMA_T` 
+represents active objects.
 
 ```c
 struct PulseCounter
