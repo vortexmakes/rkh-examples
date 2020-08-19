@@ -141,7 +141,9 @@ initialized at compile-time.
                         NULL);
 ```
 - Code fragment below shows how the `LightMgr` constructor initializes its 
-attributes at runtime
+attributes at runtime, which implies to initialize its virtual table and 
+components. A virtual table is used to dispatch events by overriding a 
+particular operation. Section 1.6 explain how to deal with it.
 ```c
 /* ---------------------------- Global functions --------------------------- */
 void
@@ -169,7 +171,7 @@ LightMgr_ctor(void)
 }
 ```
 
-### 1.4 Initializing Mode and Rate state machines
+### 1.4 Starting Mode and Rate state machines
 `LightMgr` initializes every state machine component by explicitly calling the 
 framework function `rkh_sm_init()`. It effectively triggers the topmost initial 
 transition of a state machine and then the effect action of the state 
@@ -179,20 +181,20 @@ machine's initial pseudostate is executed.
 static void 
 LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 {
-	/* init(); */
-	RKH_TR_FWK_AO(me);
-	RKH_TR_FWK_QUEUE(&RKH_UPCAST(RKH_SMA_T, me)->equeue);
-	RKH_TR_FWK_STATE(me, &LightMgr_Red);
-	RKH_TR_FWK_STATE(me, &LightMgr_Yelow);
-	RKH_TR_FWK_STATE(me, &LightMgr_Green);
-	RKH_TR_FWK_STATE(me, &LightMgr_WaitToStart);
-	RKH_TR_FWK_SIG(evStart);
-	RKH_TR_FWK_SIG(evTout0);
-	RKH_TR_FWK_SIG(evTout1);
-	RKH_TR_FWK_SIG(evTout2);
-	RKH_TR_FWK_TIMER(&me->tmEvtObj0.tmr);
-	RKH_TR_FWK_TIMER(&me->tmEvtObj1.tmr);
-	RKH_TR_FWK_TIMER(&me->tmEvtObj2.tmr);
+    /* init(); */
+    RKH_TR_FWK_AO(me);
+    RKH_TR_FWK_QUEUE(&RKH_UPCAST(RKH_SMA_T, me)->equeue);
+    RKH_TR_FWK_STATE(me, &LightMgr_Red);
+    RKH_TR_FWK_STATE(me, &LightMgr_Yelow);
+    RKH_TR_FWK_STATE(me, &LightMgr_Green);
+    RKH_TR_FWK_STATE(me, &LightMgr_WaitToStart);
+    RKH_TR_FWK_SIG(evStart);
+    RKH_TR_FWK_SIG(evTout0);
+    RKH_TR_FWK_SIG(evTout1);
+    RKH_TR_FWK_SIG(evTout2);
+    RKH_TR_FWK_TIMER(&me->tmEvtObj0.tmr);
+    RKH_TR_FWK_TIMER(&me->tmEvtObj1.tmr);
+    RKH_TR_FWK_TIMER(&me->tmEvtObj2.tmr);
 
     rkh_sm_init(RKH_UPCAST(RKH_SM_T, &me->mode));
     rkh_sm_init(RKH_UPCAST(RKH_SM_T, &me->rate));
@@ -200,15 +202,15 @@ LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 ```
 
 ### 1.6 Dispatching events
-Follow the following steps below to explicitly dispatch all received events 
-from 'LightMgr' active object to all regions
+Follow steps below to explicitly dispatch all received events from 'LightMgr' 
+active object to all regions.
+
 1. Enable option 'RKH_CFG_SMA_VFUNCT_EN' in the RKH configuration file 
 called `rkhcfg.h`
 ```c
 #define RKH_CFG_SMA_VFUNCT_EN           RKH_ENABLED
 ```
-2. Define the virtual table of `LightMgr` as an attribute of type `RKHSmaVtbl`,
-   according to 1.3 section
+2. Define the virtual table of `LightMgr` as an attribute of type `RKHSmaVtbl`
 ```c
     struct LightMgr
     {
