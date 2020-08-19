@@ -78,157 +78,172 @@ In other words, the container is entirely responsible for its components. In
 particular, it must explicitly trigger initial transitions in its components 
 as well as explicitly dispatch events to them. These components share both 
 event queue and priority level of its container, and they are executed in its 
-context. 
-In this example the container is called LightMgr and its components are Mode 
-and Rate. The following diagram shows their relationships. 
+context, it means they are passive objects.
+In this example the container is called `LightMgr` and its components are 
+`Mode` and `Rate`. The following diagram shows their relationships. 
 
 ![structure](images/structure.png)
 
-### 1.2 LightMgr type
+### 1.2 Container and component types
 The following code fragment shows the `LightMgr`, `Mode` and  `Rate` types 
 represented by means of C structures. These types are derived from framework 
-ones. `Mode` and `Rate` derive from `RKH_SM_T` and `LightMgr` derives from 
-`RKH_SMA_T`. The type `RKH_SM_T` represents state machines whereas `RKH_SMA_T` 
-represents active objects.
+ones. `Mode` and `Rate` derive from `RKH_SM_T`, which defines a state machine 
+and `LightMgr` derives from `RKH_SMA_T`, which defines an active object.
 
 ```c
-struct PulseCounter
-{
-    RKH_SM_T sm;        /* base class */
-    TimeEvt tactMin;    /* timer tactMin */
-    TimeEvt tactMax;    /* timer tactMax */
-    TimeEvt tinactMax;  /* timer tinactMax */
-    uint32_t nPulses;   /* amount of detected pulses */
-    int id;             /* identification */
-    PulseCounterMgr *thePulseCounterMgr; /* reference to its own container */
-};
-
-struct PulseCounterMgr
+struct LightMgr
 {
     RKH_SMA_T sma;      /* base class  */
-    PulseCounter pulseCounters[NUM_PULSE_COUNTERS]; /* SM components */
+    RKHSmaVtbl vtbl;    /* virtual table */
+    RKHTmEvt tmEvtObj0; /* timer tmEvtObj0 */
+    RKHTmEvt tmEvtObj1; /* timer tmEvtObj1 */
+    RKHTmEvt tmEvtObj2; /* timer tmEvtObj2 */
+    Mode mode;          /* orthogonal region */ 
+    Rate rate;          /* orthogonal region */ 
+};
+
+struct Mode
+{
+    RKH_SM_T sm;        /* base class */
+};
+
+struct Rate
+{
+    RKH_SM_T sm;        /* base class */
 };
 ```
-### 1.3 Initializing PulseCounter instances
-Code fragment below shows how the `PulseCounterMgr` constructor initializes the 
-components' attributes.
+### 1.3 Initializing container and its components
+The `LightMgr` active object is initialized in two stages, the first one is at 
+compile-time (static), and the other one is at runtime (dynamic).
+- Code fragment below shows how `LightMgr` (1) and its components (2, 3) are 
+initialized at compile-time.
+```c
+(1) RKH_SMA_CREATE(LightMgr,            /* Active object type */
+                   lightMgr,            /* Active object instance */
+                   LightMgrPrio,        /* Active object priority */
+                   HCAL,                /* It is a hierarchical SM */
+                   &LightMgr_Red,       /* Default state of Light region */
+                   LightMgr_init,       /* Topmost initial action of Light */
+                   NULL);
+    RKH_SMA_DEF_PTR(lightMgr);
 
+(2) RKH_SM_CONST_CREATE(rate,           /* Name of Rate SM */
+                        1,
+                        HCAL,           /* It is a hierarchical SM */
+                        &Rate_Steady,   /* Default state of Rate region */
+                        Rate_init,      /* Topmost initial action of Rate */
+                        NULL);
+(3) RKH_SM_CONST_CREATE(mode,           /* Name of Mode SM */
+                        2,
+                        HCAL,           /* It is a hierarchical SM */
+                        &Mode_OneCycle, /* Default state of Mode region */
+                        Mode_init,      /* Topmost initial action of Mode*/
+                        NULL);
+```
+- Code fragment below shows how the `LightMgr` constructor initializes its 
+attributes at runtime
 ```c
 /* ---------------------------- Global functions --------------------------- */
 void
-PulseCounterMgr_ctor(void)
+LightMgr_ctor(void)
 {
-    int i;
-    PulseCounterMgr *me = RKH_DOWNCAST(PulseCounterMgr, pulseCounterMgr);
-    PulseCounter *pulseCtr;
+    LightMgr *me = RKH_DOWNCAST(LightMgr, lightMgr);
 
-    for (i = 0; i < NUM_PULSE_COUNTERS; ++i)
-    {
-        pulseCtr = &me->pulseCounters[i];
-        pulseCtr->id = i;
-        pulseCtr->nPulses = 0;
-        pulseCtr->tactMin.id = i;
-        pulseCtr->tactMax.id = i;
-        pulseCtr->tinactMax.id = i;
-        pulseCtr->thePulseCounterMgr = me;
-        RKH_SM_INIT(pulseCtr,     /* Instance of SM component */
-                    pulseCounter, /* Complete next parameters with the */
-                    1,            /* same values used in the macro */
-                    HCAL,         /* RKH_SM_CONST_CREATE() */
-                    &PulseCounter_Idle,
-                    PulseCounter_init,
-                    NULL);
-    }
+    me->vtbl = rkhSmaVtbl;      /* Initialize AO's virtual table and */
+    me->vtbl.task = dispatch;   /* override its dispatch operation */
+    rkh_sma_ctor(RKH_UPCAST(RKH_SMA_T, me), &me->vtbl);
+    RKH_SM_INIT(&me->rate,      /* Instance of SM component */
+                rate,           /* Complete next parameters with the */
+                1,              /* same values used in the macro */
+                HCAL,           /* RKH_SM_CONST_CREATE() */
+                &Rate_Steady,
+                Rate_init,
+                NULL);
+    RKH_SM_INIT(&me->mode,      /* Instance of SM component */
+                mode,           /* Complete next parameters with the */
+                2,              /* same values used in the macro */
+                HCAL,           /* RKH_SM_CONST_CREATE() */
+                &Mode_OneCycle,
+                Mode_init,
+                NULL);
 }
 ```
 
-### 1.4 Initializing PulseCounter state machines
-`PulseCounterMgr` initializes every state machine component by calling the 
+### 1.4 Initializing Mode and Rate state machines
+`LightMgr` initializes every state machine component by explicitly calling the 
 framework function `rkh_sm_init()`. It effectively triggers the topmost initial 
 transition of a state machine and then the effect action of the state 
 machine's initial pseudostate is executed.
-
 ```c
 /* ............................ Effect actions ............................. */
-void
-PulseCounterMgr_init(PulseCounterMgr *const me, RKH_EVT_T *pe)
+static void 
+LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 {
-    int i;
-    PulseCounter *pulseCtr;
-    ...
-    for (pulseCtr = &me->pulseCounters[0], i = 0;
-         i < NUM_PULSE_COUNTERS;
-         ++i, ++pulseCtr)
+	/* init(); */
+	RKH_TR_FWK_AO(me);
+	RKH_TR_FWK_QUEUE(&RKH_UPCAST(RKH_SMA_T, me)->equeue);
+	RKH_TR_FWK_STATE(me, &LightMgr_Red);
+	RKH_TR_FWK_STATE(me, &LightMgr_Yelow);
+	RKH_TR_FWK_STATE(me, &LightMgr_Green);
+	RKH_TR_FWK_STATE(me, &LightMgr_WaitToStart);
+	RKH_TR_FWK_SIG(evStart);
+	RKH_TR_FWK_SIG(evTout0);
+	RKH_TR_FWK_SIG(evTout1);
+	RKH_TR_FWK_SIG(evTout2);
+	RKH_TR_FWK_TIMER(&me->tmEvtObj0.tmr);
+	RKH_TR_FWK_TIMER(&me->tmEvtObj1.tmr);
+	RKH_TR_FWK_TIMER(&me->tmEvtObj2.tmr);
+
+    rkh_sm_init(RKH_UPCAST(RKH_SM_T, &me->mode));
+    rkh_sm_init(RKH_UPCAST(RKH_SM_T, &me->rate));
+}
+```
+
+### 1.6 Dispatching events
+Follow the following steps below to explicitly dispatch all received events 
+from 'LightMgr' active object to all regions
+1. Enable option 'RKH_CFG_SMA_VFUNCT_EN' in the RKH configuration file 
+called `rkhcfg.h`
+```c
+#define RKH_CFG_SMA_VFUNCT_EN           RKH_ENABLED
+```
+2. Define the virtual table of `LightMgr` as an attribute of type `RKHSmaVtbl`,
+   according to 1.3 section
+```c
+    struct LightMgr
     {
-        rkh_sm_init(RKH_UPCAST(RKH_SM_T, pulseCtr));
+        RKH_SMA_T sma;      /* base class  */
+(*)     RKHSmaVtbl vtbl;    /* virtual table */
+        ...
+    };
+```
+3. Initialize `LightMgr`'s virtual table (1), override its dispatch 
+operation (2) and call the base class constructor (3). These steps are 
+according to section 1.3
+```c
+    LightMgr_ctor(void)
+    {
+        LightMgr *me = RKH_DOWNCAST(LightMgr, lightMgr);
+
+(1)     me->vtbl = rkhSmaVtbl;      /* Initialize AO's virtual table and */
+(2)     me->vtbl.task = dispatch;   /* override its dispatch operation */
+(3)     rkh_sma_ctor(RKH_UPCAST(RKH_SMA_T, me), &me->vtbl);
+        ...
     }
-}
 ```
-
-### 1.5 Events
-`PulseCounterMgr` and its components handle two types of events, `StatusEvt`
-and `TimeEvt`. `StatusEvt` carries the status of digital signals (Active and 
-Inactive), whereas `TimeEvt` corresponds to time events, so the `after` triggers 
-are triggered by the expiration of the `PulseCounter` time events like 
-`tactMin`, `tactMax` and `tinactMax`. For example, `after TactMin` corresponds 
-to `tactMin` time event.
-As shown in the following code fragment, both kinds of events derive from 
-framework event types, `RKH_EVT_T` and `TimeEvt` respectively and both have an 
-`id` parameter to identify the `PulseCounter` target. See `bsp_keyParser()` 
-function in the `bsp/bsp.c` file to figure out how to generate and post events 
-to a specific `PulseCounter.
-
+4. Define `LightMgr`'s dispatch operation in order to dispatch every received 
+event to each SM's region (1, 2, 3)
 ```c
-/* ................................ Events ................................ */
-typedef struct StatusEvt StatusEvt;
-struct StatusEvt
-{
-    RKH_EVT_T evt;  /* signal event */
-    int id;         /* SM component identifier */
-};
+    static void
+    dispatch(RKH_SMA_T *me, void *arg)
+    {
+        LightMgr *realMe;
 
-typedef struct TimeEvt TimeEvt;
-struct TimeEvt
-{
-    RKHTmEvt evt;  /* time event */
-    int id;        /* SM component identifier */
-};
-```
-
-### 1.6 Dispatching events to PulseCounters
-The following code fragment demonstrates how to use the `id` parameter of 
-received events to dispatch them to `PulseCounters`. This example defines 
-`id` parameter as `integer`, so it becomes the index into the `pulseCounters[]` 
-array.
-
-```c
-void
-PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
-{
-    int ix;
-
-    ix = RKH_DOWNCAST(StatusEvt, pe)->id;
-    RKH_REQUIRE(ix <= NUM_PULSE_COUNTERS);
-
-    rkh_sm_dispatch(RKH_DOWNCAST(RKH_SM_T, &me->pulseCounters[ix]), pe);
-}
-```
-
-If `id` parameter were a pointer to `PulseCounter` instance, 
-`PulseCounterMgr` actions like `PulseCounterMgr_dispatchStatus()` would look 
-as follows:
-
-```c
-void
-PulseCounterMgr_dispatchStatus(PulseCounterMgr *const me, RKH_EVT_T *pe)
-{
-    PulseCounter *component;
-
-    component = RKH_DOWNCAST(StatusEvt, pe)->id;
-    RKH_REQUIRE(component != (PulseCounter *)0);
-
-    rkh_sm_dispatch(RKH_DOWNCAST(RKH_SM_T, component), pe);
-}
+        realMe = RKH_DOWNCAST(LightMgr, me);
+(1)     rkh_sm_dispatch(RKH_UPCAST(RKH_SM_T, realMe), (RKH_EVT_T *)arg);
+(2)     rkh_sm_dispatch(RKH_UPCAST(RKH_SM_T, &realMe->mode), (RKH_EVT_T *)arg);
+(3)     rkh_sm_dispatch(RKH_UPCAST(RKH_SM_T, &realMe->rate), (RKH_EVT_T *)arg);
+    }
 ```
 
 ## 2\. What RKH is?
