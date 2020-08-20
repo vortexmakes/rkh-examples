@@ -26,26 +26,26 @@ for more information about orthogonal regions.
 
 ## This tutorial contains:
 
-[1\. Description](#1-description)
+[Description](#description)
 
-[1\.1 Behavior and structure models](#11-behavior-and-structure-models)
+[Behavior and structure models](#behavior-and-structure-models)
 
-[1\.2 Container and component types](#12-container-and-component-types)
+[Container and component types](#container-and-component-types)
 
-[1\.3 Initializing container and its components](#13-initializing-container-and-its-components)
+[Initializing container and its components](#initializing-container-and-its-components)
 
-[1\.4 Starting Mode and Rate components](#14-starting-mode-and-rate-components)
+[Starting Mode and Rate components](#starting-mode-and-rate-components)
 
-[1\.5 Dispatching events](#15-dispatching-events)
+[Dispatching events](#dispatching-events)
 
-[2\. What RKH is?](#2-what-rkh-is)
+[What RKH is?](#what-rkh-is)
 
-[3\. Toolchain installation](#3-toolchain-installation)
+[Toolchain installation](#toolchain-installation)
 
-[4\. Eclipse CDT project](#4-eclipse-cdt-project)
+[Eclipse CDT project](#eclipse-cdt-project)
 
-## 1\. Description
-### 1\.1 Behavior and structure models
+## Description
+### Behavior and structure models
 The behavior of this example is defined by a statechart that looks as 
 follows. 
 
@@ -99,7 +99,7 @@ The following diagram shows their relationships.
 
 ![structure](images/structure.png)
 
-### 1\.2 Container and component types
+### Container and component types
 The following code fragment shows the `LightMgr`, `Mode` and  `Rate` types 
 represented by means of C structures. These types are derived from framework 
 ones. `Mode` and `Rate` derive from `RKH_SM_T`, which defines a state machine 
@@ -127,7 +127,7 @@ struct Rate
     RKH_SM_T sm;        /* base class */
 };
 ```
-### 1\.3 Initializing container and its components
+### Initializing container and its components
 The `LightMgr` active object is initialized in two stages, the first one is at 
 compile-time (static initialization), and the other one is at runtime 
 (dynamic initialization). Code listing below, which  belongs to `LightMgr.c` 
@@ -188,7 +188,7 @@ LightMgr_ctor(void)
 }
 ```
 
-### 1.4 Starting Mode and Rate components
+### Starting Mode and Rate components
 `LightMgr` initializes every state machine component by explicitly calling the 
 framework function `rkh_sm_init()`. It effectively triggers the topmost initial 
 transition of a state machine and then the effect action of the state 
@@ -218,7 +218,7 @@ LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 }
 ```
 
-### 1.5 Dispatching events
+### Dispatching events
 Follow steps below to explicitly dispatch received events to every component.
 
 1. First of all, enable option `RKH_CFG_SMA_VFUNCT_EN` in the RKH configuration 
@@ -265,7 +265,7 @@ events to each component as shown in lines (1) to (3).
     }
 ```
 
-## 2\. What RKH is?
+## What RKH is?
 RKH is a flexible, efficient, highly portable, and freely available 
 open-source state machine framework providing the infrastructure for quickly 
 and safely developing reactive applications for real-time embedded systems.
@@ -280,19 +280,19 @@ RKH is open source and licensed under the GNU v3.0\. You can find the [source co
 
 If you want to learn more about the benefits of this flexible, efficient and highly portable state machine framework read on [here](https://blogs.itemis.com/en/rkh-state-machine-framework-for-reactive-and-real-time-embedded-systems).
 
-## 3\. Toolchain installation
-### 3.1 Eclipse C/C++ (CDT)
+## Toolchain installation
+### Eclipse C/C++ (CDT)
 The C/C++ Development Toolkit ([CDT](https://help.eclipse.org/2020-03/index.jsp?topic=%2Forg.eclipse.cdt.doc.user%2Fconcepts%2Fcdt_c_projects.htm)) is a collection of Eclipse-based features that provides the capability to develop projects that use C and/or C++ as a programming language.
 The CDT can either be installed as part of the Eclipse C/C++ IDE packaged zip file or installed into an existing Eclipse using the "Install New Software..." dialog. Follow [this](https://www.eclipse.org/cdt/downloads.php) instructions to do that.
 
-### 3.2 Get RKH framework
+### Get RKH framework
 In order to build this example you have to download the RKH framework and install the Trazer tool. RKH can be obtained from its official repository by using the following Git commands:
 
 1.  `cd path/to/rkh-examples/`
 2.  `git submodule init parameterized-sm.eclipse-cdt/RKH`
 3.  `git submodule update`
 
-### 3.3 Install Trazer tool
+### Install Trazer tool
 RKH allows developers to verify and validate a reactive application's behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events' output in a legible manner. It can be downloaded and installed as follows.
 
 1.  Download Trazer for Linux 64-bits from its [official repository](https://github.com/vortexmakes/Trazer/releases/download/3.2/RC_trazer_3_2_lnx64b.tar.gz)
@@ -300,14 +300,14 @@ RKH allows developers to verify and validate a reactive application's behaviour 
 3.  Change the directory to previous folder
 4.  Check it is alright by executing ./trazer
 
-## 4\. Eclipse CDT project
-### 4.1 Import project
+## Eclipse CDT project
+### Import project
 1. Select 'File > Import...' to bring up the Import wizard. 
 2. Choose 'Existing Project into Workspace' and click the 'Next' button.
 3. Select the 'parameterized-sm.eclipse-cdt' project directory.
 4. Click the 'Finish' button to import the selected project into the workspace. 
 
-### 4.2 Project structure
+### Project structure
 #### _model_
 It contains PulseCounter and PulseCounterMgr state machines
 
@@ -331,7 +331,7 @@ Here is located the RKH framework's source code.
 *   Right-click on project 'Parameterized' in the 'Project Explorer'
 *   Choose 'Build Project'
 
-### 4.4 Run and debug
+### Run and debug
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 *   Right-click on project 'Parameterized' in the Eclipse 'Project Explorer'
 *   Choose 'Run As > Local C/C++ Application'
@@ -351,7 +351,7 @@ the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)
 
-### 4.5 Verify and validate
+### Verify and validate
 While the application is running, you can validate and verify its behaviour through the trace events showed on the Trazer output.
 Each trace event includes a time stamp and additional information associated with it. A capture of Trazer output is shown below. 
 
