@@ -1,4 +1,4 @@
-# Using state machines with orthogonal regions by using RKH framework on Eclipse
+# Using state machines with orthogonal regions with RKH framework on Eclipse
 
 ## Overview
 This example shows how to handle a state machine with multiple orthogonal 
@@ -10,7 +10,7 @@ diagram shows a state machine with orthogonal regions.
 A region as known as AND-state is an orthogonal part of either a composite 
 state or a state machine. It contains vertexes (states and pseudostates) 
 and transitions. The semantics of orthogonal regions is that they are 
-*logically concurrent*. This means that in some sense they execute 
+*logically concurrent*. It means that in some sense they execute 
 simultaneously. It implies that when regions are active, each active 
 region must receive, in some sense, its own copy of the event sent to the 
 state machine, and is free to act on it or discard it as appropriate.
@@ -21,11 +21,17 @@ complex to implement and they consume extra CPU cycles to achieve the
 logical concunrrency.
 
 See [Design Patterns for Embedded Systems in C](https://www.elsevier.com/books/design-patterns-for-embedded-systems-in-c/douglass/978-1-85617-707-8) 
-by Bruce Douglass for more information about orthogonal regions.
+by Bruce Douglass and [Design Pattern - Orthogonal Component](https://www.state-machine.com/doc/Pattern_Orthogonal.pdf) by Miro Samek 
+for more information about orthogonal regions.
 
 ## This tutorial contains:
 
 [1\. Description](#1-description)
+[1\.1 Behavior and structure models](#11-behavior-and-structure-models)
+[1\.2 Container and component types](#12-container-and-component-types)
+[1\.3 Initializing container and its components](#13-initializing-container-and-its-components)
+[1\.4 Starting Mode and Rate components](#14-starting-mode-and-rate-components)
+[1\.5 Dispatching events](#15-dispatching-events)
 
 [2\. What RKH is?](#2-what-rkh-is)
 
@@ -34,7 +40,7 @@ by Bruce Douglass for more information about orthogonal regions.
 [4\. Eclipse CDT project](#4-eclipse-cdt-project)
 
 ## 1\. Description
-### 1.1 Behavior and structure models
+### 1\.1 Behavior and structure models
 The behavior of this example is defined by a statechart that looks as 
 follows. 
 
@@ -61,28 +67,34 @@ These messages are temporarily stored in a dedicated queue, and when the AO is
 executed it dispatchs the stored events one by one to its associated SM.
 
 In order to deal with a SM with multiple orthogonal regions a workaround is 
-proposed. It consists in representing each region with an independent 
-SM, which will execute in context of an active object.
+proposed. It consists mainly in using an independent SM to represent each 
+region and to dispatch every received event to them. So, it divides the 
+behavioral into separate state machine objects. 
 
-Para que un objeto activo pueda despachar eventos a más de una SM, se utiliza 
-el concepto de contenedor y componentes, donde el contenedor es el objeto activo,
-cuyo comportamiento se define por una de las regiones, mientras que sus 
-componentes tienen por comportamiento las restantes regiones. Cada componente 
-representa una única región. 
-De esta manera, el contenedor despacha eventos a su propia SM y a cada una de 
-las SM de sus componentes.
+Partitioning introduces a container–component relationship. The container 
+implements the primary functionality and delegates other (secondary) features
+to the components. Both the container and the components have state-based 
+behavioral. 
+The container is an active object whereas the components are passive ones. 
+They are executed in context of its container.
+The container communicates with the components by directly dispatching events 
+to them. The components notify the container by posting events to it, never 
+through direct event dispatching.
 
 In other words, the container is entirely responsible for its components. In 
 particular, it must explicitly trigger initial transitions in its components 
-as well as explicitly dispatch events to them. These components share both 
-event queue and priority level of its container, and they are executed in its 
-context, it means they are passive objects.
+as well as directly dispatch events to them. These components share both 
+event queue and priority level of its container.
+
 In this example the container is called `LightMgr` and its components are 
-`Mode` and `Rate`. The following diagram shows their relationships. 
+`Mode` and `Rate`. `LightMgr`'s behavior is represented by the Light region, 
+whereas `Mode` and `Rate` behavior are defined by the Mode and Rate regions 
+respectively. 
+The following diagram shows their relationships. 
 
 ![structure](images/structure.png)
 
-### 1.2 Container and component types
+### 1\.2 Container and component types
 The following code fragment shows the `LightMgr`, `Mode` and  `Rate` types 
 represented by means of C structures. These types are derived from framework 
 ones. `Mode` and `Rate` derive from `RKH_SM_T`, which defines a state machine 
@@ -110,7 +122,7 @@ struct Rate
     RKH_SM_T sm;        /* base class */
 };
 ```
-### 1.3 Initializing container and its components
+### 1\.3 Initializing container and its components
 The `LightMgr` active object is initialized in two stages, the first one is at 
 compile-time (static initialization), and the other one is at runtime 
 (dynamic initialization). Code listing below, which  belongs to `LightMgr.c` 
@@ -171,7 +183,7 @@ LightMgr_ctor(void)
 }
 ```
 
-### 1.4 Starting Mode and Rate state machines
+### 1.4 Starting Mode and Rate components
 `LightMgr` initializes every state machine component by explicitly calling the 
 framework function `rkh_sm_init()`. It effectively triggers the topmost initial 
 transition of a state machine and then the effect action of the state 
