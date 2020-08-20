@@ -54,17 +54,15 @@ mechanism is useful to propagate events between regions.
 Since RKH framework does not implicitely support orthogonal regions, a 
 workaround is performed to implement the state diagram shown above.
 
-En RKH las SM son ejecutadas por entidades llamadas objetos activos, donde cada 
-uno de estos posee una SM asociada. En otras palabras, el comportamiento 
-de un objecto activo está representado por la SM que tiene asociada.
-El objecto activo recibe eventos por medio de una cola de eventos y los despacha 
-de a uno por vez a su SM, es decir, una SM procesa eventos en contexto 
-del objecto activo que la contiene. 
+In the RKH framework state machines (SM) are executed in context of concurrent 
+units called active objects (AO). It means that these entities have state-based 
+behavioral. Each AO receives events from the system as asynchronous messages. 
+These messages are temporarily stored in a dedicated queue, and when the AO is 
+executed it dispatchs the stored events one by one to its associated SM.
 
-La SM mostrada arriba posee más de una región ortogonal, lo cual no es 
-soportado implicitamente por RKH, por lo tanto se realizará un workaround.
-Este básicamente consiste en representar cada una de las regiones con una SM 
-independiente, las cuales se ejecutan en contexto de un único objeto activo.
+In order to deal with a SM with multiple orthogonal regions a workaround is 
+proposed. It consists in representing each region with an independent 
+SM, which will execute in context of an active object.
 
 Para que un objeto activo pueda despachar eventos a más de una SM, se utiliza 
 el concepto de contenedor y componentes, donde el contenedor es el objeto activo,
@@ -88,7 +86,7 @@ In this example the container is called `LightMgr` and its components are
 The following code fragment shows the `LightMgr`, `Mode` and  `Rate` types 
 represented by means of C structures. These types are derived from framework 
 ones. `Mode` and `Rate` derive from `RKH_SM_T`, which defines a state machine 
-and `LightMgr` derives from `RKH_SMA_T`, which defines an active object.
+and `LightMgr` derives from `RKH_SMA_T`, which represents an active object.
 
 ```c
 struct LightMgr
@@ -114,9 +112,10 @@ struct Rate
 ```
 ### 1.3 Initializing container and its components
 The `LightMgr` active object is initialized in two stages, the first one is at 
-compile-time (static), and the other one is at runtime (dynamic).
-- Code fragment below shows how `LightMgr` (1) and its components (2, 3) are 
-initialized at compile-time.
+compile-time (static initialization), and the other one is at runtime 
+(dynamic initialization). Code listing below, which  belongs to `LightMgr.c` 
+file, shows how `LightMgr` and its components are initialized at compile-time, 
+lines (1) and (2-3) respectively.
 ```c
 (1) RKH_SMA_CREATE(LightMgr,            /* Active object type */
                    lightMgr,            /* Active object instance */
@@ -140,10 +139,11 @@ initialized at compile-time.
                         Mode_init,      /* Topmost initial action of Mode*/
                         NULL);
 ```
-- Code fragment below shows how the `LightMgr` constructor initializes its 
-attributes at runtime, which implies to initialize its virtual table and 
-components. A virtual table is used to dispatch events by overriding a 
-particular operation. Section 1.6 explain how to deal with it.
+The dynamic initialization of `LightMgr` and its components are executed 
+by the `LightMgr` constructor called `LightMgr_ctor()` as shown in the 
+listing below. The constructor initialized both virtual table and the 
+components of `LightMgr`. Section 1.5 explain why is defined a virtual 
+table and how to use it.
 ```c
 /* ---------------------------- Global functions --------------------------- */
 void
@@ -201,16 +201,16 @@ LightMgr_init(LightMgr *const me, RKH_EVT_T *pe)
 }
 ```
 
-### 1.6 Dispatching events
-Follow steps below to explicitly dispatch all received events from 'LightMgr' 
-active object to all regions.
+### 1.5 Dispatching events
+Follow steps below to explicitly dispatch received events to every component.
 
-1. Enable option 'RKH_CFG_SMA_VFUNCT_EN' in the RKH configuration file 
-called `rkhcfg.h`
+1. First of all, enable option `RKH_CFG_SMA_VFUNCT_EN` in the RKH configuration 
+file called `rkhcfg.h`
 ```c
 #define RKH_CFG_SMA_VFUNCT_EN           RKH_ENABLED
 ```
-2. Define the virtual table of `LightMgr` as an attribute of type `RKHSmaVtbl`
+2. Define the virtual table of `LightMgr` as one of its attributes. It must be 
+of type `RKHSmaVtbl`
 ```c
     struct LightMgr
     {
@@ -219,9 +219,9 @@ called `rkhcfg.h`
         ...
     };
 ```
-3. Initialize `LightMgr`'s virtual table (1), override its dispatch 
-operation (2) and call the base class constructor (3). These steps are 
-according to section 1.3
+3. Initialize `LightMgr`'s virtual table, override its dispatch 
+operation and call the base class constructor, lines (1) and (2) and (3) 
+respectively. These steps are according to section 1.3
 ```c
     LightMgr_ctor(void)
     {
@@ -233,8 +233,8 @@ according to section 1.3
         ...
     }
 ```
-4. Define `LightMgr`'s dispatch operation in order to dispatch every received 
-event to each SM's region (1, 2, 3)
+4. Finally, implement the `LightMgr`'s dispatch operation to dispatch received 
+events to each component as shown in lines (1) to (3).
 ```c
     static void
     dispatch(RKH_SMA_T *me, void *arg)
