@@ -5,7 +5,7 @@ This example shows how to handle a state machine with multiple orthogonal
 regions from an active object by using the RKH framework. The following 
 diagram shows a state machine with orthogonal regions.
 
-![state-machine-with-orthogonal-regions](images/LightMgrOrth.png)
+![state-machine-with-orthogonal-regions](images/state-machine.png)
 
 A region as known as AND-state is an orthogonal part of either a composite 
 state or a state machine. It contains vertexes (states and pseudostates) 
