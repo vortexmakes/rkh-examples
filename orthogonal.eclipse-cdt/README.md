@@ -308,8 +308,8 @@ It includes both application code and BSP (Board Support Package) code. The most
 *   _signals.h_: defines signal events as enumerated constants, which are used as state machine triggers.
 *   _events.h_: defines events types, which are derived from RKH framework types.
 *   _priorities.h_: defines active object priorities as enumerated constants.
-*   _LightMgr.h/.c_: specifies and implements the LightMgr active object (container) and Mode and Rate components. Please correlate these implementations with the state diagram shown above.
-*   _main.c_: contains the main() function, which initializes both BSP and LightMgr active object, then executes the RKH framework in order to orchestrates this reactive application.
+*   _LightMgr.h/.c_: specifies and implements the `LightMgr` active object (container) and `Mode` and `Rate` components. Please correlate these implementations with the state diagram shown above.
+*   _main.c_: contains the main() function, which initializes both BSP and `LightMgr` active object, then executes the RKH framework in order to orchestrates this reactive application.
 *   _rkhcfg.h_: adapts and configures RKH at compile-time.
 
 #### _bsp_
