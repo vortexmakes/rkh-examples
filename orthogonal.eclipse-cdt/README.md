@@ -300,31 +300,31 @@ RKH allows developers to verify and validate a reactive application's behaviour 
 
 ### Project structure
 #### _model_
-It contains PulseCounter and PulseCounterMgr state machines
+It contains Color, Mode and Rate state machines. They are designed by using the [Yakindu Statechart Tool](https://www.itemis.com/en/yakindu/state-machine/).
 
 #### _src_
 It includes both application code and BSP (Board Support Package) code. The most important files and directories are listed below:
 
-*   _signals.h_: defines signals as enumerated constants, which are used as state machine triggers.
+*   _signals.h_: defines signal events as enumerated constants, which are used as state machine triggers.
 *   _events.h_: defines events types, which are derived from RKH framework types.
 *   _priorities.h_: defines active object priorities as enumerated constants.
-*   _PulseCounterMgr.h/.c_: specifies and implements the PulseCounterMgr active object and its paramterized state machine (PulseCounter). Please correlate this implementation with the state diagrams shown above.
-*   _main.c_: contains the main() function, which initializes both BSP and PulseCounterMgr active object, then executes the RKH framework in order to orchestrates this reactive application.
-*   _rkhcfg.h_: adapts and configures RKH in compile time.
+*   _LightMgr.h/.c_: specifies and implements the LightMgr active object (container) and Mode and Rate components. Please correlate these implementations with the state diagram shown above.
+*   _main.c_: contains the main() function, which initializes both BSP and LightMgr active object, then executes the RKH framework in order to orchestrates this reactive application.
+*   _rkhcfg.h_: adapts and configures RKH at compile-time.
 
 #### _bsp_
-It contains the source code of BSP for Linux platform. It emulates interrupts, implements the communication with Trazer tool and a simple event-loop, which is a non-preemptive cooperative scheduler.
+It contains the BSP source code for Linux platform. It emulates interrupts, implements both communication with Trazer tool and a simple event-loop, which is a non-preemptive cooperative scheduler.
 
 #### _RKH_
 Here is located the RKH framework's source code.
 
 ### 4.3 Build
-*   Right-click on project 'Parameterized' in the 'Project Explorer'
+*   Right-click on project 'Orthogonal' in the 'Project Explorer'
 *   Choose 'Build Project'
 
 ### Run and debug
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-*   Right-click on project 'Parameterized' in the Eclipse 'Project Explorer'
+*   Right-click on project 'Orthogonal' in the Eclipse 'Project Explorer'
 *   Choose 'Run As > Local C/C++ Application'
 
 The embedded Eclipse console shows up and the application starts
@@ -348,6 +348,6 @@ Each trace event includes a time stamp and additional information associated wit
 
 ![trazer-output](images/trazer-output.png)
 
-It shows the trace records when the PulseCounterMgr dispatches a `evActive` trigger to a PulseCounter component, and then it get into the `Setup` state. After `ACT_MIN_TIME` seconds it goes to `Active` state and stay there until it receives `evInactive` trigger, causing it goes to `Inactive` state. Finally, after `INACT_MAX_TIME` seconds it returns `ACT_MIN_TIME` state. 
+It shows the trace records when the `LightMgr` dispatches `evTout1` event to each state machine (regions), and then it get into the `Green` state.
 
 Since RKH can generate more than 100 different trace events during its execution, its trace module allow you to filter one or more of them in runtime, so you can choose the traces that you need.
