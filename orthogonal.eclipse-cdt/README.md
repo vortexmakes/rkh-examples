@@ -27,10 +27,15 @@ for more information about orthogonal regions.
 ## This tutorial contains:
 
 [1\. Description](#1-description)
+
 [1\.1 Behavior and structure models](#11-behavior-and-structure-models)
+
 [1\.2 Container and component types](#12-container-and-component-types)
+
 [1\.3 Initializing container and its components](#13-initializing-container-and-its-components)
+
 [1\.4 Starting Mode and Rate components](#14-starting-mode-and-rate-components)
+
 [1\.5 Dispatching events](#15-dispatching-events)
 
 [2\. What RKH is?](#2-what-rkh-is)
