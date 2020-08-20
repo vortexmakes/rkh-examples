@@ -40,7 +40,7 @@ for more information about orthogonal regions.
 The behavior of this example is defined by a statechart that looks as 
 follows. 
 
-![orthogonal-state-machine](images/LightMgrOrth.png)
+![orthogonal-state-machine](images/state-machine.png)
 
 This diagram consists of three regions Color, Mode and Rate, which are 
 independent aspects of a system; Color has Red, Yellow, Green, and WaitStart 
