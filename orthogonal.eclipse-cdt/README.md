@@ -25,23 +25,9 @@ by Bruce Douglass and [Design Pattern - Orthogonal Component](https://www.state-
 for more information about orthogonal regions.
 
 ## This tutorial contains:
-
 [Description](#description)
-
-[Behavior and structure models](#behavior-and-structure-models)
-
-[Container and component types](#container-and-component-types)
-
-[Initializing container and its components](#initializing-container-and-its-components)
-
-[Starting Mode and Rate components](#starting-mode-and-rate-components)
-
-[Dispatching events](#dispatching-events)
-
 [What RKH is?](#what-rkh-is)
-
 [Toolchain installation](#toolchain-installation)
-
 [Eclipse CDT project](#eclipse-cdt-project)
 
 ## Description
