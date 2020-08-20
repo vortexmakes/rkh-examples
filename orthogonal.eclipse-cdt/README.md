@@ -5,7 +5,7 @@ This example shows how to handle a state machine with multiple orthogonal
 regions from an active object by using the RKH framework. The following 
 diagram shows a state machine with orthogonal regions.
 
-![state-machine-with-orthogonal-regions](images/sm-orthogonal.png)
+![state-machine-with-orthogonal-regions](images/LightMgrOrth.png)
 
 A region as known as AND-state is an orthogonal part of either a composite 
 state or a state machine. It contains vertexes (states and pseudostates) 
@@ -40,16 +40,16 @@ for more information about orthogonal regions.
 The behavior of this example is defined by a statechart that looks as 
 follows. 
 
-![orthogonal-state-machine](images/orthogonal.png)
+![orthogonal-state-machine](images/LightMgrOrth.png)
 
-The diagram below consists of three regions Light, Mode and Rate, which are 
-independent aspects of a system; Light has Red, Yellow, Green, and WaitStart 
+This diagram consists of three regions Color, Mode and Rate, which are 
+independent aspects of a system; Color has Red, Yellow, Green, and WaitStart 
 states, Mode has OneCycle, and Cycled states, and Rate contains Steady, 
 FlashSlowly, and FlashQuickly states.
 
-Note that isInOneCycle() guard causes Light to depend somewhat on Mode, 
+Note that isInOneCycle() guard causes Color to depend somewhat on Mode, 
 and indeed to know something about the inner states of Mode. There is another 
-kind of dependency between Light and Mode. When Cycled state is entered an 
+kind of dependency between Color and Mode. When Cycled state is entered an 
 evStart event is sent to itself, so it will be received by all regions. This 
 mechanism is useful to propagate events between regions.
 
@@ -83,7 +83,7 @@ as well as directly dispatch events to them. These components share both
 event queue and priority level of its container.
 
 In this example the container is called `LightMgr` and its components are 
-`Mode` and `Rate`. `LightMgr`'s behavior is represented by the Light region, 
+`Mode` and `Rate`. `LightMgr`'s behavior is represented by the Color region, 
 whereas `Mode` and `Rate` behavior are defined by the Mode and Rate regions 
 respectively. 
 The following diagram shows their relationships. 
