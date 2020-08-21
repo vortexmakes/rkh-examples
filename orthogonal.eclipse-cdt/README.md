@@ -57,36 +57,35 @@ Since RKH framework does not implicitely support orthogonal regions, a
 workaround is performed to implement the state diagram shown above.
 
 In the RKH framework state machines (SM) are executed in context of concurrent 
-units called active objects (AO). It means that these entities have state-based 
-behavioral. Each AO receives events from the system as asynchronous messages. 
+units called active objects (AO), so they have state-based behavioral. 
+Each AO receives events from the system as asynchronous messages. 
 These messages are temporarily stored in a dedicated queue, and when the AO is 
-executed it dispatchs the stored events one by one to its associated SM.
+executed it dispatchs stored events one by one to its associated SM.
 
-In order to deal with a SM with multiple orthogonal regions a workaround is 
-proposed. It consists mainly in using an independent SM to represent each 
-region and to dispatch every received event to them. So, it divides the 
+The proposed workaround to deal with a SM with multiple orthogonal regions 
+consists mainly in using an independent SM to represent each 
+region and to dispatch every received event to them. So, it partitions the 
 behavioral into separate state machine objects. 
 
 Partitioning introduces a container–component relationship. The container 
 implements the primary functionality and delegates other (secondary) features
 to the components. Both the container and the components have state-based 
 behavioral. 
-The container is an active object whereas the components are passive ones. 
-They are executed in context of its container.
+The container is an active object whereas the components are passive ones, 
+which are executed in context of its container. It means they share both 
+event queue and priority level of its container.
 The container communicates with the components by directly dispatching events 
 to them. The components notify the container by posting events to it, never 
 through direct event dispatching.
 
 In other words, the container is entirely responsible for its components. In 
 particular, it must explicitly trigger initial transitions in its components 
-as well as directly dispatch events to them. These components share both 
-event queue and priority level of its container.
+as well as directly dispatch events to them.
 
 In this example the container is called `LightMgr` and its components are 
-`Mode` and `Rate`. `LightMgr`'s behavior is represented by the Color region, 
-whereas `Mode` and `Rate` behavior are defined by the Mode and Rate regions 
-respectively. 
-The following diagram shows their relationships. 
+called `Mode` and `Rate`. `LightMgr`'s behavior is represented by the Color 
+region, whereas `Mode` and `Rate` behavior are defined by the Mode and Rate 
+regions respectively. The following diagram shows their relationships. 
 
 ![structure](images/structure.png)
 
