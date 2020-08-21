@@ -3,7 +3,8 @@
 ## Overview
 This example shows how to handle a state machine with multiple orthogonal 
 regions from an active object by using the RKH framework. The following 
-diagram shows a state machine with orthogonal regions.
+diagram shows a state machine with orthogonal regions. It was designed 
+by using the [Yakindu Statechart Tool](https://www.itemis.com/en/yakindu/state-machine/).
 
 ![state-machine-with-orthogonal-regions](images/state-machine.png)
 
@@ -279,7 +280,7 @@ The CDT can either be installed as part of the Eclipse C/C++ IDE packaged zip fi
 In order to build this example you have to download the RKH framework and install the Trazer tool. RKH can be obtained from its official repository by using the following Git commands:
 
 1.  `cd path/to/rkh-examples/`
-2.  `git submodule init parameterized-sm.eclipse-cdt/RKH`
+2.  `git submodule init orthogonal.eclipse-cdt/RKH`
 3.  `git submodule update`
 
 ### Install Trazer tool
@@ -294,7 +295,7 @@ RKH allows developers to verify and validate a reactive application's behaviour 
 ### Import project
 1. Select 'File > Import...' to bring up the Import wizard. 
 2. Choose 'Existing Project into Workspace' and click the 'Next' button.
-3. Select the 'parameterized-sm.eclipse-cdt' project directory.
+3. Select the 'orthogonal.eclipse-cdt' project directory.
 4. Click the 'Finish' button to import the selected project into the workspace. 
 
 ### Project structure
