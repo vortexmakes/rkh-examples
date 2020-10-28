@@ -1,18 +1,21 @@
 find_package(Git QUIET)
 if(GIT_FOUND AND 
-   EXISTS "${PROJECT_SOURCE_DIR}/.git" AND 
-   EXISTS "${PROJECT_SOURCE_DIR}/.gitmodules")
+   EXISTS "${PROJECT_SOURCE_DIR}/../.git" AND 
+   EXISTS "${PROJECT_SOURCE_DIR}/../.gitmodules")
     # Update submodules as needed
     option(GIT_SUBMODULE "Check submodules during build" ON)
     if(GIT_SUBMODULE)
-        message(STATUS "Submodule update")
-        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+        set(SUBMODULE "RKH")
+        message(STATUS "${SUBMODULE} submodule update")
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init ${SUBMODULE}
                         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                         RESULT_VARIABLE GIT_SUBMOD_RESULT)
         if(NOT GIT_SUBMOD_RESULT EQUAL "0")
             message(FATAL_ERROR "git submodule update failed with ${GIT_SUBMOD_RESULT}")
         endif()
     endif()
+else()
+    cmake_print_variables(GIT_FOUND GIT_SUBMODULE PROJECT_SOURCE_DIR CMAKE_CURRENT_SOURCE_DIR)
 endif()
 
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/RKH")
@@ -61,6 +64,5 @@ if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/RKH")
     target_compile_definitions(rkh PUBLIC ${RKH_PLATFORM})
     target_link_libraries(rkh PRIVATE Threads::Threads)
 else()
-    message(FATAL_ERROR "RKH isn't found in ${CMAKE_CURRENT_SOURCE_DIR}")
-    message(FATAL_ERROR "Or GIT_SUBMODULE was turned off or failed")
+    message(FATAL_ERROR "RKH do not found in ${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
