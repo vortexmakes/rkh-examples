@@ -53,22 +53,24 @@ RKH allows developers to verify and validate a reactive application's behaviour 
 4.  Check it is alright by executing ./trazer
 
 ## 4\. CMake project
+Open a console and follow the instructions below.
+
 ### 4.1 Build
-Open a console and follow the instructions below, which are the classic CMake build procedure:
+These instructions are parte of the classic CMake build procedure:
 1. `cd path/to/rkh-examples/blinky.cmake/build`
 2. `cmake .. -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
 3. `make`
 
-Alternatively, if you are using a newer version of CMake, you can instead do this:
+Alternatively, if you are using a modern CMake, you can instead do this:
 1. `cd path/to/rkh-examples/blinky.cmake`
 2. `cmake -S . -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
 3. `cmake --build build`
 
 ### 4.2 Importing CMake project in Eclipse CDT
 Run CMake using the Eclipse generator.
-1. `cd path/to/rkh-examples/blinky.cmake`
-2. `mkdir ../build`
-3. `cd ../build`
+1. `cd path/to/rkh-examples/`
+2. `mkdir build`
+3. `cd build`
 4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles"`
 
 Import this in Eclipse do the following:
