@@ -5,7 +5,7 @@
 
 /* -------------------------- Development history -------------------------- */
 /*
- *  2016.03.17  LeFr  v1.0.00  Initial version
+ *  2020.10.29  LeFr  v1.0.00  Initial version
  */
 
 /* -------------------------------- Authors -------------------------------- */
@@ -31,9 +31,8 @@ extern "C" {
 /* ................................ Signals ................................ */
 typedef enum Signals
 {
-	TIMEOUT,            /* timeout */
-	TERMINATE,          /* press the key escape on the keyboard */
-	BLINKY_NUM_EVENTS
+	evTout,     /* timeout */
+    TERMINATE
 } Signals;
 
 /* ........................ Declares active object ......................... */

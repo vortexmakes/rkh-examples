@@ -196,7 +196,7 @@
  *	not included: state nesting, composite state, history (shallow and deep)
  *	pseudostate, entry action, and exit action.
  */
-#define RKH_CFG_SMA_HCAL_EN             RKH_DISABLED
+#define RKH_CFG_SMA_HCAL_EN             RKH_ENABLED
 
 /**
  *  Specify the maximum number of hierarchical levels. The smaller this

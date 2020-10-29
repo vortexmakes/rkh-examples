@@ -4,10 +4,6 @@
  */
 
 /* -------------------------- Development history -------------------------- */
-/*
- *  2016.03.17  LeFr  v1.0.00  Initial version
- */
-
 /* -------------------------------- Authors -------------------------------- */
 /*
  *  LeFr  Leandro Francucci  lf@vortexmakes.com
