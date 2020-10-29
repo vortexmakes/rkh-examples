@@ -17,6 +17,9 @@
 /* ----------------------------- Include files ----------------------------- */
 #include "rkh.h"
 #include "blinky.h"
+#include "priority.h"
+#include "signal.h"
+#include "event.h"
 #include "bsp.h"
 
 /* ----------------------------- Local macros ------------------------------ */
@@ -42,12 +45,12 @@ static void blinky_ledOff(Blinky *const me, RKH_EVT_T *pe);
 /* ........................ States and pseudostates ........................ */
 RKH_CREATE_BASIC_STATE(ledOn, NULL, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(ledOn)
-    RKH_TRREG(TIMEOUT, NULL, blinky_ledOff, &ledOff),
+RKH_TRREG(TIMEOUT, NULL, blinky_ledOff, &ledOff),
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(ledOff, NULL, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(ledOff)
-    RKH_TRREG(TIMEOUT, NULL, blinky_ledOn, &ledOn),
+RKH_TRREG(TIMEOUT, NULL, blinky_ledOn, &ledOn),
 RKH_END_TRANS_TABLE
 
 /* ............................. Active object ............................. */
@@ -60,7 +63,7 @@ struct Blinky
                         /* 'blinky' */
 };
 
-RKH_SMA_CREATE(Blinky, blinky, 0, HCAL, &ledOn, blinky_init, NULL);
+RKH_SMA_CREATE(Blinky, blinky, BlinkyPrio, HCAL, &ledOn, blinky_init, NULL);
 RKH_SMA_DEF_PTR(blinky);
 
 /* ------------------------------- Constants ------------------------------- */

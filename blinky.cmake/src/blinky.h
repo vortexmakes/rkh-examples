@@ -1,5 +1,5 @@
 /**
- *  \file       bkliny.h
+ *  \file       blinky.h
  *  \brief      Example application.
  */
 
@@ -31,10 +31,10 @@ extern "C" {
 /* ................................ Signals ................................ */
 typedef enum Signals
 {
-	TIMEOUT,      /* timeout */
-	TERMINATE,		/* press the key escape on the keyboard */
+	TIMEOUT,            /* timeout */
+	TERMINATE,          /* press the key escape on the keyboard */
 	BLINKY_NUM_EVENTS
-}Signals;
+} Signals;
 
 /* ........................ Declares active object ......................... */
 RKH_SMA_DCLR(blinky);

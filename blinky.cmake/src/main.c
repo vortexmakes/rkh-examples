@@ -19,7 +19,6 @@
 #include "blinky.h"
 #include "bsp.h"
 
-
 /* ----------------------------- Local macros ------------------------------ */
 #define QSTO_SIZE           4
 

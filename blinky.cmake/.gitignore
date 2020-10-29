@@ -84,3 +84,7 @@ GTAGS
 *~
 \#*#
 #*
+
+# uncrustify output files
+*.h.uncrustify
+*.c.uncrustify
