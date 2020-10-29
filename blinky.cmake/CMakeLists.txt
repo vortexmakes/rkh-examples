@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(blinky.cmake LANGUAGES C)
+project(blinky LANGUAGES C)
 
 set(RKH_CFG_FILE_PATH "src")
 
