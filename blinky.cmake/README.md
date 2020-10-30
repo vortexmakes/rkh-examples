@@ -70,7 +70,7 @@ Run CMake using the Eclipse generator.
 4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles"`
 
 Import this in Eclipse do the following:
-1. Select __File_ > __Import...__ to bring up the __Import__ wizard. 
+1. Select __File__ > __Import...__ to bring up the __Import__ wizard. 
 2. Choose __Existing Project into Workspace__ and click the __Next__ button.
 3. Select the `path/to/rkh-examples/build` project directory.
 4. Click the __Finish__ button to import the selected project into the workspace. 
