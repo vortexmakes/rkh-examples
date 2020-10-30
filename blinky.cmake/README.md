@@ -55,7 +55,7 @@ RKH allows developers to verify and validate a reactive application's behaviour 
 Open a console and follow the instructions below.
 
 ### 4.1 Build
-These instructions are parte of the classic CMake build procedure:
+These instructions are part of the classic CMake build procedure:
 1. `cd path/to/rkh-examples/blinky.cmake/build`
 2. `cmake .. -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
 3. `make`
@@ -99,10 +99,13 @@ It contains Git submodules almost exclusively.
 - _CMakeLists.txt_: to make a static library from RKH framework
 
 #### _CMakeLists.txt_
-Top level CMakeLists.txt. It calls the CMakeLists.txt in the sub-directories 
-to create the following:
-- _rkh_: a static library from RKH framework
-- _blinky_: an executable
+Top level CMakeLists.txt. CMake is controlled by input files that by 
+convention are called CMakeLists.txt, which lists both configuration commands
+as well as dependencies between source files and targets. 
+In this case, it file calls the CMakeLists.txt in the sub-directories 
+_src_ and _third-party_ to create the following:
+- _blinky_: an executable from source code in _src_ directory
+- _rkh_: a static library from RKH framework in _third-party/RKH_ directory
 
 #### _build_
 All temporary build and object files are located in this directory keeping the source tree clean.
