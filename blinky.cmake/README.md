@@ -108,27 +108,24 @@ _src_ and _third-party_ to create the following:
 All temporary build and object files are located in this directory keeping the source tree clean.
 
 ### Run and debug
+#### Run on a console
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-- Open another console, and run the application blinky following instructions below:
+- Open another console, and run the blinky application following these instructions:
   - `cd path/to/rkh-examples/blinky.cmake/build`
   - `./src/blinky`
-
-Follow instruction below in order to run and debug the blinky application on Eclipse CDT
-- Import CMake project in Eclipse CDT
+  
+#### Run on Eclipse CDT
+- Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
+- [Import CMake project in Eclipse CDT](#importing-cmake-project-in-eclipse-cdt)
 - Right-click on project __blinky__ in the Eclipse __Project Explorer__
-- Choose __Run As__ > __Local C/C++ Application__
-
-The embedded Eclipse console shows up and the application starts
+- Choose __Run As__ > __Local C/C++ Application__. The embedded Eclipse console shows up and the application starts
 
 ![console-output](images/console-output.png)
 
-In order to debug the example
-
+#### Debug on Eclipse CDT
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-- Right-click on project 'Parameterized' in the Eclipse 'Project Explorer'
-- Choose 'Debug As > Local C/C++ Application'
-
-You will now see the debug perspective with the Parameterized application window open. The C/C++ editor repositions in 
+- Right-click on project __blinky__ in the Eclipse __Project Explorer__
+- Choose __Debug As__ > __Local C/C++ Application__. You will now see the debug perspective with the Blinky application window open. The C/C++ editor repositions in 
 the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)
@@ -139,6 +136,7 @@ Each trace event includes a time stamp and additional information associated wit
 
 ![trazer-output](images/trazer-output.png)
 
-It shows the trace records when the PulseCounterMgr dispatches a `evActive` trigger to a PulseCounter component, and then it get into the `Setup` state. After `ACT_MIN_TIME` seconds it goes to `Active` state and stay there until it receives `evInactive` trigger, causing it goes to `Inactive` state. Finally, after `INACT_MAX_TIME` seconds it returns `ACT_MIN_TIME` state. 
-
-Since RKH can generate more than 100 different trace events during its execution, its trace module allow you to filter one or more of them in runtime, so you can choose the traces that you need.
+It shows the trace records when the state machine processes a `after 2s`
+trigger. Since RKH can generate more than 100 different trace events 
+during its execution, its trace module allow you to filter one or more 
+of them in runtime, so you can choose the traces that you need.
