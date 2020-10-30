@@ -49,32 +49,6 @@ RKH allows developers to verify and validate a reactive application's behaviour 
 4. Check it is alright by executing `./trazer`
 
 ## CMake project
-Open a console and follow the instructions below.
-
-### Build
-These instructions are part of the classic CMake build procedure:
-1. `cd path/to/rkh-examples/blinky.cmake/build`
-2. `cmake .. -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
-3. `make`
-
-Alternatively, if you are using a modern CMake, you can instead do this:
-1. `cd path/to/rkh-examples/blinky.cmake`
-2. `cmake -S . -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
-3. `cmake --build build`
-
-### Importing CMake project in Eclipse CDT
-Run CMake using the Eclipse generator.
-1. `cd path/to/rkh-examples/`
-2. `mkdir build`
-3. `cd build`
-4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles"`
-
-Import this in Eclipse do the following:
-1. Select __File__ > __Import...__ to bring up the __Import__ wizard. 
-2. Choose __Existing Project into Workspace__ and click the __Next__ button.
-3. Select the `path/to/rkh-examples/build` project directory.
-4. Click the __Finish__ button to import the selected project into the workspace. 
-
 ### Project structure
 #### _model_
 It contains Blinky state machine model
@@ -106,6 +80,30 @@ _src_ and _third-party_ to create the following:
 
 #### _build_
 All temporary build and object files are located in this directory keeping the source tree clean.
+
+### Build
+These instructions are part of the classic CMake build procedure:
+1. `cd path/to/rkh-examples/blinky.cmake/build`
+2. `cmake .. -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
+3. `make`
+
+Alternatively, if you are using a modern CMake, you can instead do this:
+1. `cd path/to/rkh-examples/blinky.cmake`
+2. `cmake -S . -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
+3. `cmake --build build`
+
+### Importing CMake project in Eclipse CDT
+Run CMake using the Eclipse generator.
+1. `cd path/to/rkh-examples/`
+2. `mkdir build`
+3. `cd build`
+4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles"`
+
+Import this in Eclipse do the following:
+1. Select __File__ > __Import...__ to bring up the __Import__ wizard. 
+2. Choose __Existing Project into Workspace__ and click the __Next__ button.
+3. Select the `path/to/rkh-examples/build` project directory.
+4. Click the __Finish__ button to import the selected project into the workspace. 
 
 ### Run and debug
 #### Run on a console
