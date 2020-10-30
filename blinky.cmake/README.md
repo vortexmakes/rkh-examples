@@ -8,6 +8,7 @@ facility. This application could be thought as the _hello world_ program of
 a traditional programming language.
 
 The behavior of __Blinky__ is defined by the following state diagram.
+
 ![Blinky state machine](images/state-machine.png)
 
 ## This tutorial contains:
