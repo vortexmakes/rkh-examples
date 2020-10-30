@@ -1,18 +1,16 @@
 # Blinky application with RKH framework built by CMake
 
 ## Overview
-The goal of Blinky application is to explain how to represent a "flat" 
-state machine, how to use the timer services, and how to analyze the 
-state machine behaviour by means of the RKH's trace facility. 
-This application is the 'hello world' of RKH programming.
+The __Blinky__ application is a very simple but self-explanatory example 
+to explain how to represent a "flat" state machine, how to use time events, 
+and how to analyze a state machine behaviour by means of the RKH's trace 
+facility. This application could be thought as the _hello world_ program of 
+a traditional programming language.
 
-The behavior of Blinky is defined by a simple statechart that looks
-as follows.
-
+The behavior of __Blinky__ is defined by the following state diagram.
 ![Blinky state machine](images/state-machine.png)
 
 ## This tutorial contains:
-
 [1\. Description](#1-description)
 
 [2\. What RKH is?](#2-what-rkh-is)
@@ -47,10 +45,10 @@ There are several ways to install CMake, depending on your platform. Follow [thi
 ### 3.3 Trazer tool
 RKH allows developers to verify and validate a reactive application's behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events' output in a legible manner. It can be downloaded and installed as follows.
 
-1.  Download Trazer for Linux 64-bits from its [official repository](https://github.com/vortexmakes/Trazer/releases/download/3.2/RC_trazer_3_2_lnx64b.tar.gz)
-2.  Copy downloaded file to a folder and extract it
-3.  Change the directory to previous folder
-4.  Check it is alright by executing ./trazer
+1. Download Trazer for Linux 64-bits from its [official repository](https://github.com/vortexmakes/Trazer/releases/download/3.2/RC_trazer_3_2_lnx64b.tar.gz)
+2. Copy downloaded file to a folder and extract it
+3. Change the directory to previous folder
+4. Check it is alright by executing `./trazer`
 
 ## 4\. CMake project
 Open a console and follow the instructions below.
@@ -74,34 +72,39 @@ Run CMake using the Eclipse generator.
 4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles"`
 
 Import this in Eclipse do the following:
-1. Select 'File > Import...' to bring up the Import wizard. 
-2. Choose 'Existing Project into Workspace' and click the 'Next' button.
-3. Select the 'path/to/rkh-examples/build' project directory.
-4. Click the 'Finish' button to import the selected project into the workspace. 
+1. Select __File_ > __Import...__ to bring up the __Import__ wizard. 
+2. Choose __Existing Project into Workspace__ and click the __Next__ button.
+3. Select the `path/to/rkh-examples/build` project directory.
+4. Click the __Finish__ button to import the selected project into the workspace. 
 
 ### 4.2 Project structure
 #### _model_
-It contains PulseCounter and PulseCounterMgr state machines
+It contains Blinky state machine model
 
 #### _src_
-It includes both application code and BSP (Board Support Package) code. The most important files and directories are listed below:
+It includes the application code. The most important files and directories are listed below:
+- _signal.h_: defines signals as enumerated constants, which are used as state machine triggers.
+- _event.h_: defines events types, which are derived from RKH framework types.
+- _priority.h_: defines active object priorities as enumerated constants.
+- _blinky.h/.c_: specifies and implements the Blinky active object. Please correlate this implementation with the state diagram shown above.
+- _main.c_: contains the main() function, which initializes both BSP and Blinky active object, then executes the RKH framework in order to orchestrates this reactive application.
+- _rkhcfg.h_: adapts and configures RKH in compile-time.
+- _CMakeLists.txt_: to make the executable
+- _bsp.h_: defines the BSP abstraction layer
 
-*   _signals.h_: defines signals as enumerated constants, which are used as state machine triggers.
-*   _events.h_: defines events types, which are derived from RKH framework types.
-*   _priorities.h_: defines active object priorities as enumerated constants.
-*   _PulseCounterMgr.h/.c_: specifies and implements the PulseCounterMgr active object and its paramterized state machine (PulseCounter). Please correlate this implementation with the state diagrams shown above.
-*   _main.c_: contains the main() function, which initializes both BSP and PulseCounterMgr active object, then executes the RKH framework in order to orchestrates this reactive application.
-*   _rkhcfg.h_: adapts and configures RKH in compile time.
+#### _third-party_
+It contains Git submodules almost exclusively.
+- _RKH_: here is located the RKH framework's source code as a Git submodule.
+- _CMakeLists.txt_: to make a static library from RKH framework
 
-#### _bsp_
-It contains the source code of BSP for Linux platform. It emulates interrupts, implements the communication with Trazer tool and a simple event-loop, which is a non-preemptive cooperative scheduler.
+#### _CMakeLists.txt_
+Top level CMakeLists.txt. It calls the CMakeLists.txt in the sub-directories 
+to create the following:
+- _rkh_: a static library from RKH framework
+- _blinky_: an executable
 
-#### _RKH_
-Here is located the RKH framework's source code.
-
-### 4.3 Build
-*   Right-click on project 'Parameterized' in the 'Project Explorer'
-*   Choose 'Build Project'
+#### _build_
+All temporary build and object files are located in this directory keeping the source tree clean.
 
 ### 4.4 Run and debug
 *   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
