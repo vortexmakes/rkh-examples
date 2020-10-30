@@ -1,29 +1,26 @@
 # Blinky application with RKH framework built by CMake
 
 ## Overview
-The __Blinky__ application is a very simple but self-explanatory example 
+The Blinky application is a very simple but self-explanatory example 
 to explain how to represent a "flat" state machine, how to use time events, 
 and how to analyze a state machine behaviour by means of the RKH's trace 
 facility. This application could be thought as the _hello world_ program of 
 a traditional programming language.
 
-The behavior of __Blinky__ is defined by the following state diagram.
+The behavior of Blinky is defined by the following state diagram.
 
 ![Blinky state machine](images/state-machine.png)
 
 ## This tutorial contains:
-[1\. Description](#1-description)
+- [Description](#description)
+- [What RKH is?](#what-rkh-is)
+- [Toolchain installation](#toolchain-installation)
+- [CMake project](#cmake-project)
 
-[2\. What RKH is?](#2-what-rkh-is)
-
-[3\. Toolchain installation](#3-toolchain-installation)
-
-[4\. Eclipse CDT project](#4-eclipse-cdt-project)
-
-## 1\. Description
+## Description
 ...
 
-## 2\. What RKH is?
+## What RKH is?
 RKH is a flexible, efficient, highly portable, and freely available 
 open-source state machine framework providing the infrastructure for quickly 
 and safely developing reactive applications for real-time embedded systems.
@@ -38,12 +35,12 @@ RKH is open source and licensed under the GNU v3.0\. You can find the [source co
 
 If you want to learn more about the benefits of this flexible, efficient and highly portable state machine framework read on [here](https://blogs.itemis.com/en/rkh-state-machine-framework-for-reactive-and-real-time-embedded-systems).
 
-## 3\. Toolchain installation
-### 3.1 CMake
+## Toolchain installation
+### CMake
 [CMake](https://cmake.org/) is an open-source, cross-platform family of tools designed to build, test and package software.
 There are several ways to install CMake, depending on your platform. Follow [this](https://cliutils.gitlab.io/modern-cmake/chapters/intro/installing.html) instructions to do that.
 
-### 3.3 Trazer tool
+### Trazer tool
 RKH allows developers to verify and validate a reactive application's behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events' output in a legible manner. It can be downloaded and installed as follows.
 
 1. Download Trazer for Linux 64-bits from its [official repository](https://github.com/vortexmakes/Trazer/releases/download/3.2/RC_trazer_3_2_lnx64b.tar.gz)
@@ -51,10 +48,10 @@ RKH allows developers to verify and validate a reactive application's behaviour 
 3. Change the directory to previous folder
 4. Check it is alright by executing `./trazer`
 
-## 4\. CMake project
+## CMake project
 Open a console and follow the instructions below.
 
-### 4.1 Build
+### Build
 These instructions are part of the classic CMake build procedure:
 1. `cd path/to/rkh-examples/blinky.cmake/build`
 2. `cmake .. -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
@@ -65,7 +62,7 @@ Alternatively, if you are using a modern CMake, you can instead do this:
 2. `cmake -S . -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
 3. `cmake --build build`
 
-### 4.2 Importing CMake project in Eclipse CDT
+### Importing CMake project in Eclipse CDT
 Run CMake using the Eclipse generator.
 1. `cd path/to/rkh-examples/`
 2. `mkdir build`
@@ -78,7 +75,7 @@ Import this in Eclipse do the following:
 3. Select the `path/to/rkh-examples/build` project directory.
 4. Click the __Finish__ button to import the selected project into the workspace. 
 
-### 4.2 Project structure
+### Project structure
 #### _model_
 It contains Blinky state machine model
 
@@ -110,10 +107,16 @@ _src_ and _third-party_ to create the following:
 #### _build_
 All temporary build and object files are located in this directory keeping the source tree clean.
 
-### 4.4 Run and debug
-*   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-*   Right-click on project 'Parameterized' in the Eclipse 'Project Explorer'
-*   Choose 'Run As > Local C/C++ Application'
+### Run and debug
+- Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
+- Open another console, and run the application blinky following instructions below:
+  - `cd path/to/rkh-examples/blinky.cmake/build`
+  - `./src/blinky`
+
+Follow instruction below in order to run and debug the blinky application on Eclipse CDT
+- Import CMake project in Eclipse CDT
+- Right-click on project __blinky__ in the Eclipse __Project Explorer__
+- Choose __Run As__ > __Local C/C++ Application__
 
 The embedded Eclipse console shows up and the application starts
 
@@ -121,16 +124,16 @@ The embedded Eclipse console shows up and the application starts
 
 In order to debug the example
 
-*   Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-*   Right-click on project 'Parameterized' in the Eclipse 'Project Explorer'
-*   Choose 'Debug As > Local C/C++ Application'
+- Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
+- Right-click on project 'Parameterized' in the Eclipse 'Project Explorer'
+- Choose 'Debug As > Local C/C++ Application'
 
 You will now see the debug perspective with the Parameterized application window open. The C/C++ editor repositions in 
 the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)
 
-### 4.5 Verify and validate
+### Verify and validate
 While the application is running, you can validate and verify its behaviour through the trace events showed on the Trazer output.
 Each trace event includes a time stamp and additional information associated with it. A capture of Trazer output is shown below. 
 
