@@ -1,10 +1,12 @@
 # Blinky application with RKH framework built by CMake
 
 ## Overview
-The Blinky application is a very simple but self-explanatory example 
-to explain how to represent a "flat" state machine, how to use time events, 
-and how to analyze a state machine behaviour by means of the RKH's trace 
-facility. This application could be thought as the _hello world_ program of 
+Blinky application is a simple but self-explanatory example 
+to understand how to represent a "flat" state machine, how to use time events, 
+and how to analyze a state machine behaviour by means of the RKH framework. 
+Moreover, since this example is built by CMake, it could be used as a starting 
+point for building applications based on RKH framework using CMake.
+The Blinky application could be thought as the _hello world_ program of 
 a traditional programming language.
 
 The behavior of Blinky is defined by the following state diagram.
