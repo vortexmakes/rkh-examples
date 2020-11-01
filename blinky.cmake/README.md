@@ -1,5 +1,5 @@
 # Blinky application with RKH framework built by CMake
-## This tutorial contains:
+## Content:
 - [Overview](#overview)
 - [What RKH is?](#what-rkh-is)
 - [Toolchain installation](#toolchain-installation)
@@ -36,7 +36,7 @@ If you want to learn more about the benefits of this flexible, efficient and hig
 ## Toolchain installation
 ### CMake
 [CMake](https://cmake.org/) is an open-source, cross-platform family of tools designed to build, test and package software.
-There are several ways to install CMake, depending on your platform. Follow [this](https://cliutils.gitlab.io/modern-cmake/chapters/intro/installing.html) instructions to do that.
+There are several ways to install CMake, depending on your platform. Follow [these](https://cliutils.gitlab.io/modern-cmake/chapters/intro/installing.html) instructions to do that.
 
 ### Trazer tool
 RKH allows developers to verify and validate a reactive application's behaviour at runtime by means of its built-in tracer. In addition, RKH provides a very simple but powerful console application, called Trazer, to visualize the trace events' output in a legible manner. It can be downloaded and installed as follows.
@@ -57,7 +57,7 @@ It includes the application code. The most important files and directories are l
 - _event.h_: defines events types, which are derived from RKH framework types.
 - _priority.h_: defines active object priorities as enumerated constants.
 - _blinky.h/.c_: specifies and implements the Blinky active object. Please correlate this implementation with the state diagram shown above.
-- _main.c_: contains the main() function, which initializes both BSP and Blinky active object, then executes the RKH framework in order to orchestrates this reactive application.
+- _main.c_: contains the `main()` function, which initializes both BSP and Blinky active object, then executes the RKH framework in order to orchestrates this reactive application.
 - _rkhcfg.h_: adapts and configures RKH in compile-time.
 - _CMakeLists.txt_: to make the executable
 - _bsp.h_: defines the BSP abstraction layer
@@ -65,13 +65,16 @@ It includes the application code. The most important files and directories are l
 #### _third-party_
 It contains Git submodules almost exclusively.
 - _RKH_: here is located the RKH framework's source code as a Git submodule.
-- _CMakeLists.txt_: to make a static library from RKH framework
+- _CMakeLists.txt_: to make a static library from RKH's source code
 
 #### _CMakeLists.txt_
 Top level CMakeLists.txt. CMake is controlled by input files that by 
 convention are called CMakeLists.txt, which lists both configuration commands
-as well as dependencies between source files and targets. 
-In this case, it file calls the CMakeLists.txt in the sub-directories 
+as well as dependencies between source files and targets. A CMake-based build 
+system is organized as a set of high-level logical targets. Each target 
+corresponds to an executable or library, or is a custom target containing 
+custom commands. 
+In this case, this file calls the CMakeLists.txt in the sub-directories 
 _src_ and _third-party_ to create the following:
 - _blinky_: an executable from source code in _src_ directory
 - _rkh_: a static library from RKH framework in _third-party/RKH_ directory
@@ -90,38 +93,44 @@ Alternatively, if you are using a modern CMake, you can instead do this:
 2. `cmake -S . -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
 3. `cmake --build build`
 
-### Importing CMake project in Eclipse CDT
-Run CMake using the Eclipse generator.
+### Run
+- Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
+- Open another console, and run the blinky application following these instructions:
+  - `cd path/to/rkh-examples/blinky.cmake/build`
+  - `./src/blinky`
+
+### Working with CMake and Eclipse CDT
+#### Generate an Eclipse CDT project from CMake
+First of all, run CMake using the Eclipse generator __"Eclipse CDT4 - Unix Makefiles"__.
 1. `cd path/to/rkh-examples/`
 2. `mkdir build`
 3. `cd build`
 4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles"`
 
-Import this in Eclipse do the following:
+#### Import the generated Eclipse CDT project
+Then, import the previously generated project in Eclipse:
 1. Select __File__ > __Import...__ to bring up the __Import__ wizard. 
 2. Choose __Existing Project into Workspace__ and click the __Next__ button.
 3. Select the `path/to/rkh-examples/build` project directory.
 4. Click the __Finish__ button to import the selected project into the workspace. 
 
-### Run and debug
-#### Run on a console
-- Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-- Open another console, and run the blinky application following these instructions:
-  - `cd path/to/rkh-examples/blinky.cmake/build`
-  - `./src/blinky`
-  
-#### Run on Eclipse CDT
+#### Build
+1. Right-click on project __blinky@build__ in the __Project Explorer__
+2. Choose __Build Project__
+
+#### Run
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 - [Import CMake project in Eclipse CDT](#importing-cmake-project-in-eclipse-cdt)
-- Right-click on project __blinky__ in the Eclipse __Project Explorer__
-- Choose __Run As__ > __Local C/C++ Application__. The embedded Eclipse console shows up and the application starts
+- Right-click on project __blinky@build__ in the Eclipse __Project Explorer__
+- Choose __Run As__ > __Local C/C++ Application__ > __blinky__. The embedded Eclipse console shows up and the application starts
 
 ![console-output](images/console-output.png)
 
-#### Debug on Eclipse CDT
+#### Debug
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-- Right-click on project __blinky__ in the Eclipse __Project Explorer__
-- Choose __Debug As__ > __Local C/C++ Application__. You will now see the debug perspective with the Blinky application window open. The C/C++ editor repositions in 
+- [Import CMake project in Eclipse CDT](#importing-cmake-project-in-eclipse-cdt)
+- Right-click on project __blinky@build__ in the Eclipse __Project Explorer__
+- Choose __Debug As__ > __Local C/C++ Application__ > __blinky__. You will now see the debug perspective with the Blinky application window open. The C/C++ editor repositions in 
 the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)
