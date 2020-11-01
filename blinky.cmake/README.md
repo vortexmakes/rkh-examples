@@ -4,6 +4,9 @@
 - [What RKH is?](#what-rkh-is)
 - [Toolchain installation](#toolchain-installation)
 - [CMake project](#cmake-project)
+  - [Bluid](#build)
+  - [Run](#run)
+  - [Working with CMake and Eclipse CDT](#working-with-cmake-and-eclipse-cdt)
 
 ## Overview
 Blinky application is a simple but self-explanatory example 
