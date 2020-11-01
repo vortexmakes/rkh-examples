@@ -1,4 +1,9 @@
 # Blinky application with RKH framework built by CMake
+## This tutorial contains:
+- [Overview](#overview)
+- [What RKH is?](#what-rkh-is)
+- [Toolchain installation](#toolchain-installation)
+- [CMake project](#cmake-project)
 
 ## Overview
 Blinky application is a simple but self-explanatory example 
@@ -12,15 +17,6 @@ a traditional programming language.
 The behavior of Blinky is defined by the following state diagram.
 
 ![Blinky state machine](images/state-machine.png)
-
-## This tutorial contains:
-- [Description](#description)
-- [What RKH is?](#what-rkh-is)
-- [Toolchain installation](#toolchain-installation)
-- [CMake project](#cmake-project)
-
-## Description
-...
 
 ## What RKH is?
 RKH is a flexible, efficient, highly portable, and freely available 
