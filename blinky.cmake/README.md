@@ -4,7 +4,7 @@
 - [What RKH is?](#what-rkh-is)
 - [Toolchain installation](#toolchain-installation)
 - [CMake project](#cmake-project)
-  - [Bluid](#build)
+  - [Build](#build)
   - [Run](#run)
   - [Working with CMake and Eclipse CDT](#working-with-cmake-and-eclipse-cdt)
 
@@ -118,22 +118,22 @@ Then, import the previously generated project in Eclipse:
 4. Click the __Finish__ button to import the selected project into the workspace. 
 
 #### Build
-1. Right-click on project __blinky@build__ in the __Project Explorer__
+1. Right-click on project __blinky-Debug@build__ in the __Project Explorer__
 2. Choose __Build Project__
 
 #### Run
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 - [Import CMake project in Eclipse CDT](#importing-cmake-project-in-eclipse-cdt)
-- Right-click on project __blinky@build__ in the Eclipse __Project Explorer__
-- Choose __Run As__ > __Local C/C++ Application__ > __blinky__. The embedded Eclipse console shows up and the application starts
+- Right-click on project __blinky-Debug@build__ in the Eclipse __Project Explorer__
+- Choose __Run As__ > __Local C/C++ Application__ > __blinky__ (located in src/blinky). The embedded Eclipse console shows up and the application starts
 
 ![console-output](images/console-output.png)
 
 #### Debug
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 - [Import CMake project in Eclipse CDT](#importing-cmake-project-in-eclipse-cdt)
-- Right-click on project __blinky@build__ in the Eclipse __Project Explorer__
-- Choose __Debug As__ > __Local C/C++ Application__ > __blinky__. You will now see the debug perspective with the Blinky application window open. The C/C++ editor repositions in 
+- Right-click on project __blinky-Debug@build__ in the Eclipse __Project Explorer__
+- Choose __Debug As__ > __Local C/C++ Application__ > __blinky__ (located in src/blinky). You will now see the debug perspective with the Blinky application window open. The C/C++ editor repositions in 
 the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)

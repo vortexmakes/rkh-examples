@@ -4,7 +4,7 @@ project(blinky LANGUAGES C)
 set(RKH_CFG_FILE_PATH "src")
 
 # Let's nicely support folders in IDEs
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+#set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(CMakePrintHelpers)
 
 # This is here because preprocessor definitions specified with 
