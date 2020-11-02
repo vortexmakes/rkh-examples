@@ -108,7 +108,7 @@ First of all, run CMake using the Eclipse generator __"Eclipse CDT4 - Unix Makef
 1. `cd path/to/rkh-examples/`
 2. `mkdir build`
 3. `cd build`
-4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles"`
+4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug`
 
 #### Import the generated Eclipse CDT project
 Then, import the previously generated project in Eclipse:
