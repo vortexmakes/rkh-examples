@@ -125,7 +125,7 @@ Then, import the previously generated project in Eclipse:
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 - [Import CMake project in Eclipse CDT](#importing-cmake-project-in-eclipse-cdt)
 - Right-click on project __blinky-Debug@build__ in the Eclipse __Project Explorer__
-- Choose __Run As__ > __Local C/C++ Application__ > blinky (located in _src/blinky_). The embedded Eclipse console shows up and the application starts
+- Choose __Run As__ > __Local C/C++ Application__ > blinky (with green bug label, located in _src/blinky_). The embedded Eclipse console shows up and the application starts
 
 ![console-output](images/console-output.png)
 
@@ -133,7 +133,7 @@ Then, import the previously generated project in Eclipse:
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 - [Import CMake project in Eclipse CDT](#importing-cmake-project-in-eclipse-cdt)
 - Right-click on project __blinky-Debug@build__ in the Eclipse __Project Explorer__
-- Choose __Debug As__ > __Local C/C++ Application__ > blinky (located in _src/blinky_). You will now see the debug perspective with the Blinky application window open. The C/C++ editor repositions in 
+- Choose __Debug As__ > __Local C/C++ Application__ > blinky (with green bug label, located in _src/blinky_). You will now see the debug perspective with the Blinky application window open. The C/C++ editor repositions in 
 the perspective.
 
 ![debug-snapshot](images/debug-snapshot.png)
