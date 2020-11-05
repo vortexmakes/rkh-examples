@@ -4,3 +4,7 @@
 [submodule "parameterized-sm.eclipse-cdt/RKH"]
 	path = parameterized-sm.eclipse-cdt/RKH
 	url = https://github.com/vortexmakes/RKH.git
+[submodule "blinky.cmake/third-party/RKH"]
+	path = blinky.cmake/third-party/RKH
+	url = https://github.com/vortexmakes/RKH.git
+	branch = develop
