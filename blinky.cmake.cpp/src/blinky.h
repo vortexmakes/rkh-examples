@@ -17,28 +17,32 @@
 /* ----------------------------- Include files ----------------------------- */
 #include "rkh.h"
 #include <string>
+#include "priority.h"
 
 /* ---------------------- External C language linkage ---------------------- */
 /* --------------------------------- Macros -------------------------------- */
 /* -------------------------------- Constants ------------------------------ */
 /* ................................ Signals ................................ */
 /* ........................ Declares active object ......................... */
-RKH_SMA_DCLR(blinky);
-
-class Blinky
+class Blinky: public RKH_SMA_T
 {
-    RKH_SMA_T ao;       /* base structure */
-    rui8_t cnt;         /* private member */
+    public:
+    enum Signals
+    {
+        evTout,         /* timeout */
+        evTerminate     /* finishes the program */
+    };
+
+    rui8_t cnt = 0;
     RKHTmEvt timer;     /* it is responsible for toggling the LED */
                         /* posting the evTout signal event to active object */
                         /* 'blinky' */
-    public:
-    Blinky(int prio);
-    enum Signals
-    {
-	    evTout,         /* timeout */
-        evTerminate
-    };
+    Blinky() = delete;
+    Blinky(ActObjPriority prio);
+    void init(RKH_EVT_T *pe);
+    void nLedOn();
+    void nLedOff();
+    void print() const;
 };
 
 /* ------------------------------- Data types ------------------------------ */

@@ -16,11 +16,25 @@
 /* --------------------------------- Macros -------------------------------- */
 /* -------------------------------- Constants ------------------------------ */
 /* ------------------------------- Data types ------------------------------ */
+class Bsp
+{
+    static Bsp *pInstance;
+    static const RKH_EVT_T evTerm;
+    friend void bsp_keyParser(int c);
+    friend void bsp_timeTick(void);
+    protected:
+        Bsp(int argc, char *argv[]);
+        ~Bsp() {};
+    public:
+        Bsp(Bsp&) = delete;
+        void operator=(const Bsp&) = delete;
+        static Bsp *getInstance(int argc, char *argv[]);
+        void ledOn() const;
+        void ledOff() const;
+};
+
 /* -------------------------- External variables --------------------------- */
 /* -------------------------- Function prototypes -------------------------- */
-void bsp_ledOn(void);
-void bsp_ledOff(void);
-
 /* -------------------- External C language linkage end -------------------- */
 /* ------------------------------ Module end ------------------------------- */
 #endif
