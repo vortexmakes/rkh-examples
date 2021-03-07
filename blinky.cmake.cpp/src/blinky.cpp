@@ -18,6 +18,7 @@
 #include "event.h"
 #include "bsp.h"
 #include <iostream>
+#include "rkhfwk_adapter.h"
 
 /* ----------------------------- Local macros ------------------------------ */
 #define LedOffTime      RKH_TIME_SEC(2)
@@ -50,8 +51,9 @@ RKH_END_TRANS_TABLE
 /* ............................. Active object ............................. */
 Blinky::Blinky(ActObjPriority prio)
 {
-    RKH_SM_INIT(static_cast<RKH_SMA_T*>(this),      /* performs a upcast */ 
-                blinky, prio, HCAL, &ledOn, initCb, NULL);
+//  RKH_SM_INIT(static_cast<RKH_SMA_T*>(this),      /* performs an upcast */ 
+//              blinky, prio, HCAL, &ledOn, initCb, NULL);
+    RKHActObjInit(this, "blinky", prio, &ledOn, initCb);
 }
 
 /* ------------------------------- Constants ------------------------------- */
@@ -70,8 +72,9 @@ Blinky::init(RKH_EVT_T *pe)
     RKH_TR_FWK_QUEUE(&equeue);
     RKH_TR_FWK_STATE(ao, &ledOn);
     RKH_TR_FWK_STATE(ao, &ledOff);
-    RKH_TR_FWK_OBJ_NAME(&timer.tmr, "Blinky::timer");
+    RKH_TR_FWK_OBJ_NAME(&timer.tmr, "timer");
     RKH_TR_FWK_SIG(Blinky::evTout);
+    RKH_TR_FWK_SIG(Blinky::evTerminate);
 
     RKH_SET_STATIC_EVENT(&timer, Blinky::evTout);
     RKH_TMR_INIT(&timer.tmr, RKH_UPCAST(RKH_EVT_T, &timer), NULL);
