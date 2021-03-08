@@ -21,7 +21,7 @@ RKH_THIS_MODULE
 
 /* ---------------------------- Local data types --------------------------- */
 /* ---------------------------- Global variables --------------------------- */
-extern RKH_SMA_T *blinky;
+extern RKH_SMA_T* blinky;
 
 /* ---------------------------- Local variables ---------------------------- */
 Bsp* Bsp::pInstance = nullptr;
@@ -45,7 +45,7 @@ bsp_timeTick(void)
 {
 }
 
-Bsp::Bsp(int argc, char *argv[])
+Bsp::Bsp(int argc, char* argv[])
 {
     std::cout << "Blinky is the 'hello world' of RKH programming!\n\n";
     std::cout << "RKH version      = " << RKH_RELEASE << std::endl;
@@ -72,7 +72,7 @@ Bsp::Bsp(int argc, char *argv[])
 }
 
 Bsp *
-Bsp::getInstance(int argc, char *argv[])
+Bsp::getInstance(int argc, char* argv[])
 {
     if (pInstance == nullptr)
     {

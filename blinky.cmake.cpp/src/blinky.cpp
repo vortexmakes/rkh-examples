@@ -21,19 +21,28 @@
 #include "rkhfwk_adapter.h"
 
 /* ----------------------------- Local macros ------------------------------ */
-#define LedOffTime      RKH_TIME_SEC(2)
-#define LedOnTime       RKH_TIME_SEC(2)
+inline int
+LedOffTime(int value)
+{
+    return RKH_TIME_SEC(value);
+}
+
+inline int
+LedOnTime(int value)
+{
+    return RKH_TIME_SEC(value);
+}
 
 /* ......................... Declares active object ........................ */
 /* ................... Declares states and pseudostates .................... */
 RKH_DCLR_BASIC_STATE ledOff, ledOn;
 
 /* ........................ Declares effect actions ........................ */
-static void initCb(RKH_SMA_T *const me, RKH_EVT_T *pe);
+static void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
 
 /* ......................... Declares entry actions ........................ */
-static void nLedOnCb(RKH_SMA_T *const me);
-static void nLedOffCb(RKH_SMA_T *const me);
+static void nLedOnCb(RKH_SMA_T* const me);
+static void nLedOffCb(RKH_SMA_T* const me);
 
 /* ......................... Declares exit actions ......................... */
 /* ............................ Declares guards ............................ */
@@ -49,11 +58,9 @@ RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOn),
 RKH_END_TRANS_TABLE
 
 /* ............................. Active object ............................. */
-Blinky::Blinky(ActObjPriority prio)
+Blinky::Blinky(ActObjPriority prio, ActObjName name)
 {
-//  RKH_SM_INIT(static_cast<RKH_SMA_T*>(this),      /* performs an upcast */ 
-//              blinky, prio, HCAL, &ledOn, initCb, NULL);
-    RKHActObjInit(this, "blinky", prio, &ledOn, initCb);
+    RKHActObjInit(this, name, prio, &ledOn, initCb);
 }
 
 /* ------------------------------- Constants ------------------------------- */
@@ -64,27 +71,27 @@ Blinky::Blinky(ActObjPriority prio)
 /* ---------------------------- Local functions ---------------------------- */
 /* ............................ Effect actions ............................. */
 void 
-Blinky::init(RKH_EVT_T *pe)
+Blinky::init(RKH_EVT_T* pe)
 {
-    RKH_SMA_T *ao = static_cast<RKH_SMA_T*>(this);  /* performs a upcast */
+    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
 
     RKH_TR_FWK_AO(ao);
     RKH_TR_FWK_QUEUE(&equeue);
     RKH_TR_FWK_STATE(ao, &ledOn);
     RKH_TR_FWK_STATE(ao, &ledOff);
     RKH_TR_FWK_OBJ_NAME(&timer.tmr, "timer");
-    RKH_TR_FWK_SIG(Blinky::evTout);
-    RKH_TR_FWK_SIG(Blinky::evTerminate);
+    RKH_TR_FWK_SIG(evTout);
+    RKH_TR_FWK_SIG(evTerminate);
 
-    RKH_SET_STATIC_EVENT(&timer, Blinky::evTout);
+    RKH_SET_STATIC_EVENT(&timer, evTout);
     RKH_TMR_INIT(&timer.tmr, RKH_UPCAST(RKH_EVT_T, &timer), NULL);
     cnt = 0;
 }
 
 static void
-initCb(RKH_SMA_T *const me, RKH_EVT_T *pe)
+initCb(RKH_SMA_T* const me, RKH_EVT_T* pe)
 {
-    Blinky *realMe = static_cast<Blinky*>(me);      /* performs a downcast */
+    Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
     realMe->init(pe);
 }
 
@@ -92,35 +99,35 @@ initCb(RKH_SMA_T *const me, RKH_EVT_T *pe)
 void 
 Blinky::nLedOn()
 {
-    Bsp *bsp = Bsp::getInstance(0, nullptr);
-    RKH_SMA_T *ao = static_cast<RKH_SMA_T*>(this);  /* performs a upcast */
+    Bsp* bsp = Bsp::getInstance(0, nullptr);
+    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
 
-    RKH_TMR_ONESHOT(&timer.tmr, ao, LedOnTime);
+    RKH_TMR_ONESHOT(&timer.tmr, ao, LedOnTime(2));
     bsp->ledOn();
     ++cnt;
 }
 
 static void
-nLedOnCb(RKH_SMA_T *const me)
+nLedOnCb(RKH_SMA_T* const me)
 {
-    Blinky *realMe = static_cast<Blinky*>(me);      /* performs a downcast */
+    Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
     realMe->nLedOn();
 }
 
 void 
 Blinky::nLedOff()
 {
-    Bsp *bsp = Bsp::getInstance(0, nullptr);
-    RKH_SMA_T *ao = static_cast<RKH_SMA_T*>(this);  /* performs a upcast */
+    Bsp* bsp = Bsp::getInstance(0, nullptr);
+    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
 
-    RKH_TMR_ONESHOT(&timer.tmr, ao, LedOffTime);
+    RKH_TMR_ONESHOT(&timer.tmr, ao, LedOffTime(2));
     bsp->ledOff();
 }
 
 static void
-nLedOffCb(RKH_SMA_T *const me)
+nLedOffCb(RKH_SMA_T* const me)
 {
-    Blinky *realMe = static_cast<Blinky*>(me);      /* performs a downcast */
+    Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
     realMe->nLedOff();
 }
 
