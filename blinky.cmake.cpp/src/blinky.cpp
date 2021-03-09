@@ -10,6 +10,18 @@
  */
 
 /* --------------------------------- Notes --------------------------------- */
+/* Despite RKH framework is written in C language, it could be used in a C++ 
+ * application without much effort. This is mainly due to RKH framework was 
+ * developed from ground up using OOP concepts. However, you have to keep in 
+ * mind some simple things if you want to use it in your C++ application:
+ *
+ * - An active class must be derived from the RKH's RKH_SMA_T class.
+ * - Every state machine's action is implemented as a C function callback
+ * - Every C callback only calls a specific C++ method of the active class.
+ * - So, every C callback has its own C++ method.
+ * - It implements the dynamic action's behavior.
+ */
+
 /* ----------------------------- Include files ----------------------------- */
 #include "rkh.h"
 #include "blinky.h"
@@ -49,12 +61,12 @@ static void nLedOffCb(RKH_SMA_T* const me);
 /* ........................ States and pseudostates ........................ */
 RKH_CREATE_BASIC_STATE(ledOn, nLedOnCb, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(ledOn)
-RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOff),
+    RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOff),
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(ledOff, nLedOffCb, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(ledOff)
-RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOn),
+    RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOn),
 RKH_END_TRANS_TABLE
 
 /* ............................. Active object ............................. */
