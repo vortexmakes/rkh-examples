@@ -16,9 +16,10 @@
  * mind some simple things if you want to use it in your C++ application:
  *
  * - An active class must be derived from the RKH's class RKH_SMA_T.
- * - Every state machine's action is implemented as a C function callback.
- * - These functions are declared as private and friend ones.
- * - C callbacks implements the dynamic action's behavior using C++ as usual.
+ * - Every state machine's action is implemented as a C function callback
+ * - Every C callback only calls a specific C++ method of the active class.
+ * - So, every C callback has its own C++ method.
+ * - It implements the dynamic action's behavior.
  */
 
 /* ----------------------------- Include files ----------------------------- */
@@ -49,11 +50,11 @@ LedOnTime(int value)
 RKH_DCLR_BASIC_STATE ledOff, ledOn;
 
 /* ........................ Declares effect actions ........................ */
-void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
+static void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
 
 /* ......................... Declares entry actions ........................ */
-void nLedOnCb(RKH_SMA_T* const me);
-void nLedOffCb(RKH_SMA_T* const me);
+static void nLedOnCb(RKH_SMA_T* const me);
+static void nLedOffCb(RKH_SMA_T* const me);
 
 /* ......................... Declares exit actions ......................... */
 /* ............................ Declares guards ............................ */
@@ -81,46 +82,65 @@ Blinky::Blinky(ActObjPriority prio, ActObjName name)
 /* ----------------------- Local function prototypes ----------------------- */
 /* ---------------------------- Local functions ---------------------------- */
 /* ............................ Effect actions ............................. */
-void
+void 
+Blinky::init(RKH_EVT_T* pe)
+{
+    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
+
+    RKH_TR_FWK_AO(ao);
+    RKH_TR_FWK_QUEUE(&equeue);
+    RKH_TR_FWK_STATE(ao, &ledOn);
+    RKH_TR_FWK_STATE(ao, &ledOff);
+    RKH_TR_FWK_OBJ_NAME(&timer.tmr, "timer");
+    RKH_TR_FWK_SIG(evTout);
+    RKH_TR_FWK_SIG(evTerminate);
+
+    RKH_SET_STATIC_EVENT(&timer, evTout);
+    RKH_TMR_INIT(&timer.tmr, RKH_UPCAST(RKH_EVT_T, &timer), NULL);
+    cnt = 0;
+}
+
+static void
 initCb(RKH_SMA_T* const me, RKH_EVT_T* pe)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
-
-    RKH_TR_FWK_AO(me);
-    RKH_TR_FWK_QUEUE(&me->equeue);
-    RKH_TR_FWK_STATE(me, &ledOn);
-    RKH_TR_FWK_STATE(me, &ledOff);
-    RKH_TR_FWK_OBJ_NAME(&realMe->timer.tmr, "timer");
-    RKH_TR_FWK_SIG(Blinky::evTout);
-    RKH_TR_FWK_SIG(Blinky::evTerminate);
-
-    RKH_SET_STATIC_EVENT(&realMe->timer, Blinky::evTout);
-    RKH_TMR_INIT(&realMe->timer.tmr, 
-                 RKH_UPCAST(RKH_EVT_T, &realMe->timer), 
-                 NULL);
-    realMe->cnt = 0;
+    realMe->init(pe);
 }
 
 /* ............................. Entry actions ............................. */
-void
+void 
+Blinky::nLedOn()
+{
+    Bsp* bsp = Bsp::getInstance(0, nullptr);
+    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
+
+    RKH_TMR_ONESHOT(&timer.tmr, ao, LedOnTime(2));
+    bsp->ledOn();
+    ++cnt;
+}
+
+static void
 nLedOnCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
-    Bsp* bsp = Bsp::getInstance(0, nullptr);
-
-    RKH_TMR_ONESHOT(&realMe->timer.tmr, me, LedOnTime(2));
-    bsp->ledOn();
-    ++realMe->cnt;
+    realMe->nLedOn();
 }
 
-void
+void 
+Blinky::nLedOff()
+{
+    Bsp* bsp = Bsp::getInstance(0, nullptr);
+    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
+
+    RKH_TMR_ONESHOT(&timer.tmr, ao, LedOffTime(2));
+    bsp->ledOff();
+}
+
+static void
 nLedOffCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
-    Bsp* bsp = Bsp::getInstance(0, nullptr);
-
-    RKH_TMR_ONESHOT(&realMe->timer.tmr, me, LedOffTime(2));
-    bsp->ledOff();
+    realMe->nLedOff();
 }
 
 /* ............................. Exit actions .............................. */
@@ -136,18 +156,6 @@ Blinky::print() const
         "RKH_SMA_T::sm.name = " << 
         sm.name << std::endl;
     std::cout << std::endl;
-}
-
-RKH_EVT_T** 
-Blinky::getEvtQue()
-{
-    return &qsto[0];
-}
-
-unsigned int
-Blinky::getSizeOfEvtQue() const
-{
-    return Blinky::QSTO_SIZE;
 }
 
 /* ------------------------------ End of file ------------------------------ */

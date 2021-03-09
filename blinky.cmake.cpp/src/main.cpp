@@ -35,7 +35,9 @@ main(int argc, char* argv[])
     aoBlinky.print();
     Bsp::getInstance(argc, argv);
      
-    RKH_SMA_ACTIVATE(blinky, aoBlinky.qsto, Blinky::QSTO_SIZE, 0, 0);
+    RKH_SMA_ACTIVATE(blinky, 
+                     aoBlinky.getEvtQue(), 
+                     aoBlinky.getSizeOfEvtQue(), 0, 0);
     rkh_fwk_enter();
     RKH_TRC_CLOSE();
     return 0;

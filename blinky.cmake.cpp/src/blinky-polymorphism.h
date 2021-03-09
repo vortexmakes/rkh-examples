@@ -25,8 +25,16 @@
 /* ........................ Declares active object ......................... */
 class Blinky: public RKH_SMA_T
 {
+    public:
     /* ------------------------------ Constants ---------------------------- */
     static const unsigned int QSTO_SIZE = 4;
+
+    /* .............................. Signals .............................. */
+    enum Signals
+    {
+        evTout,         /* timeout */
+        evTerminate     /* finishes the program */
+    };
 
     /* ----------------------------- Attributes ---------------------------- */
     /* ............................ Event queue ............................ */
@@ -38,30 +46,20 @@ class Blinky: public RKH_SMA_T
                         /* posting the evTout signal event to active object */
                         /* 'blinky' */
 
-    /* .......................... Effect actions ........................... */
-    friend void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
-
-    /* ........................... Entry actions ........................... */
-    friend void nLedOnCb(RKH_SMA_T* const me);
-    friend void nLedOffCb(RKH_SMA_T* const me);
-
-    /* ........................... Exit actions ............................ */
-    /* .............................. Guards ............................... */
-
-    public:
-    /* .............................. Signals .............................. */
-    enum Signals
-    {
-        evTout,         /* timeout */
-        evTerminate     /* finishes the program */
-    };
-
     /* ----------------------------- Functions ----------------------------- */
     Blinky() = delete;
     Blinky(ActObjPriority prio, ActObjName name);
     void print() const;
-    RKH_EVT_T** getEvtQue();
-    unsigned int getSizeOfEvtQue() const;
+
+    /* .......................... Effect actions ........................... */
+    void init(RKH_EVT_T* pe);
+
+    /* ........................... Entry actions ........................... */
+    void nLedOn();
+    void nLedOff();
+
+    /* ........................... Exit actions ............................ */
+    /* .............................. Guards ............................... */
 };
 
 /* ------------------------------- Data types ------------------------------ */
