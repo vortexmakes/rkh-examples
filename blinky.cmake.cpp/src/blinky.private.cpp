@@ -12,11 +12,13 @@
 /* --------------------------------- Notes --------------------------------- */
 /* Despite RKH framework is written in C language, it could be used in a C++ 
  * application without much effort. This is mainly due to RKH framework was 
- * developed from ground up using OOP concepts. However, you have to keep in 
+ * developed from ground up using OOP concepts. You have to keep in 
  * mind simple things if you want to use it in your C++ application:
  *
  * - An active class must be derived from the class RKH_SMA_T of RKH.
- * - Every state machine's action must be implemented as a C callback function.
+ * - Every state machine's action must be implemented as a callback function, 
+ *   whose signature must comply with RKH requirements, but the body of these 
+ *   callbacks are written in C++ language.
  *
  * Additional notes about this example:
  * - All variable members are private, so some of them can be accessed 
@@ -25,9 +27,10 @@
  *   of the active class.
  * - These callbacks implement the dynamic action's behavior using C++ as 
  *   usual.
- * - Before accessing to active class members inside a callback, it is 
- *   necessary to perform a downcast to active class, because these 
- *   callbacks are not class member functions.
+ * - Before accessing to active class members a callback must perform a 
+ *   downcast to the active class, because a pointer to an object of type 
+ *   RKH_SMA_T (base class) is passed as parameter. It represents the active 
+ *   object or context.
  */
 
 /* ----------------------------- Include files ----------------------------- */

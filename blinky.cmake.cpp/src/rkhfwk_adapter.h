@@ -1,7 +1,7 @@
 /**
  *  \file       rkhfwk_adapter.h
- *  \brief      It files contains useful templates and classes for using RKH 
- *              in C++ applications.
+ *  \brief      It files contains useful resources for using RKH in 
+ *              C++ applications.
  */
 
 /* -------------------------- Development history -------------------------- */

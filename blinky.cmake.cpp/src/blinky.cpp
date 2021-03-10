@@ -25,9 +25,8 @@
  * - C callbacks are private and non-member functions of the active class.
  * - Having defined C++ methods as protected, C callbacks were declared as 
  *   friends of the active class.
- * - Before accessing to active class members inside a callback, it is 
- *   necessary to perform a downcast to active class, because these 
- *   callbacks are not class member functions.
+ * - Before accessing to active class members a callback must perform a 
+ *   downcast to the active class.
  * - Using inheritance the behavior of state machine's actions could 
  *   be dynamically changed.
  */
