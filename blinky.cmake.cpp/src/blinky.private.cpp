@@ -13,17 +13,18 @@
 /* Despite RKH framework is written in C language, it could be used in a C++ 
  * application without much effort. This is mainly due to RKH framework was 
  * developed from ground up using OOP concepts. However, you have to keep in 
- * mind some simple things if you want to use it in your C++ application:
+ * mind simple things if you want to use it in your C++ application:
  *
  * - An active class must be derived from the class RKH_SMA_T of RKH.
  * - Every state machine's action must be implemented as a C callback function.
  *
  * Additional notes about this example:
- * - Every C callback just calls a specific C++ method of the active class.
- * - It means that every C callback has its own C++ method, which implements 
- *   the dynamic action's behavior.
- * - C callbacks are private, static and non-member functions of the active 
- *   class.
+ * - All variable members are private, so some of them can be accessed 
+ *   through a specific interface.
+ * - C callbacks are non-member functions, so they are declared as friends 
+ *   of the active class.
+ * - These callbacks implement the dynamic action's behavior using C++ as 
+ *   usual.
  * - Before accessing to active class members inside a callback, it is 
  *   necessary to perform a downcast to active class, because these 
  *   callbacks are not class member functions.
@@ -57,23 +58,23 @@ LedOnTime(int value)
 RKH_DCLR_BASIC_STATE ledOff, ledOn;
 
 /* ........................ Declares effect actions ........................ */
-static void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
+void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
 
 /* ......................... Declares entry actions ........................ */
-static void nLedOnCb(RKH_SMA_T* const me);
-static void nLedOffCb(RKH_SMA_T* const me);
+void nLedOnCb(RKH_SMA_T* const me);
+void nLedOffCb(RKH_SMA_T* const me);
 
 /* ......................... Declares exit actions ......................... */
 /* ............................ Declares guards ............................ */
 /* ........................ States and pseudostates ........................ */
 RKH_CREATE_BASIC_STATE(ledOn, nLedOnCb, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(ledOn)
-    RKH_TRREG(evTout, NULL, NULL, &ledOff),
+    RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOff),
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(ledOff, nLedOffCb, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(ledOff)
-    RKH_TRREG(evTout, NULL, NULL, &ledOn),
+    RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOn),
 RKH_END_TRANS_TABLE
 
 /* ............................. Active object ............................. */
@@ -89,65 +90,46 @@ Blinky::Blinky(ActObjPriority prio, ActObjName name)
 /* ----------------------- Local function prototypes ----------------------- */
 /* ---------------------------- Local functions ---------------------------- */
 /* ............................ Effect actions ............................. */
-void 
-Blinky::init(RKH_EVT_T* pe)
-{
-    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
-
-    RKH_TR_FWK_AO(ao);
-    RKH_TR_FWK_QUEUE(&equeue);
-    RKH_TR_FWK_STATE(ao, &ledOn);
-    RKH_TR_FWK_STATE(ao, &ledOff);
-    RKH_TR_FWK_OBJ_NAME(&timer.tmr, "timer");
-    RKH_TR_FWK_SIG(evTout);
-    RKH_TR_FWK_SIG(evTerminate);
-
-    RKH_SET_STATIC_EVENT(&timer, evTout);
-    RKH_TMR_INIT(&timer.tmr, RKH_UPCAST(RKH_EVT_T, &timer), NULL);
-    cnt = 0;
-}
-
-static void
+void
 initCb(RKH_SMA_T* const me, RKH_EVT_T* pe)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
-    realMe->init(pe);
+
+    RKH_TR_FWK_AO(me);
+    RKH_TR_FWK_QUEUE(&me->equeue);
+    RKH_TR_FWK_STATE(me, &ledOn);
+    RKH_TR_FWK_STATE(me, &ledOff);
+    RKH_TR_FWK_OBJ_NAME(&realMe->timer.tmr, "timer");
+    RKH_TR_FWK_SIG(Blinky::evTout);
+    RKH_TR_FWK_SIG(Blinky::evTerminate);
+
+    RKH_SET_STATIC_EVENT(&realMe->timer, Blinky::evTout);
+    RKH_TMR_INIT(&realMe->timer.tmr, 
+                 RKH_UPCAST(RKH_EVT_T, &realMe->timer), 
+                 NULL);
+    realMe->cnt = 0;
 }
 
 /* ............................. Entry actions ............................. */
-void 
-Blinky::nLedOn()
-{
-    Bsp* bsp = Bsp::getInstance(0, nullptr);
-    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
-
-    RKH_TMR_ONESHOT(&timer.tmr, ao, LedOnTime(2));
-    bsp->ledOn();
-    ++cnt;
-}
-
-static void
+void
 nLedOnCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
-    realMe->nLedOn();
-}
-
-void 
-Blinky::nLedOff()
-{
     Bsp* bsp = Bsp::getInstance(0, nullptr);
-    RKH_SMA_T* ao = static_cast<RKH_SMA_T*>(this);  /* performs an upcast */
 
-    RKH_TMR_ONESHOT(&timer.tmr, ao, LedOffTime(2));
-    bsp->ledOff();
+    RKH_TMR_ONESHOT(&realMe->timer.tmr, me, LedOnTime(2));
+    bsp->ledOn();
+    ++realMe->cnt;
 }
 
-static void
+void
 nLedOffCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
-    realMe->nLedOff();
+    Bsp* bsp = Bsp::getInstance(0, nullptr);
+
+    RKH_TMR_ONESHOT(&realMe->timer.tmr, me, LedOffTime(2));
+    bsp->ledOff();
 }
 
 /* ............................. Exit actions .............................. */
@@ -163,6 +145,18 @@ Blinky::print() const
         "RKH_SMA_T::sm.name = " << 
         sm.name << std::endl;
     std::cout << std::endl;
+}
+
+RKH_EVT_T* const* 
+Blinky::getEvtQue() const
+{
+    return qsto;
+}
+
+unsigned int
+Blinky::getSizeOfEvtQue() const
+{
+    return Blinky::QSTO_SIZE;
 }
 
 /* ------------------------------ End of file ------------------------------ */

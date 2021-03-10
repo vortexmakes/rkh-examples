@@ -32,7 +32,6 @@ main(int argc, char* argv[])
 {
     Blinky aoBlinky(BlinkyPrio, "blinky");
     blinky = &aoBlinky;
-    aoBlinky.print();
     Bsp::getInstance(argc, argv);
      
     RKH_SMA_ACTIVATE(blinky, 
@@ -41,6 +40,18 @@ main(int argc, char* argv[])
     rkh_fwk_enter();
     RKH_TRC_CLOSE();
     return 0;
+}
+
+RKH_EVT_T* const* 
+Blinky::getEvtQue() const
+{
+    return qsto;
+}
+
+unsigned int
+Blinky::getSizeOfEvtQue() const
+{
+    return Blinky::QSTO_SIZE;
 }
 
 /* ------------------------------ End of file ------------------------------ */

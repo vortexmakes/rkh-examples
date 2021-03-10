@@ -12,6 +12,7 @@
 #include "bsp.h"
 #include "rkh.h"
 #include "trace_io_cfg.h"
+#include "signal.h"
 
 RKH_THIS_MODULE
 
@@ -25,7 +26,7 @@ extern RKH_SMA_T* blinky;
 
 /* ---------------------------- Local variables ---------------------------- */
 Bsp* Bsp::pInstance = nullptr;
-const RKH_EVT_T Bsp::evTerm = {Blinky::evTerminate, 0, 0};
+const RKH_EVT_T Bsp::evTerm = {evTerminate, 0, 0};
 
 /* ----------------------- Local function prototypes ----------------------- */
 /* ---------------------------- Local functions ---------------------------- */
