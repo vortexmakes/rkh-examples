@@ -42,16 +42,4 @@ main(int argc, char* argv[])
     return 0;
 }
 
-RKH_EVT_T* const* 
-Blinky::getEvtQue() const
-{
-    return qsto;
-}
-
-unsigned int
-Blinky::getSizeOfEvtQue() const
-{
-    return Blinky::QSTO_SIZE;
-}
-
 /* ------------------------------ End of file ------------------------------ */
