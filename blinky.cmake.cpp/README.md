@@ -10,12 +10,23 @@
 
 ## Overview
 Blinky application is a simple but self-explanatory example 
-to understand how to represent a "flat" state machine, how to use time events, 
+to understand how to represent a state machine, how to use time events, 
 and how to analyze a state machine behaviour by means of the RKH framework. 
 Moreover, since this example is built by CMake, it could be used as a starting 
 point for building applications based on RKH framework using CMake.
 The Blinky application could be thought as the _hello world_ program of 
 a traditional programming language.
+
+Despite RKH framework is written in C language, it could be used in a C++ 
+application without much effort. This is mainly due to RKH framework was 
+developed from ground up using OOP concepts. 
+You have to keep in mind simple things if you want to use it in 
+your C++ application:
+
+- An active class must be derived from the class ```RKH_SMA_T``` of RKH.
+- Every state machine's action must be implemented as a callback function, 
+  whose signature must comply with RKH requirements, but the body of these 
+  callbacks are written in C++ language.
 
 The behavior of Blinky is defined by the following state diagram.
 
@@ -55,15 +66,43 @@ RKH allows developers to verify and validate a reactive application's behaviour 
 It contains Blinky state machine model
 
 #### _src_
-It includes the application code. The most important files and directories are listed below:
+It includes the application code written in C++ language. The most important files and directories are listed below:
 - _signal.h_: defines signals as enumerated constants, which are used as state machine triggers.
 - _event.h_: defines events types, which are derived from RKH framework types.
 - _priority.h_: defines active object priorities as enumerated constants.
-- _blinky.h/.c_: specifies and implements the Blinky active object. Please correlate this implementation with the state diagram shown above.
-- _main.c_: contains the `main()` function, which initializes both BSP and Blinky active object, then executes the RKH framework in order to orchestrates this reactive application.
+- _blinky.h/.cpp_: specifies and implements the Blinky active object. Please correlate this implementation with the state diagram shown above.
+- _main.cpp_: contains the `main()` function, which initializes both BSP and Blinky active object, then executes the RKH framework in order to orchestrates this reactive application.
 - _rkhcfg.h_: adapts and configures RKH in compile-time.
 - _CMakeLists.txt_: to make the executable
 - _bsp.h_: defines the BSP abstraction layer
+- *rkhfwk_adapter.h*: defines utilities for using RKH framework in a C++ application. This file is going to be part of RKH framework in future releases.
+- *bsp_blinky.cpp*: implements a BSP specific part according to this example.
+
+##### _Other alternatives_
+Knowing that C++ is a powerful and versatile language, this project proposes additional alternatives to use RKH framework in a C++ application. 
+To use these alternatives with the same CMake project you have to rename the following files to blinky.h/blinky.cpp.
+1. _blinky.public.h_/_blinky.public.cpp_:
+    - Every C callback just calls a specific C++ method of the active class.
+    - It means that every C callback has its own C++ method, which implements 
+   the dynamic action's behavior.
+    - C callbacks are private, static and non-member functions of the active 
+    class.
+    - Before accessing to active class members a callback must perform a 
+    downcast to the active class, because a pointer to an object of type 
+    RKH_SMA_T (base class) is passed as parameter. It represents the active 
+    object or context.
+    is passed as parameter of callbacks. This parameter 
+    - Using inheritance the behavior of state machine's actions could 
+    be dynamically changed.
+2. _blinky.private.h_/_blinky.private.cpp_:
+    - C callbacks are non-member functions, so they are declared as friends 
+    of the active class.
+    - These callbacks implement the dynamic action's behavior using C++ as 
+    usual.
+    - Before accessing to active class members a callback must perform a 
+    downcast to the active class, because a pointer to an object of type 
+    RKH_SMA_T (base class) is passed as parameter. It represents the active 
+    object or context.
 
 #### _third-party_
 It contains Git submodules almost exclusively.
