@@ -38,14 +38,18 @@ class Blinky: public RKH_SMA_T
                         /* posting the evTout signal event to active object */
                         /* 'blinky' */
 
+    /* .......................... Effect actions ........................... */
+    friend void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
+
+    /* ........................... Entry actions ........................... */
+    friend void nLedOnCb(RKH_SMA_T* const me);
+    friend void nLedOffCb(RKH_SMA_T* const me);
+
+    /* ........................... Exit actions ............................ */
+    /* .............................. Guards ............................... */
+
     public:
     /* .............................. Signals .............................. */
-    enum Signals
-    {
-        evTout,         /* timeout */
-        evTerminate     /* finishes the program */
-    };
-
     /* ----------------------------- Functions ----------------------------- */
     Blinky() = delete;
     Blinky(ActObjPriority prio, ActObjName name);
@@ -53,6 +57,7 @@ class Blinky: public RKH_SMA_T
     RKH_EVT_T* const* getEvtQue() const;
     unsigned int getSizeOfEvtQue() const;
 
+    protected:
     /* .......................... Effect actions ........................... */
     void init(RKH_EVT_T* pe);
 

@@ -22,9 +22,8 @@
  * - Every C callback just calls a specific C++ method of the active class.
  * - It means that every C callback has its own C++ method, which implements 
  *   the dynamic action's behavior.
- * - C callbacks are private and non-member functions of the active class.
- * - Having defined C++ methods as protected, C callbacks were declared as 
- *   friends of the active class.
+ * - C callbacks are private, static and non-member functions of the active 
+ *   class.
  * - Before accessing to active class members inside a callback, it is 
  *   necessary to perform a downcast to active class, because these 
  *   callbacks are not class member functions.
@@ -60,11 +59,11 @@ LedOnTime(int value)
 RKH_DCLR_BASIC_STATE ledOff, ledOn;
 
 /* ........................ Declares effect actions ........................ */
-void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
+static void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
 
 /* ......................... Declares entry actions ........................ */
-void nLedOnCb(RKH_SMA_T* const me);
-void nLedOffCb(RKH_SMA_T* const me);
+static void nLedOnCb(RKH_SMA_T* const me);
+static void nLedOffCb(RKH_SMA_T* const me);
 
 /* ......................... Declares exit actions ......................... */
 /* ............................ Declares guards ............................ */
@@ -110,7 +109,7 @@ Blinky::init(RKH_EVT_T* pe)
     cnt = 0;
 }
 
-void
+static void
 initCb(RKH_SMA_T* const me, RKH_EVT_T* pe)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
@@ -129,7 +128,7 @@ Blinky::nLedOn()
     ++cnt;
 }
 
-void
+static void
 nLedOnCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
@@ -146,7 +145,7 @@ Blinky::nLedOff()
     bsp->ledOff();
 }
 
-void
+static void
 nLedOffCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */

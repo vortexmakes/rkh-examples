@@ -15,11 +15,21 @@
  * developed from ground up using OOP concepts. However, you have to keep in 
  * mind some simple things if you want to use it in your C++ application:
  *
- * - An active class must be derived from the RKH's class RKH_SMA_T.
- * - Every state machine's action is implemented as a C function callback
- * - Every C callback only calls a specific C++ method of the active class.
- * - So, every C callback has its own C++ method.
- * - It implements the dynamic action's behavior.
+ * - An active class must be derived from the class RKH_SMA_T of RKH.
+ * - Every state machine's action must be implemented as a C callback function.
+ *
+ * Additional notes about this example:
+ * - Every C callback just calls a specific C++ method of the active class.
+ * - It means that every C callback has its own C++ method, which implements 
+ *   the dynamic action's behavior.
+ * - C callbacks are private and non-member functions of the active class.
+ * - Having defined C++ methods as protected, C callbacks were declared as 
+ *   friends of the active class.
+ * - Before accessing to active class members inside a callback, it is 
+ *   necessary to perform a downcast to active class, because these 
+ *   callbacks are not class member functions.
+ * - Using inheritance the behavior of state machine's actions could 
+ *   be dynamically changed.
  */
 
 /* ----------------------------- Include files ----------------------------- */
@@ -50,23 +60,23 @@ LedOnTime(int value)
 RKH_DCLR_BASIC_STATE ledOff, ledOn;
 
 /* ........................ Declares effect actions ........................ */
-static void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
+void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
 
 /* ......................... Declares entry actions ........................ */
-static void nLedOnCb(RKH_SMA_T* const me);
-static void nLedOffCb(RKH_SMA_T* const me);
+void nLedOnCb(RKH_SMA_T* const me);
+void nLedOffCb(RKH_SMA_T* const me);
 
 /* ......................... Declares exit actions ......................... */
 /* ............................ Declares guards ............................ */
 /* ........................ States and pseudostates ........................ */
 RKH_CREATE_BASIC_STATE(ledOn, nLedOnCb, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(ledOn)
-    RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOff),
+    RKH_TRREG(evTout, NULL, NULL, &ledOff),
 RKH_END_TRANS_TABLE
 
 RKH_CREATE_BASIC_STATE(ledOff, nLedOffCb, NULL, RKH_ROOT, NULL);
 RKH_CREATE_TRANS_TABLE(ledOff)
-    RKH_TRREG(Blinky::evTout, NULL, NULL, &ledOn),
+    RKH_TRREG(evTout, NULL, NULL, &ledOn),
 RKH_END_TRANS_TABLE
 
 /* ............................. Active object ............................. */
@@ -100,7 +110,7 @@ Blinky::init(RKH_EVT_T* pe)
     cnt = 0;
 }
 
-static void
+void
 initCb(RKH_SMA_T* const me, RKH_EVT_T* pe)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
@@ -119,7 +129,7 @@ Blinky::nLedOn()
     ++cnt;
 }
 
-static void
+void
 nLedOnCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
@@ -136,7 +146,7 @@ Blinky::nLedOff()
     bsp->ledOff();
 }
 
-static void
+void
 nLedOffCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */

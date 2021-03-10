@@ -38,16 +38,6 @@ class Blinky: public RKH_SMA_T
                         /* posting the evTout signal event to active object */
                         /* 'blinky' */
 
-    /* .......................... Effect actions ........................... */
-    friend void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
-
-    /* ........................... Entry actions ........................... */
-    friend void nLedOnCb(RKH_SMA_T* const me);
-    friend void nLedOffCb(RKH_SMA_T* const me);
-
-    /* ........................... Exit actions ............................ */
-    /* .............................. Guards ............................... */
-
     public:
     /* .............................. Signals .............................. */
     /* ----------------------------- Functions ----------------------------- */
@@ -57,7 +47,6 @@ class Blinky: public RKH_SMA_T
     RKH_EVT_T* const* getEvtQue() const;
     unsigned int getSizeOfEvtQue() const;
 
-    protected:
     /* .......................... Effect actions ........................... */
     void init(RKH_EVT_T* pe);
 
