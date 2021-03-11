@@ -1,4 +1,4 @@
-# Blinky application with RKH framework built by CMake
+# Blinky application with RKH framework built by CMake and written in C++
 ## Content:
 - [Overview](#overview)
 - [What RKH is?](#what-rkh-is)
@@ -25,7 +25,7 @@ mind the following things if you want to use it in your C++ application:
 - An active class must be derived from the class ```RKH_SMA_T``` of RKH.
 - Every state machine's action must be implemented as a C callback function, 
   whose signature must comply with RKH requirements, but the body of these 
-  callbacks should be written in C++ language.
+  callbacks is written in C++ language.
 
 The behavior of Blinky is defined by the following state diagram.
 
@@ -77,9 +77,8 @@ It includes the application code written in C++ language. The most important fil
 - *rkhfwk_adapter.h*: defines utilities for using RKH framework in a C++ application. This file is going to be part of RKH framework in future releases.
 - *bsp_blinky.cpp*: implements a BSP specific part according to this example.
 
-##### _Other alternatives_
-Knowing that C++ is a powerful and versatile language, this project proposes additional alternatives to use RKH framework in a C++ application. 
-In order to use these alternatives with the same CMake project you have to rename the following files to blinky.h/blinky.cpp.
+##### Other alternatives
+Knowing that C++ is a powerful and versatile language, this project proposes additional alternatives, listed below, to use RKH framework in a C++ application. 
 1. _blinky.public.h_/_blinky.public.cpp_:
     - Every C callback just calls a specific C++ method of the active class.
     - It means that every C callback has its own C++ method, whose implementation 
@@ -90,12 +89,16 @@ In order to use these alternatives with the same CMake project you have to renam
     downcast to the active class.
     - Using inheritance the behavior of state machine's actions could 
     be dynamically changed.
+    - In order to test this alternative you have to rename files 
+    _blinky.public.h_/_blinky.public.cpp_ to blinky.h/blinky.cpp respectively.
 2. _blinky.private.h_/_blinky.private.cpp_:
     - C callbacks implement the action's behavior using C++ as usual.
     - These callbacks are non-member functions, so they are declared as friends 
     of the active class to access to its members.
     - Before accessing to active class members a callback must perform a 
     downcast to the active class.
+    - In order to test this alternative you have to rename files 
+    _blinky.public.h_/_blinky.public.cpp_ to blinky.h/blinky.cpp respectively.
 
 #### _third-party_
 It contains Git submodules almost exclusively.
