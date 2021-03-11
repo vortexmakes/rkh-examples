@@ -28,9 +28,7 @@
  * - These callbacks implement the dynamic action's behavior using C++ as 
  *   usual.
  * - Before accessing to active class members a callback must perform a 
- *   downcast to the active class, because a pointer to an object of type 
- *   RKH_SMA_T (base class) is passed as parameter. It represents the active 
- *   object or context.
+ *   downcast to the active class.
  */
 
 /* ----------------------------- Include files ----------------------------- */

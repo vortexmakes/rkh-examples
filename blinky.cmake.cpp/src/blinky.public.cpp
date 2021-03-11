@@ -27,9 +27,7 @@
  * - C callbacks are private, static and non-member functions of the active 
  *   class.
  * - Before accessing to active class members a callback must perform a 
- *   downcast to the active class, because a pointer to an object of type 
- *   RKH_SMA_T (base class) is passed as parameter. It represents the active 
- *   object or context.
+ *   downcast to the active class.
  * - Using inheritance the behavior of state machine's actions could 
  *   be dynamically changed.
  */

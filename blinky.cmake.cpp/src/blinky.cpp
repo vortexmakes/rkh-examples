@@ -16,7 +16,9 @@
  * mind some simple things if you want to use it in your C++ application:
  *
  * - An active class must be derived from the class RKH_SMA_T of RKH.
- * - Every state machine's action must be implemented as a C callback function.
+ * - Every state machine's action must be implemented as a callback function, 
+ *   whose signature must comply with RKH requirements, but the body of these 
+ *   callbacks are written in C++ language.
  *
  * Additional notes about this example:
  * - Every C callback just calls a specific C++ method of the active class.

@@ -19,14 +19,13 @@ a traditional programming language.
 
 Despite RKH framework is written in C language, it could be used in a C++ 
 application without much effort. This is mainly due to RKH framework was 
-developed from ground up using OOP concepts. 
-You have to keep in mind simple things if you want to use it in 
-your C++ application:
+developed from ground up using OOP concepts. However, you have to keep in 
+mind the following things if you want to use it in your C++ application:
 
 - An active class must be derived from the class ```RKH_SMA_T``` of RKH.
-- Every state machine's action must be implemented as a callback function, 
+- Every state machine's action must be implemented as a C callback function, 
   whose signature must comply with RKH requirements, but the body of these 
-  callbacks are written in C++ language.
+  callbacks should be written in C++ language.
 
 The behavior of Blinky is defined by the following state diagram.
 
@@ -80,29 +79,23 @@ It includes the application code written in C++ language. The most important fil
 
 ##### _Other alternatives_
 Knowing that C++ is a powerful and versatile language, this project proposes additional alternatives to use RKH framework in a C++ application. 
-To use these alternatives with the same CMake project you have to rename the following files to blinky.h/blinky.cpp.
+In order to use these alternatives with the same CMake project you have to rename the following files to blinky.h/blinky.cpp.
 1. _blinky.public.h_/_blinky.public.cpp_:
     - Every C callback just calls a specific C++ method of the active class.
-    - It means that every C callback has its own C++ method, which implements 
-   the dynamic action's behavior.
+    - It means that every C callback has its own C++ method, whose implementation 
+      represents the action's behavior of a state machine.
     - C callbacks are private, static and non-member functions of the active 
     class.
     - Before accessing to active class members a callback must perform a 
-    downcast to the active class, because a pointer to an object of type 
-    RKH_SMA_T (base class) is passed as parameter. It represents the active 
-    object or context.
-    is passed as parameter of callbacks. This parameter 
+    downcast to the active class.
     - Using inheritance the behavior of state machine's actions could 
     be dynamically changed.
 2. _blinky.private.h_/_blinky.private.cpp_:
-    - C callbacks are non-member functions, so they are declared as friends 
-    of the active class.
-    - These callbacks implement the dynamic action's behavior using C++ as 
-    usual.
+    - C callbacks implement the action's behavior using C++ as usual.
+    - These callbacks are non-member functions, so they are declared as friends 
+    of the active class to access to its members.
     - Before accessing to active class members a callback must perform a 
-    downcast to the active class, because a pointer to an object of type 
-    RKH_SMA_T (base class) is passed as parameter. It represents the active 
-    object or context.
+    downcast to the active class.
 
 #### _third-party_
 It contains Git submodules almost exclusively.
