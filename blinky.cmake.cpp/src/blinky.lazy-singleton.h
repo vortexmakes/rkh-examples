@@ -15,7 +15,7 @@
 #define __BLINKY_H__
 
 /* ----------------------------- Include files ----------------------------- */
-#include "rkh.h"
+#include "rkhsma.h"
 #include "priority.h"
 #include "rkhfwk_adapter.h"
 
