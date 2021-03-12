@@ -79,7 +79,7 @@ It includes the application code written in C++ language. The most important fil
 
 ##### Other alternatives
 Knowing that C++ is a powerful and versatile language, this project proposes additional alternatives, listed below, to use RKH framework in a C++ application. 
-1. _blinky.public.h_/_blinky.public.cpp_:
+1. *blinky.public.h*/*blinky.public.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*:
     - Every C callback just calls a specific C++ method of the active class.
     - It means that every C callback has its own C++ method, whose implementation 
       represents the action's behavior of a state machine.
@@ -90,8 +90,8 @@ Knowing that C++ is a powerful and versatile language, this project proposes add
     - Using inheritance the behavior of state machine's actions could 
     be dynamically changed.
     - In order to test this alternative you have to rename files 
-    _blinky.public.h_/_blinky.public.cpp_ to blinky.h/blinky.cpp respectively.
-2. _blinky.private.h_/_blinky.private.cpp_:
+    *blinky.public.h*/*blinky.public.cpp* to blinky.h/blinky.cpp respectively.
+2. *blinky.private.h*/*blinky.private.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*:
     - C callbacks implement the action's behavior using C++ as usual.
     - These callbacks are non-member functions, so they are declared as friends 
     of the active class to access to its members.
@@ -99,6 +99,24 @@ Knowing that C++ is a powerful and versatile language, this project proposes add
     downcast to the active class.
     - In order to test this alternative you have to rename files 
     _blinky.public.h_/_blinky.public.cpp_ to blinky.h/blinky.cpp respectively.
+3. *blinky.lazy-singleton.h*/*blinky.lazy-singleton.cpp*/*bsp_blinky.lazy-singleton.cpp_/*main.lazy-singleton.cpp*:
+    - This alternative is very similar to previous ones. The main 
+    difference is that the active class can only be instantiated once but 
+    providing a way for clients to access that class in such a way that the 
+    same single object is returned each time. This is commonly referred to as 
+    a singleton pattern, or a singleton class.
+    - In order to test this alternative you have to rename files 
+    *blinky.lazy-singleton.h*/*blinky.lazy-singleton.cpp*/
+    *bsp_blinky.lazy-singleton.cpp*/*main.lazy-singleton.cpp* to 
+    blinky.h/blinky.cpp/bsp_blinky.cpp/main.cpp respectively.
+4. *blinky.closed-singleton.h*/*blinky.closed-singleton.cpp*/*bsp_blinky.closed-singleton.cpp*/*main.closed-singleton.cpp*:
+    - This alternative is a kind of singleton class in which its specification 
+    is entirely hidden. It provides a constant, opaque and global pointer to 
+    access the only class instance.
+    - In order to test this alternative you have to rename files 
+    _blinky.closed-singleton.h_/_blinky.closed-singleton.cpp_/
+    _bsp_blinky.closed-singleton.cpp_/main.closed-singleton.cpp_ to 
+    blinky.h/blinky.cpp/bsp_blinky.cpp/main.cpp respectively.
 
 #### _third-party_
 It contains Git submodules almost exclusively.
