@@ -21,16 +21,15 @@
  *   callbacks are written in C++ language.
  *
  * Additional notes about this example:
- * - Every C callback just calls a specific C++ method of the active class.
- * - It means that every C callback has its own C++ method, which implements 
- *   the dynamic action's behavior.
- * - C callbacks are private and non-member functions of the active class.
- * - Having defined C++ methods as protected, C callbacks were declared as 
- *   friends of the active class.
- * - Before accessing active class members a callback must perform a 
- *   downcast to the active class.
- * - Using inheritance the behavior of state machine's actions could 
- *   be dynamically changed.
+ * - This alternative is very similar to previous ones. The main 
+ *   difference is that the active class can only be instantiated once but 
+ *   providing a way for clients to access that class in such a way that the 
+ *   same single object is returned each time. This is commonly referred to as 
+ *   a singleton pattern, or a singleton class.
+ * - In order to test this alternative you have to rename files 
+ *   _blinky.lazy-singleton.h_/_blinky.lazy-singleton.cpp_/
+ *   _bsp_blinky.lazy-singleton.cpp_/_main.lazy-singleton.cpp_ to 
+ *   blinky.h/blinky.cpp/bsp_blinky.cpp/main.cpp respectively.
  */
 
 /* ----------------------------- Include files ----------------------------- */
