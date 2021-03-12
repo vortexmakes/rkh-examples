@@ -18,10 +18,11 @@
 /* ------------------------------- Data types ------------------------------ */
 class Bsp
 {
-    static Bsp* pInstance;
-    static const RKH_EVT_T evTerm;
-    friend void bsp_keyParser(int c);
-    friend void bsp_timeTick(void);
+    private:
+        static Bsp* pInstance;
+        static const RKH_EVT_T evTerm;
+        friend void bsp_keyParser(int c);
+        friend void bsp_timeTick(void);
     protected:
         Bsp(int argc, char* argv[]);
         ~Bsp() {};

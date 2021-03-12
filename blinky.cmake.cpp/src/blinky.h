@@ -52,7 +52,7 @@ class Blinky: public RKH_SMA_T
     /* .............................. Signals .............................. */
     /* ----------------------------- Functions ----------------------------- */
     Blinky() = delete;
-    Blinky(ActObjPriority prio, ActObjName name);
+    Blinky(ActObjPriority prio, const ActObjName name);
     void print() const;
     RKH_EVT_T* const* getEvtQue() const;
     unsigned int getSizeOfEvtQue() const;

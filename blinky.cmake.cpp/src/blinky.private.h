@@ -33,7 +33,7 @@ class Blinky: public RKH_SMA_T
     RKH_EVT_T* qsto[QSTO_SIZE];
 
     /* ............................. Properties ............................ */
-    rui8_t cnt = 0;
+    rui8_t cnt;
     RKHTmEvt timer;     /* it is responsible for toggling the LED */
                         /* posting the evTout signal event to active object */
                         /* 'blinky' */
@@ -52,7 +52,7 @@ class Blinky: public RKH_SMA_T
     /* .............................. Signals .............................. */
     /* ----------------------------- Functions ----------------------------- */
     Blinky() = delete;
-    Blinky(ActObjPriority prio, ActObjName name);
+    Blinky(ActObjPriority prio, const ActObjName name);
     void print() const;
     RKH_EVT_T* const* getEvtQue() const;
     unsigned int getSizeOfEvtQue() const;

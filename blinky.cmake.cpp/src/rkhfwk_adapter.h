@@ -18,6 +18,7 @@
 /* ----------------------------- Include files ----------------------------- */
 #include "rkh.h"
 #include <string>
+#include <iostream>
 
 /* --------------------------------- Macros -------------------------------- */
 using ActObjName = std::string;
@@ -32,25 +33,24 @@ using ActObjName = std::string;
     reinterpret_cast<RKH_TRN_ACT_T>(action)
 
 inline void 
-makeSmName(RKH_SM_T* sm, ActObjName& name)
+makeSmName(RKH_SM_T& sm, const ActObjName& name)
 {
 #if ( RKH_CFG_TRC_EN == RKH_ENABLED && \
      (RKH_CFG_TRC_ALL_EN == RKH_ENABLED || \
       RKH_CFG_TRC_SMA_EN == RKH_ENABLED || \
       RKH_CFG_TRC_SM_EN == RKH_ENABLED || \
       RKH_CFG_TRC_FWK_EN == RKH_ENABLED))
-    sm->name = name.c_str();
+    sm.name = name.c_str();
 #endif
 }
 
-#define RKHActObjInit(actObj, name_, prio_, initialState_, initialAction_) \
-    RKH_SM_T* sm = sm_cast(actObj); \
-    sm->prio = prio_; \
-    sm->ppty = HCAL; \
-    sm->istate = st_cast(initialState_); \
-    sm->iaction = act_cast(initialAction_); \
-    sm->state = st_cast(initialState_); \
-    makeSmName(sm, name_)
+#define RKHActObjInit(name_, prio_, initialState_, initialAction_) \
+    sm.prio = prio_; \
+    sm.ppty = HCAL; \
+    makeSmName(sm, name_); \
+    sm.istate = st_cast(initialState_); \
+    sm.iaction = act_cast(initialAction_); \
+    sm.state = st_cast(initialState_)
 
 /* -------------------------------- Constants ------------------------------ */
 /* ------------------------------- Data types ------------------------------ */

@@ -27,7 +27,7 @@
  *   of the active class.
  * - These callbacks implement the dynamic action's behavior using C++ as 
  *   usual.
- * - Before accessing to active class members a callback must perform a 
+ * - Before accessing active class members a callback must perform a 
  *   downcast to the active class.
  */
 
@@ -79,9 +79,15 @@ RKH_CREATE_TRANS_TABLE(ledOff)
 RKH_END_TRANS_TABLE
 
 /* ............................. Active object ............................. */
-Blinky::Blinky(ActObjPriority prio, ActObjName name)
+Blinky::Blinky(ActObjPriority prio, const ActObjName name) 
+    : RKH_SMA_T{prio, 
+                HCAL, 
+                name.c_str(), 
+                st_cast(&ledOn), 
+                act_cast(initCb), 
+                st_cast(&ledOn)}, 
+      cnt(0)
 {
-    RKHActObjInit(this, name, prio, &ledOn, initCb);
 }
 
 /* ------------------------------- Constants ------------------------------- */

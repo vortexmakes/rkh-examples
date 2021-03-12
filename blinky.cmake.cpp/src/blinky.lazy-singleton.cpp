@@ -24,8 +24,9 @@
  * - Every C callback just calls a specific C++ method of the active class.
  * - It means that every C callback has its own C++ method, which implements 
  *   the dynamic action's behavior.
- * - C callbacks are private, static and non-member functions of the active 
- *   class.
+ * - C callbacks are private and non-member functions of the active class.
+ * - Having defined C++ methods as protected, C callbacks were declared as 
+ *   friends of the active class.
  * - Before accessing active class members a callback must perform a 
  *   downcast to the active class.
  * - Using inheritance the behavior of state machine's actions could 
@@ -60,11 +61,11 @@ LedOnTime(int value)
 RKH_DCLR_BASIC_STATE ledOff, ledOn;
 
 /* ........................ Declares effect actions ........................ */
-static void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
+void initCb(RKH_SMA_T* const me, RKH_EVT_T* pe);
 
 /* ......................... Declares entry actions ........................ */
-static void nLedOnCb(RKH_SMA_T* const me);
-static void nLedOffCb(RKH_SMA_T* const me);
+void nLedOnCb(RKH_SMA_T* const me);
+void nLedOffCb(RKH_SMA_T* const me);
 
 /* ......................... Declares exit actions ......................... */
 /* ............................ Declares guards ............................ */
@@ -80,17 +81,6 @@ RKH_CREATE_TRANS_TABLE(ledOff)
 RKH_END_TRANS_TABLE
 
 /* ............................. Active object ............................. */
-Blinky::Blinky(ActObjPriority prio, const ActObjName name) 
-    : RKH_SMA_T{prio, 
-                HCAL, 
-                name.c_str(), 
-                st_cast(&ledOn), 
-                act_cast(initCb), 
-                st_cast(&ledOn)}, 
-      cnt(0)
-{
-}
-
 /* ------------------------------- Constants ------------------------------- */
 /* ---------------------------- Local data types --------------------------- */
 /* ---------------------------- Global variables --------------------------- */
@@ -116,7 +106,7 @@ Blinky::init(RKH_EVT_T* pe)
     cnt = 0;
 }
 
-static void
+void
 initCb(RKH_SMA_T* const me, RKH_EVT_T* pe)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
@@ -135,7 +125,7 @@ Blinky::nLedOn()
     ++cnt;
 }
 
-static void
+void
 nLedOnCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
@@ -152,7 +142,7 @@ Blinky::nLedOff()
     bsp->ledOff();
 }
 
-static void
+void
 nLedOffCb(RKH_SMA_T* const me)
 {
     Blinky* realMe = static_cast<Blinky*>(me);      /* performs a downcast */
@@ -162,6 +152,24 @@ nLedOffCb(RKH_SMA_T* const me)
 /* ............................. Exit actions .............................. */
 /* ................................ Guards ................................. */
 /* ---------------------------- Global functions --------------------------- */
+Blinky::Blinky(ActObjPriority prio, const ActObjName& name) 
+    : RKH_SMA_T{prio, 
+                HCAL, 
+                name.c_str(), 
+                st_cast(&ledOn), 
+                act_cast(initCb), 
+                st_cast(&ledOn)}, 
+      cnt(0)
+{
+}
+
+Blinky& 
+Blinky::getInstance(ActObjPriority prio, const ActObjName name)
+{
+    static Blinky instance(prio, name);
+    return instance;
+}
+
 void 
 Blinky::print() const
 {
@@ -171,6 +179,9 @@ Blinky::print() const
     std::cout << 
         "RKH_SMA_T::sm.name = " << 
         sm.name << std::endl;
+    std::cout << 
+        "cnt = " << 
+        (int)cnt << std::endl;
     std::cout << std::endl;
 }
 
