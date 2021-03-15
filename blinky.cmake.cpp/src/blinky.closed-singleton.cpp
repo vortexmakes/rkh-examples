@@ -10,26 +10,6 @@
  */
 
 /* --------------------------------- Notes --------------------------------- */
-/* Despite RKH framework is written in C language, it could be used in a C++ 
- * application without much effort. This is mainly due to RKH framework was 
- * developed from ground up using OOP concepts. However, you have to keep in 
- * mind some simple things if you want to use it in your C++ application:
- *
- * - An active class must be derived from the class RKH_SMA_T of RKH.
- * - Every state machine's action must be implemented as a callback function, 
- *   whose signature must comply with RKH requirements, but the body of these 
- *   callbacks are written in C++ language.
- *
- * Additional notes about this example:
- * - This alternative is a kind of singleton class in which its specification 
- *   is entirely hidden. It provides a constant, opaque and global pointer to 
- *   access the only class instance.
- * - In order to test this alternative you have to rename files 
- *   _blinky.closed-singleton.h_/_blinky.closed-singleton.cpp_/
- *   _bsp_blinky.closed-singleton.cpp_/main.closed-singleton.cpp_ to 
- *   blinky.h/blinky.cpp/bsp_blinky.cpp/main.cpp respectively.
- */
-
 /* ----------------------------- Include files ----------------------------- */
 #include "rkh.h"
 #include "blinky.h"
