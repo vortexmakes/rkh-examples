@@ -69,7 +69,7 @@ It includes the application code written in C++ language. The most important fil
 - _signal.h_: defines signals as enumerated constants, which are used as state machine triggers.
 - _event.h_: defines events types, which are derived from RKH framework types.
 - _priority.h_: defines active object priorities as enumerated constants.
-- _blinky.h/.cpp_: specifies and implements the Blinky active object. Please correlate this implementation with the state diagram shown above.
+- _blinky.h/.cpp_: specifies and implements respectively the Blinky active object. Please correlate this implementation with the state diagram shown above.
 - _main.cpp_: contains the `main()` function, which initializes both BSP and Blinky active object, then executes the RKH framework in order to orchestrates this reactive application.
 - _rkhcfg.h_: adapts and configures RKH in compile-time.
 - _CMakeLists.txt_: to make the executable
@@ -78,28 +78,44 @@ It includes the application code written in C++ language. The most important fil
 - *bsp_blinky.cpp*: implements a BSP specific part according to this example.
 
 ##### Other alternatives
-Knowing that C++ is a powerful and versatile language, this project proposes additional alternatives, listed below, to use RKH framework in a C++ application. 
+Knowing that C++ is a powerful and versatile language, this project proposes several alternatives, listed below, to use RKH framework in a C++ application. 
 1. *blinky.public.h*/*blinky.public.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*:
     - Every C callback just calls a specific C++ method of the active class.
     - It means that every C callback has its own C++ method, whose implementation 
       represents the action's behavior of a state machine.
     - C callbacks are private, static and non-member functions of the active 
     class.
-    - Before accessing to active class members a callback must perform a 
+    - Before accessing to active class members callbacks must perform a 
     downcast to the active class.
     - Using inheritance the behavior of state machine's actions could 
     be dynamically changed.
     - In order to test this alternative you have to rename files 
-    *blinky.public.h*/*blinky.public.cpp* to blinky.h/blinky.cpp respectively.
+    *blinky.public.h*/*blinky.public.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp* 
+    to blinky.h/blanky.cpp/bsp_blinky.cpp/main.cpp respectively.
 2. *blinky.private.h*/*blinky.private.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*:
     - C callbacks implement the action's behavior using C++ as usual.
     - These callbacks are non-member functions, so they are declared as friends 
     of the active class to access to its members.
-    - Before accessing to active class members a callback must perform a 
+    - Before accessing to active class members callbacks must perform a 
     downcast to the active class.
     - In order to test this alternative you have to rename files 
-    _blinky.public.h_/_blinky.public.cpp_ to blinky.h/blinky.cpp respectively.
-3. *blinky.lazy-singleton.h*/*blinky.lazy-singleton.cpp*/*bsp_blinky.lazy-singleton.cpp_/*main.lazy-singleton.cpp*:
+    _blinky.public.h_/_blinky.public.cpp_/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp* 
+    to blinky.h/blanky.cpp/bsp_blinky.cpp/main.cpp respectively.
+3. *blinky.protected.h*/*blinky.protected.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*:
+    - Every C callback just calls a specific C++ method of the active class.
+    - It means that every C callback has its own C++ method, which implements
+      the dynamic action's behavior.
+    - C callbacks are private and non-member functions of the active class.
+    - Having defined C++ methods as protected, C callbacks were declared as
+      friends of the active class.
+    - Before accessing active class members callbacks must perform a
+      downcast to the active class.
+    - Using inheritance the behavior of state machine's actions could
+      be dynamically changed.
+    - In order to test this alternative you have to rename files 
+    _blinky.pprotected.h_/_blinky.protected.cpp_/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp* 
+    to blinky.h/blanky.cpp/bsp_blinky.cpp/main.cpp respectively.
+4. *blinky.lazy-singleton.h*/*blinky.lazy-singleton.cpp*/*bsp_blinky.lazy-singleton.cpp_/*main.lazy-singleton.cpp*:
     - This alternative is very similar to previous ones. The main 
     difference is that the active class can only be instantiated once but 
     providing a way for clients to access that class in such a way that the 
@@ -109,7 +125,7 @@ Knowing that C++ is a powerful and versatile language, this project proposes add
     *blinky.lazy-singleton.h*/*blinky.lazy-singleton.cpp*/
     *bsp_blinky.lazy-singleton.cpp*/*main.lazy-singleton.cpp* to 
     blinky.h/blinky.cpp/bsp_blinky.cpp/main.cpp respectively.
-4. *blinky.closed-singleton.h*/*blinky.closed-singleton.cpp*/*bsp_blinky.closed-singleton.cpp*/*main.closed-singleton.cpp*:
+5. *blinky.closed-singleton.h*/*blinky.closed-singleton.cpp*/*bsp_blinky.closed-singleton.cpp*/*main.closed-singleton.cpp*:
     - This alternative is a kind of singleton class in which its specification 
     is entirely hidden. It provides a constant, opaque and global pointer to 
     access the only class instance.
