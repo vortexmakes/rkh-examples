@@ -79,7 +79,7 @@ It includes the application code written in C++ language. The most important fil
 
 ##### Other alternatives
 Knowing that C++ is a powerful and versatile language, this project proposes several alternatives, listed below, to use RKH framework in a C++ application. 
-1. *blinky.public.h*/*blinky.public.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*:
+1. **Public version** (*blinky.public.h*/*blinky.public.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*):
     - Every C callback just calls a specific C++ method of the active class.
     - It means that every C callback has its own C++ method, whose implementation 
       represents the action's behavior of a state machine.
@@ -92,7 +92,7 @@ Knowing that C++ is a powerful and versatile language, this project proposes sev
     - In order to test this alternative you have to rename files 
     *blinky.public.h*/*blinky.public.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp* 
     to blinky.h/blanky.cpp/bsp_blinky.cpp/main.cpp respectively.
-2. *blinky.private.h*/*blinky.private.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*:
+2. **Private version** (*blinky.private.h*/*blinky.private.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*):
     - C callbacks implement the action's behavior using C++ as usual.
     - These callbacks are non-member functions, so they are declared as friends 
     of the active class to access to its members.
@@ -101,7 +101,7 @@ Knowing that C++ is a powerful and versatile language, this project proposes sev
     - In order to test this alternative you have to rename files 
     _blinky.public.h_/_blinky.public.cpp_/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp* 
     to blinky.h/blanky.cpp/bsp_blinky.cpp/main.cpp respectively.
-3. *blinky.protected.h*/*blinky.protected.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*:
+3. **Protected version** (*blinky.protected.h*/*blinky.protected.cpp*/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp*):
     - Every C callback just calls a specific C++ method of the active class.
     - It means that every C callback has its own C++ method, which implements
       the dynamic action's behavior.
@@ -115,7 +115,7 @@ Knowing that C++ is a powerful and versatile language, this project proposes sev
     - In order to test this alternative you have to rename files 
     _blinky.pprotected.h_/_blinky.protected.cpp_/*bsp_blinky.non-singleton.cpp*/*main.non-singleton.cpp* 
     to blinky.h/blanky.cpp/bsp_blinky.cpp/main.cpp respectively.
-4. *blinky.lazy-singleton.h*/*blinky.lazy-singleton.cpp*/*bsp_blinky.lazy-singleton.cpp_/*main.lazy-singleton.cpp*:
+4. **Lazy singleton version** (*blinky.lazy-singleton.h*/*blinky.lazy-singleton.cpp*/*bsp_blinky.lazy-singleton.cpp_/*main.lazy-singleton.cpp*):
     - This alternative is very similar to previous ones. The main 
     difference is that the active class can only be instantiated once but 
     providing a way for clients to access that class in such a way that the 
@@ -125,7 +125,7 @@ Knowing that C++ is a powerful and versatile language, this project proposes sev
     *blinky.lazy-singleton.h*/*blinky.lazy-singleton.cpp*/
     *bsp_blinky.lazy-singleton.cpp*/*main.lazy-singleton.cpp* to 
     blinky.h/blinky.cpp/bsp_blinky.cpp/main.cpp respectively.
-5. *blinky.closed-singleton.h*/*blinky.closed-singleton.cpp*/*bsp_blinky.closed-singleton.cpp*/*main.closed-singleton.cpp*:
+5. **Hidden Singleton version** (*blinky.closed-singleton.h*/*blinky.closed-singleton.cpp*/*bsp_blinky.closed-singleton.cpp*/*main.closed-singleton.cpp*):
     - This alternative is a kind of singleton class in which its specification 
     is entirely hidden. It provides a constant, opaque and global pointer to 
     access the only class instance.
