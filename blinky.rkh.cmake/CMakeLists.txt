@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 project(Blinky LANGUAGES C)
 
+# When using find_package() the configuration file (rkhcfg.h) is taken from 
+# the installation directory where is located the library. If the 
+# application wants to use its own configuration file, the library must be 
+# compiled and reinstalled.
 find_package(rkh 3.2.3 REQUIRED)
 
 # Application's source files should be defined in a specific subdirectory.
@@ -12,7 +16,6 @@ add_executable(${PROJECT_NAME}
                src/priority.h
                src/signal.h
                src/blinky.h 
-               src/rkhcfg.h
                src/main.c 
                src/blinky.c 
                src/bsp.h
