@@ -7,10 +7,9 @@ if (NOT DEFINED ENV{RKH_BASE})
                         "before executing CMake")
 endif()
 
-# Custom module and scripts
-include($ENV{RKH_BASE}/cmake/boilerplate.cmake)
-
-add_subdirectory(${RKH_BASE} ${CMAKE_CURRENT_BINARY_DIR}/rkh)
+# It includes external dependencies that provides CMake support like RKH 
+# framework. These dependencies are implemented using git submodules
+add_subdirectory(third-party)
 
 # Application's source files should be defined in a specific subdirectory.
 # The files in the application directory link RKH with the application. 
