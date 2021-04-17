@@ -1,20 +1,26 @@
 cmake_minimum_required(VERSION 3.16)
-project(blinky LANGUAGES C)
+project(Blinky LANGUAGES C)
 
-set(RKH_CFG_FILE_PATH "src")
+if (NOT DEFINED ENV{RKH_BASE})
+    message(FATAL_ERROR "RKH_BASE is not defined in the environment. "
+                        "Define it using 'export RKH_BASE=<path/to/RKH>', "
+                        "before executing CMake")
+endif()
 
-# Let's nicely support folders in IDEs
-#set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-include(CMakePrintHelpers)
-
-# This is here because preprocessor definitions specified with 
-# add_definitions() are reproduced in Eclipse project file, but those 
-# specified with target_compile_definitions() are not. So, if Eclipse 
-# generator was not required, this definition would be dropped
-add_definitions(-D${RKH_PLATFORM})   
-
-# The compiled library code is here
+# It includes external dependencies that provide CMake support like the RKH 
+# framework. These dependencies are managed using git submodules
 add_subdirectory(third-party)
 
-# The exucutable code is here
-add_subdirectory(src)
+# Application's source files should be defined in a specific subdirectory.
+# The files in the application directory link RKH with the application. 
+# This directory contains all application-specific files, such as 
+# configuration options and source code.
+add_executable(${PROJECT_NAME} 
+    src/main.c 
+    src/blinky.c
+    ${CACHED_RKH_BASE}/demo/libbsp/platform/80x86/linux/bsp_blinky.c)
+
+target_include_directories(${PROJECT_NAME} PRIVATE 
+                           ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE rkh)
