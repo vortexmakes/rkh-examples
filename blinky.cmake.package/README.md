@@ -86,14 +86,74 @@ _src_ and _third-party_ to create the following:
 All temporary build and object files are located in this directory keeping the source tree clean.
 
 ### Build
-These instructions are part of the classic CMake build procedure:
+#### Get RKH framework
+In order to build this example you have to download the RKH framework, then build and install it. RKH can be obtained from its official repository by using the following commands:
+
+1. `cd <projects>`
+2. `git clone https://github.com/vortexmakes/RKH.git`
+
+#### Build and install RKH framework
+This example uses the RKH [CMake package](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html), which is 
+a convenient way to use the RKH framework in a CMake project. 
+
+In order to use the RKH CMake package this example simply writes `find_package(rkh)` at the beginning of the application 
+CMakeLists.txt file.
+
+##### Exporting RKH CMake package
+Before using the this package, it must first be exported to the [CMake user package registry](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#user-package-registry). 
+This is means creating a reference to the desired RKH installation inside the CMake user package registry. In Linux, it is found in `~/.cmake/package/rkh`. If it does not exist, it 
+must be created.
+
+RKH CMake package is exported to the CMake user package registry using the following commands:
+
+`cmake -P path/to/RKH/share/rkh-package/cmake/rkh_export.cmake`
+
+##### Setting RKH base environment
+The RKH base environment is defined through `RKH_BASE` environment variable that sets the path to the RKH base directory. 
+In Linux, this variable can explicitely be set typing the following command:
+
+`export RKH_BASE="/path/to/<projects>/RKH"`
+
+##### Builing RKH
+1. `cd <projects>`
+2. `mkdir <install>`
+3. `cd RKH`
+4. `cmake -S . -B build -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DCMAKE_INSTALL_PREFIX="/path/to/<projects>/<install>"`
+5. `cmake --build build --target install`
+
+##### Selecting a RKH version
+When writing an application then it is possible to specify a RKH version number x.y.z that must be used in order to build the application.
+Specifying a version is especially useful for an application as it ensures it is built with a minimal RKH version.
+It also helps CMake to select the correct RKH to use for building, when there are multiple RKH installations in the system.
+
+For example:
+```bash
+cmake_minimum_required(VERSION 3.16)
+project(Blinky LANGUAGES C)
+find_package(rkh 3.3.00 REQUIRED)
+```
+It will require the application to be built with RKH 3.3.00 as minimum.
+Thus it is possible to have multiple RKH installations and have CMake automatically select between them based on the version number providad, 
+see [CMake package version](https://cmake.org/cmake/help/latest/command/find_package.html#version-selection) for details.
+
+##### Working with multiple RKH installations
+Suppose you want to install two different RKH versions in the same system.
+...
+
+For example:
+<projects>/RKH
+<projects>/RKH-test
+
+---------------------
+#### Building the application
+These ons are part of the classic CMake build procedure:
 1. `cd path/to/rkh-examples/blinky.cmake/build`
-2. `cmake .. -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
+2. `cmake ..`
 3. `make`
 
 Alternatively, if you are using a modern CMake, you can instead do this:
 1. `cd path/to/rkh-examples/blinky.cmake`
-2. `cmake -S . -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
+2. `cmake -S . -B build`
 3. `cmake --build build`
 
 ### Run
@@ -108,7 +168,7 @@ First of all, run CMake using the Eclipse generator __"Eclipse CDT4 - Unix Makef
 1. `cd path/to/rkh-examples/`
 2. `mkdir build`
 3. `cd build`
-4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug`
+4. `cmake ../blinky.cmake -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug`
 
 #### Import the generated Eclipse CDT project
 Then, import the previously generated project in Eclipse:
