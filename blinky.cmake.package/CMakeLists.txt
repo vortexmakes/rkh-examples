@@ -5,7 +5,7 @@ project(Blinky LANGUAGES C)
 # the installation directory where is located the library. If the 
 # application wants to use its own configuration file, the library must be 
 # compiled and reinstalled.
-find_package(rkh 3.2.3 REQUIRED)
+find_package(rkh 3.3.00 REQUIRED)
 
 # Application's source files should be defined in a specific subdirectory.
 # The files in the application directory link RKH with the application. 
