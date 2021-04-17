@@ -157,12 +157,12 @@ All temporary build and object files are located in this directory keeping the s
 ### Build
 These instructions are part of the classic CMake build procedure:
 1. `cd path/to/rkh-examples/blinky.cmake/build`
-2. `cmake .. -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
+2. `cmake .. -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
 3. `make`
 
 Alternatively, if you are using a modern CMake, you can instead do this:
 1. `cd path/to/rkh-examples/blinky.cmake`
-2. `cmake -S . -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
+2. `cmake -S . -DRKH_DEV_BUILD=ON -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
 3. `cmake --build build`
 
 ### Run
@@ -177,7 +177,7 @@ First of all, run CMake using the Eclipse generator __"Eclipse CDT4 - Unix Makef
 1. `cd path/to/rkh-examples/`
 2. `mkdir build`
 3. `cd build`
-4. `cmake ../blinky.cmake -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug`
+4. `cmake ../blinky.cmake -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug`
 
 #### Import the generated Eclipse CDT project
 Then, import the previously generated project in Eclipse:
