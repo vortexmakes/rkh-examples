@@ -22,9 +22,6 @@
 # host programs on Cygwin
 *.exe
 
-# Build tree
-/build
-
 #
 # Top-level generic files
 #
@@ -88,3 +85,6 @@ GTAGS
 # uncrustify output files
 *.h.uncrustify
 *.c.uncrustify
+
+build/*
+!build/.gitignore
