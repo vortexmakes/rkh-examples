@@ -67,7 +67,7 @@ It includes the application code. The most important files and directories are l
 
 #### _CMakeLists.txt_
 CMake is controlled by input files that by 
-convention are called CMakeLists.txt, which lists both configuration commands
+convention are called `CMakeLists.txt`, which lists both configuration commands
 as well as dependencies between source files and targets. A CMake-based build 
 system is organized as a set of high-level logical targets. Each target 
 corresponds to an executable or library, or is a custom target containing 
@@ -82,7 +82,7 @@ All temporary build and object files are located in this directory keeping the s
 The RKH CMake package is another way to use RKH from an application. It ensures 
 that CMake can automatically select RKH to build the application. By using this 
 approach, a developer just needs to write `find_package(rkh)` at the beginning 
-of the application CMakeLists.txt file.
+of the application `CMakeLists.txt` file.
 
 Since RKH is a cross-platform framework and it is configured at compile-time, 
 distributing it as a library binary is not a suitable and flexible option. In 
@@ -95,8 +95,10 @@ In order to build this example you have to download the RKH framework, then
 build and install it. RKH can be obtained from its official repository by 
 using the following commands:
 
-1. `cd path/to/<projects>`
-2. `git clone https://github.com/vortexmakes/RKH.git`
+``` bash
+cd path/to/<projects>
+git clone https://github.com/vortexmakes/RKH.git
+```
 
 #### Build and install RKH framework
 ##### Builing RKH
@@ -135,7 +137,7 @@ suffix `<version>` indicates the installed RKH version.
 Before using the RKH CMake package, it must be exported to the 
 [CMake user package registry](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#user-package-registry). 
 It means creating a reference to the current RKH installation inside the CMake 
-user package registry. In Linux/macOS it should be found in ~/.cmake/package.
+user package registry. In Linux/macOS it should be found in `~/.cmake/package`.
 
 RKH CMake package is exported to the CMake user package registry using the 
 following command:
@@ -180,7 +182,7 @@ cd path/to/<projects>/rkh-examples/blinky.cmake.package/build
 First of all, run CMake using the Eclipse generator __"Eclipse CDT4 - Unix Makefiles"__.
 ``` bash
 cd path/to/<projects>/rkh-examples/
-cmake .. -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
+cmake -S . -B build  -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
 ```
 
 #### Import the generated Eclipse CDT project
