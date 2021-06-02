@@ -7,6 +7,7 @@ Collection of open source examples based on RKH framwework for embedded systems 
 
 Platform | Toolchain | Example | Description
 -- | -- | -- | --
+<img src="images/cmake.png" width="100"> | <img src="images/cmake.png" width="75"> | [blinky.cmake.package](blinky.cmake.package) | It shows how to build a simple Blinky state machine using the RKH CMake package.
 <img src="images/cmake.png" width="100"> | <img src="images/cmake.png" width="75"> | [blinky.cmake.cpp](blinky.cmake.cpp) | It shows how to build a simple Blinky state machine written in C++ using CMake. Despite RKH framework is written in C language, it could be used in a C++ application without much effort as shown in this example. In this case, it uses RKH framework as a static library.
 <img src="images/cmake.png" width="100"> | <img src="images/cmake.png" width="75"> | [blinky.cmake](blinky.cmake) | It shows how to build a simple Blinky state machine using CMake. This example uses RKH framework as a static library.
 <img src="images/eclipse.png" width="100"> | <img src="images/cdt.png" width="75"> | [parameterized-sm.eclipse-cdt](parameterized-sm.eclipse-cdt) | It shows how to handle a parameterized state machine (i.e. array of state machines) from an active object by using the RKH framework.
