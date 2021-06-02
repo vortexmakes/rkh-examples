@@ -101,7 +101,7 @@ CMakeLists.txt file.
 
 ##### Exporting RKH CMake package
 Before using the this package, it must first be exported to the [CMake user package registry](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#user-package-registry). 
-This is means creating a reference to the desired RKH installation inside the CMake user package registry. In Linux, it is found in `~/.cmake/package/rkh`. If it does not exist, it 
+This means creating a reference to the desired RKH installation inside the CMake user package registry. In Linux, it is found in `~/.cmake/packages/rkh`. If it does not exist, it 
 must be created.
 
 RKH CMake package is exported to the CMake user package registry using the following commands:
@@ -136,30 +136,21 @@ It will require the application to be built with RKH 3.3.00 as minimum.
 Thus it is possible to have multiple RKH installations and have CMake automatically select between them based on the version number providad, 
 see [CMake package version](https://cmake.org/cmake/help/latest/command/find_package.html#version-selection) for details.
 
-##### Working with multiple RKH installations
-Suppose you want to install two different RKH versions in the same system.
-...
-
-For example:
-<projects>/RKH
-<projects>/RKH-test
-
----------------------
 #### Building the application
-These ons are part of the classic CMake build procedure:
-1. `cd path/to/rkh-examples/blinky.cmake/build`
+These instructions are part of the classic CMake build procedure:
+1. `cd path/to/rkh-examples/blinky.cmake.package/build`
 2. `cmake ..`
 3. `make`
 
 Alternatively, if you are using a modern CMake, you can instead do this:
-1. `cd path/to/rkh-examples/blinky.cmake`
+1. `cd path/to/rkh-examples/blinky.cmake.package`
 2. `cmake -S . -B build`
 3. `cmake --build build`
 
 ### Run
 - Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
 - Open another console, and run the blinky application following these instructions:
-  - `cd path/to/rkh-examples/blinky.cmake/build`
+  - `cd path/to/rkh-examples/blinky.cmake.package/build`
   - `./src/blinky`
 
 ### Working with CMake and Eclipse CDT
@@ -168,7 +159,7 @@ First of all, run CMake using the Eclipse generator __"Eclipse CDT4 - Unix Makef
 1. `cd path/to/rkh-examples/`
 2. `mkdir build`
 3. `cd build`
-4. `cmake ../blinky.cmake -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug`
+4. `cmake ../blinky.cmake.package -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug`
 
 #### Import the generated Eclipse CDT project
 Then, import the previously generated project in Eclipse:

@@ -86,6 +86,13 @@ _src_ and _third-party_ to create the following:
 All temporary build and object files are located in this directory keeping the source tree clean.
 
 ### Build
+Set the RKH environment defining an environment variable called `RKH_BASE` that
+sets the path to the RKH base directory. It will be used by the build system.
+`RKH_BASE` can explicitly be set by typing:
+``` bash
+export RKH_BASE="path/to/rkh-examples/blinky.cmake/third-party/RKH"
+```
+
 These instructions are part of the classic CMake build procedure:
 1. `cd path/to/rkh-examples/blinky.cmake/build`
 2. `cmake .. -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
@@ -103,6 +110,13 @@ Alternatively, if you are using a modern CMake, you can instead do this:
   - `./src/blinky`
 
 ### Working with CMake and Eclipse CDT
+ The RKH environment is defined through the environment variable `RKH_BASE` that
+sets the path to the RKH base directory. It will be used by the build system.
+`RKH_BASE` can explicitly be set by typing:
+``` bash
+export RKH_BASE="path/to/rkh-examples/blinky.cmake/third-party/RKH"
+```
+
 #### Generate an Eclipse CDT project from CMake
 First of all, run CMake using the Eclipse generator __"Eclipse CDT4 - Unix Makefiles"__.
 1. `cd path/to/rkh-examples/`
