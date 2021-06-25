@@ -65,70 +65,131 @@ It includes the application code. The most important files and directories are l
 - _CMakeLists.txt_: to make the executable
 - _bsp.h_: defines the BSP abstraction layer
 
-#### _third-party_
-It contains Git submodules almost exclusively.
-- _RKH_: here is located the RKH framework's source code as a Git submodule.
-- _CMakeLists.txt_: to make a static library from RKH's source code
-
 #### _CMakeLists.txt_
-Top level CMakeLists.txt. CMake is controlled by input files that by 
-convention are called CMakeLists.txt, which lists both configuration commands
+CMake is controlled by input files that by 
+convention are called `CMakeLists.txt`, which lists both configuration commands
 as well as dependencies between source files and targets. A CMake-based build 
 system is organized as a set of high-level logical targets. Each target 
 corresponds to an executable or library, or is a custom target containing 
 custom commands. 
-In this case, this file calls the CMakeLists.txt in the sub-directories 
-_src_ and _third-party_ to create the following:
-- _blinky_: an executable from source code in _src_ directory
-- _rkh_: a static library from RKH framework in _third-party/RKH_ directory
+In this case, this file includes the RKH CMake package version 3.3.00 by 
+using the `find_package()` command.
 
 #### _build_
 All temporary build and object files are located in this directory keeping the source tree clean.
 
 ### Build
-Set the RKH environment defining an environment variable called `RKH_BASE` that
-sets the path to the RKH base directory. It will be used by the build system.
-`RKH_BASE` can explicitly be set by typing:
+The RKH CMake package is another way to use RKH from an application. It ensures 
+that CMake can automatically select RKH to build the application. By using this 
+approach, a developer just needs to write `find_package(rkh)` at the beginning 
+of the application `CMakeLists.txt` file.
+
+Since RKH is a cross-platform framework and it is configured at compile-time, 
+distributing it as a library binary is not a suitable and flexible option. In 
+contrast, it is more suitable to provide the RKH source code and the proper 
+rules to build it, and then generate your own RKH library binary according 
+to your requirements.
+
+#### Get RKH framework
+In order to build this example you have to download the RKH framework, then 
+build and install it. RKH can be obtained from its official repository by 
+using the following commands:
+
 ``` bash
-export RKH_BASE="path/to/rkh-examples/blinky.cmake/third-party/RKH"
+cd path/to/<projects>
+git clone https://github.com/vortexmakes/RKH.git
 ```
 
+#### Build and install RKH framework
+##### Builing RKH
+``` bash
+cd path/to/<projects>
+mkdir <install>
+cd RKH
+cmake -S . -B build -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" \
+                    -DCMAKE_INSTALL_PREFIX="path/to/<projects>/<install>" \
+                    -DRKH_CONF_FILE="path/to/<projects>/rkh-examples/blinky.cmake.package/src/rkhcfg.h"
+cmake --build build
+```
+
+RKH is configured at compile-time through a header file named `rkhcfg.h`. In 
+the previous example, the RKH configuration file was taken from the path 
+`path/to/<projects>/rkh-examples/blinky.cmake.package/src/rkhcfg.h`. If an 
+RKH package was reused by multiple applications within the same workspace, 
+the RKH configuration file should be located in a more suitable place, 
+for example, within a common directory.
+
+The value of `CMAKE_INSTALL_PREFIX` used in the previous commands indicates 
+the installation prefix to be searched by the `find_package()` command.
+
+##### Installing RKH
+After building RKH, you have to install the generated files typing the 
+following command:
+``` bash
+cmake --build build --target install
+```
+
+Having used this command, the generated files are copied to a directory named 
+`rkh-<version>` located in the path specified by `CMAKE_INSTALL_PREFIX`. The 
+suffix `<version>` indicates the installed RKH version. 
+
+##### Exporting RKH CMake package
+Before using the RKH CMake package, it must be exported to the 
+[CMake user package registry](https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#user-package-registry). 
+It means creating a reference to the current RKH installation inside the CMake 
+user package registry. In Linux/macOS it should be found in `~/.cmake/package`.
+
+RKH CMake package is exported to the CMake user package registry using the 
+following command:
+``` bash
+cd path/to/<projects>/<install>/rkh-<version>/lib/cmake/rkh/
+cmake -P rkh_export.cmake
+``` 
+
+Having installed RKH on your workspace, build and run your application as 
+described in the following sections.
+
+#### Building the application
 These instructions are part of the classic CMake build procedure:
-1. `cd path/to/rkh-examples/blinky.cmake/build`
-2. `cmake .. -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
-3. `make`
+``` bash
+cd path/to/<projects>/rkh-examples/blinky.cmake.package/build
+cmake ..
+make
+```
 
 Alternatively, if you are using a modern CMake, you can instead do this:
-1. `cd path/to/rkh-examples/blinky.cmake`
-2. `cmake -S . -DRKH_DEV_BUILD=ON -B build -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON`
-3. `cmake --build build`
-
-### Run
-- Open a console, change the directory where you previously downloaded Trazer, and run it by executing the following command line: `./trazer -t 6602`
-- Open another console, and run the blinky application following these instructions:
-  - `cd path/to/rkh-examples/blinky.cmake/build`
-  - `./src/blinky`
-
-### Working with CMake and Eclipse CDT
- The RKH environment is defined through the environment variable `RKH_BASE` that
-sets the path to the RKH base directory. It will be used by the build system.
-`RKH_BASE` can explicitly be set by typing:
 ``` bash
-export RKH_BASE="path/to/rkh-examples/blinky.cmake/third-party/RKH"
+cd path/to/<projects>/rkh-examples/blinky.cmake.package
+cmake -S . -B build
+cmake --build build
 ```
 
+### Run
+- Open a console, change the directory where you previously downloaded 
+Trazer, and run it by executing the following command line: 
+``` bash
+./trazer -t 6602
+```
+- Open another console, and run the blinky application following these 
+instructions:
+``` bash
+cd path/to/<projects>/rkh-examples/blinky.cmake.package/build
+./Blinky
+```
+
+### Working with CMake and Eclipse CDT
 #### Generate an Eclipse CDT project from CMake
 First of all, run CMake using the Eclipse generator __"Eclipse CDT4 - Unix Makefiles"__.
-1. `cd path/to/rkh-examples/`
-2. `mkdir build`
-3. `cd build`
-4. `cmake ../blinky.cmake -DRKH_DEV_BUILD=ON -DRKH_PLATFORM="__LNXGNU__" -DGIT_SUBMODULE=ON -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug`
+``` bash
+cd path/to/<projects>/rkh-examples/
+cmake -S . -B build  -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
+```
 
 #### Import the generated Eclipse CDT project
 Then, import the previously generated project in Eclipse:
 1. Select __File__ > __Import...__ to bring up the __Import__ wizard. 
 2. Choose __Existing Project into Workspace__ and click the __Next__ button.
-3. Select the `path/to/rkh-examples/build` project directory.
+3. Select the `path/to/<projects>/rkh-examples/build` project directory.
 4. Click the __Finish__ button to import the selected project into the workspace. 
 
 #### Build

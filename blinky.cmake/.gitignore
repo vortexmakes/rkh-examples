@@ -22,9 +22,6 @@
 # host programs on Cygwin
 *.exe
 
-# Build tree
-/build
-
 #
 # Top-level generic files
 #
